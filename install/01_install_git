@@ -1,0 +1,24 @@
+#!/bin/bash
+
+su -
+
+echo "Enter user"
+read USER
+if [ -d "/home/$USER/git/" ]
+then
+	cd /home/$USER/git/
+else
+	mkdir /home/$USER/git
+	cd /home/$USER/git/
+fi
+
+yum install -y git
+git clone https://github.com/smatsushima1/home.git
+
+cd /home/$USER/git/home/.git/
+git config --global user.name "smatsushima1"
+git config --global user.email smatsushima1@gmail.com
+git config --global push.default simple
+git config credential.helper 'cache --timeout=30000'
+
+# change directory path, username, and email when applicable

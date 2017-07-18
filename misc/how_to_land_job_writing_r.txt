@@ -1,0 +1,56 @@
+Pick a project, passion is interesting
+	- during interview: "I had a project that I was doing..."
+	* nobody will hire you if you never had experience...
+Build, deploy, share
+	- build: just do it
+	- deploy: tell others about it
+	- check it into github, put it on resume, and make a good looking README file with title, badges
+Know community
+	- who is the community
+	- where is it going?
+	- any new updates?
+	- ask questions
+	- know about rstudio
+	- bring up questions in interviews
+	- know thought leaders, what they are doing, what projects they're working on, and follow them:
+		- Hadley Wickham - created ggplot, pretty much everything...
+		- Joe Chang - helped write rstudio ID, CTO rstudio
+		- Yhui Xie
+Know big conferences:
+	- use r conference
+	- EARL - best for r practitioners in private sector
+	- rstudio conference - where r is going...
+Lnow tools, packages
+	- MUST know: dplyr, ggplot2
+	- should know: knitr, markdown, pander, shiny, httr
+	- nice to know: data.table (more for speed and performance, but complicated to write), doSNOW, testthat
+	- cart, e1071, randomForest, ginnet, caret
+	* have a preference: "I'm open to tibble, but right now I like data.table"
+
+Commit to open source
+	- even tiny contributions are valid
+	- participate as much as you can
+	- read r style guide
+	* every language needs documentation
+
+Doing the job search
+	- research technologies and projects included on job postings that ask for r skills
+	- stay away from posts with SPSS, SAS, or blend of other dissimilar technologies
+	- stalk employees at company: check them out on twitter, github, etc.
+		- if they aren't doing anything r related, then stay away from them
+
+At the interview
+	- don't say you are a novice or an expert, say you are proficient
+		- proficient implies you are able to write it
+	- your attitude should be curious, solution-oriented; solving problems is what matters at this stage, not fluency in r
+	- work your angle:
+		- are you comp. sci. analyzing more data? or stat angle?
+
+Answering technical questions
+	- questions are asking how you solve problems and how able are you to work on their team
+	- don't say you could google it: anyone can google it
+		- your answer shows how you can work through problem and how to solve your own problems
+	- don't be afraid to ask for help: no harm in asking for help
+	- the interviewers want to hire you: they want to see if you are able to work with them
+
+Watch: the art of ruby technical interviews by chris mar

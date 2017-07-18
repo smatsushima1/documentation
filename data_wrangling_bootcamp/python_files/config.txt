@@ -1,0 +1,12 @@
+search category 1: "trump":
+search 1T: "Donald Trump":
+search 2T: "The Real Donald Trump":
+search 3T: "Make America Great Again":
+search 4T: "Trump":
+search 5T: "The Donald":
+search category 2: "hillary":
+search 1H: "Hillary Clinton":
+search 2H: "Hillary for America":
+search 3H: "Hillary Rodham Clinton":
+search 4H: "Stronger Together":
+search 5H: "Build Ladders of Opportunity"

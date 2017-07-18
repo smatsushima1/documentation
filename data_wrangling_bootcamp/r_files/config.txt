@@ -1,0 +1,27 @@
+APIPrivateKey	8xOO11K08PRCOeXtYzbj5n0Y3NcwmQIJJOAwwHkR2XpRyplh1A
+APIPublicKey	4UBIRPDtdS42Gi9hEJJ4tVmIR
+# CollectionFile	collectionFile
+ColorNegative	black
+ColorNeutral	white
+ColorPositive	green
+LexiconFile	LEXICON.CSV
+Offset		TRUE
+# Poll		23
+Poll		10
+ResetDatabase	TRUE
+SleepyTime	10
+# SourceFile	tweetsClean.txt
+# SourceFile collectionFile
+StopwordsFile	stopwords.txt
+ThresholdNegative	0.5
+ThresholdPositive	0.5 #and this should be ignored
+
+Hashtag		tesla
+Hashtag		teslamotors
+Hashtag		faradayfuture
+Hashtag		lasvegas
+
+###  This is a comment line
+
+ThresholdNegative      0.001
+ThresholdPositive      0.002

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+su -
+
+echo "Enter user"
+read USER
+if [ -d "/home/$USER/git/" ]
+then
+	cd /home/$USER/git/
+else
+	mkdir /home/$USER/git
+	cd /home/$USER/git/
+fi
+
+git clone https://github.com/JohnLangford/vowpal_wabbit.git
+
+yum install -y make
+yum install -y automake
+yum install -y autoconf
+yum install -y clang
+yum install -y boost-devel
+yum install -y zlib-devel
+yum install -y redhat-lsb-core
+
+cd vowpal_wabbit/
+./autogen.sh
+make
+make install
+vw --version
+
+exit

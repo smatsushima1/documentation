@@ -1,0 +1,26 @@
+APIPrivateKey	FsgqQoOfHqSY8a3iBQ0mPXUZ3eVarTC4oDVruQGVlh6NSZIp94
+APIPublicKey	McZuf4flGTuYhmEcInAUITZsR
+# CollectionFile	collectionFile
+ColorNegative	black
+ColorNeutral	white
+ColorPositive	green
+LexiconFile	LEXICON.CSV
+Offset		TRUE
+# Poll		23
+Poll		10
+ResetDatabase	TRUE
+SleepyTime	10
+# SourceFile	tweetsClean.txt
+StopwordsFile	stopwords.txt
+ThresholdNegative	0.5
+ThresholdPositive	0.5 #and this should be ignored
+
+Hashtag		realdonaldtrump
+Hashtag		hillaryclinton
+Hashtag		berniesanders
+Hashtag		tedcruz
+
+###  This is a comment line
+
+ThresholdNegative      0.001
+ThresholdPositive      0.002
