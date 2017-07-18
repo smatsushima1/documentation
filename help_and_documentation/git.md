@@ -1,22 +1,22 @@
 # Git - config, help, and documentation
 
 ### Contents
-- [**Configuration**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#configuration)
-- [**Create new repo from command line**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#create-new-repo-from-command-line)
-- [**Push an existing repo**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#push-an-existing-repo)
-- [**Reading submodules from cloned repos**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#reading-submodules-from-cloned-repos)
-- [**Working with same-name submodules**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#working-with-same-name-submodules)
-- [**How to ignore ~**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#how-to-ignore-)
-- [**Pushing a file too large**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#pushing-a-file-too-large)
-    - [**Removing file from commit history**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#removing-file-from-commit-history)
-    - [**Alternative: erasing commit history**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#alternative-erasing-commit-history)
-- [**Adding pictures/URLs to readmes**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#adding-picturesurls-to-readmes)
-- [**Adding links to headers**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#adding-links-to-headers)
-- [**Adding tables**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#adding-tables)
-- [**Merge conflicts**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#merge-conflicts)
-    - [**Remote repo, local repo, git pull attempt**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#remote-repo-local-repo-git-pull-attempt)
-    - [**Master branch, forked branch, pull request attempt**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#master-branch-forked-branch-pull-request-attempt)
-- [**Resources**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#resources)
+- [**Configuration**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#configuration)
+- [**Create new repo from command line**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#create-new-repo-from-command-line)
+- [**Push an existing repo**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#push-an-existing-repo)
+- [**Reading submodules from cloned repos**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#reading-submodules-from-cloned-repos)
+- [**Working with same-name submodules**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#working-with-same-name-submodules)
+- [**How to ignore ~**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#how-to-ignore-)
+- [**Pushing a file too large**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#pushing-a-file-too-large)
+    - [**Removing file from commit history**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#removing-file-from-commit-history)
+    - [**Alternative: erasing commit history**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#alternative-erasing-commit-history)
+- [**Adding pictures/URLs to readmes**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#adding-picturesurls-to-readmes)
+- [**Adding links to headers**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#adding-links-to-headers)
+- [**Adding tables**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#adding-tables)
+- [**Merge conflicts**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#merge-conflicts)
+    - [**Remote repo, local repo, git pull attempt**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#remote-repo-local-repo-git-pull-attempt)
+    - [**Master branch, forked branch, pull request attempt**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#master-branch-forked-branch-pull-request-attempt)
+- [**Resources**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#resources)
 
 ### Configuration
 After cloning a repo, navigate to the ```.git``` folder within its directory:
@@ -34,7 +34,7 @@ Firewalls will prevent the above code from working, but inputting the code below
 ```
 git config --global http.sslverify false
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Create new repo from command line
 ```
@@ -45,14 +45,14 @@ git commit -m "first commit"
 git remote add origin [REPO]
 git push -u origin master
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Push an existing repo
 ```
 git remote add origin [REPO]
 git push -u origin master
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Reading submodules from cloned repos
 Submodules within clones repos wont be readable until they are ininitialized:
@@ -60,7 +60,7 @@ Submodules within clones repos wont be readable until they are ininitialized:
 git submodule init
 git submodule update
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Working with same-name submodules
 If one were to create and initialize a submodule, remove it, then create another submodule with the same name, the data from the former submodule will reinitialize with the latter submodule. Reversing this simply entitles the user to remove the former submodules 'private' files and credentials from the ```.gitmodules``` directory:
@@ -81,7 +81,7 @@ rm -rf [SUBMODULE_IN_QUESTION]
 ```
 At this point, the correct submod can be added to the main repo with no overlapping issues.
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### How to ignore ~
 Files that end with ~ are backup files stored on the computer and are usually created by editing a file with [Babun](http://babun.github.io/). These offer a nice safety feature, but adds too many files in the repo page. Ignoring them and preventing them from being added, committed, and pushed, requires the user to modify the ```.gitignore``` file:
@@ -95,7 +95,7 @@ Add these lines at the bottom of the script
 *.*~
 *~
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Pushing a file too large
 The maximum file size git can commit is 100 Mb. Pushing a file larger than that will forevor save it in the commit history and the system will always try to re-push it even after it has been deleted. The following error message will forevor haunt the user:
@@ -126,7 +126,7 @@ Links to help solve this are as follows:
 - https://stackoverflow.com/questions/14969775/delete-all-git-commit-history
 - https://stackoverflow.com/questions/19573031/cant-push-to-github-because-of-large-file-which-i-already-deleted
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Removing file from commit history
 ```
@@ -276,7 +276,7 @@ To https://github.com/smatsushima1/test.git
 nothing to commit, working directory clean
 ```
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Alternative: erasing commit history
 An alternative way that essentially erases the git commit history is to delete the ```.git``` folder within the main repo page then re-initializing and re-configuring it:
@@ -353,7 +353,7 @@ Date:   Sun Jul 2 16:45:34 2017 -0400
  4 files changed, 240 insertions(+), 2 deletions(-)
  create mode 100644 help_and_documentation/bypass_ssl.txt
  create mode 100644 help_and_documentation/coreutils.md
- create mode 100644 help_and_documentation/git_help.md
+ create mode 100644 help_and_documentation/git.md
 [User@localhost home]$ gpp
 fatal: No remote repository specified.  Please, specify either a URL or a
 remote name from which new revisions should be fetched.
@@ -391,7 +391,7 @@ Everything up-to-date
 ```
 It is imperative to note that the above step will erase the commit history. The ```git log``` action only shows one value instead of the many that were there before - meaning that there will be no previous commits to reference if trying to revert to an older version of the commit history. For this reason, this method isnt recommended unless absolutely necessary. 
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Adding pictures/URLs to readmes
 ```
@@ -421,22 +421,22 @@ The full address starting with ```https:``` must be included for the link to wor
 ```
 [link](google.com)
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Adding links to headers
 In order to create links within the page that reference to other parts of the same page like in the table of contents of this readme, simply click on the link icon next to any header of the readme file and use this as the path for the picture:
 
 ![header_link](/pictures/header_link.png)
 
-[7. Pushing a file too large](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#7-pushing-a-file-too-large) will bring you to the previous section and the syntax is as follows:
+[7. Pushing a file too large](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#7-pushing-a-file-too-large) will bring you to the previous section and the syntax is as follows:
 ```
-[Pushing a file too large](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#7-pushing-a-file-too-large)
+[Pushing a file too large](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#7-pushing-a-file-too-large)
 ```
-Lastly, every section ends with a [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation) link that brings the user back to the first header of the page and is written:
+Lastly, every section ends with a [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation) link that brings the user back to the first header of the page and is written:
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### [Adding tables](https://help.github.com/articles/organizing-information-with-tables/)
 ```
@@ -456,7 +456,7 @@ More data | Even more data
 
 The link in the heading does a better job explaining all the functions.
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Merge conflicts
 A merge conflict will happen most commonly in two ways:
@@ -465,7 +465,7 @@ A merge conflict will happen most commonly in two ways:
 
 In either case, a merge conflict will occur because the system is trying to merge both changes and does not know which one is the right version. The changes have to be made on the local repo for both cases.
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Remote repo, local repo, git pull attempt
 The timeline for this issue is as follows:
@@ -549,7 +549,7 @@ To https://github.com/smatsushima1/test.git
 # On branch master
 nothing to commit, working directory clean
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Master branch, forked branch, pull request attempt
 ```
@@ -559,7 +559,7 @@ git checkout master
 git merge --no-f [USERNAME_FORKED_BRANCH]-master
 git push origin master
 ```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Resources
 Link | Explanation
@@ -567,4 +567,4 @@ Link | Explanation
 [**Pro Git**](https://git-scm.com/book/en/v2) | Definitive book on the basics of Git
 [**Github syntax**](https://help.github.com/articles/basic-writing-and-formatting-syntax/) | Basic syntax rules
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git_help.md#git---config-help-and-documentation)
+[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
