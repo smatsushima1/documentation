@@ -1,12 +1,13 @@
 # Graphs
 ### Contents
-- [Multiple dnorms on same graph]()
+- [Multiple dnorms on same graph](https://github.com/smatsushima1/home/blob/master/r/graphs.md#multiple-dnorms-on-same-graph)
 
 ### Multiple dnorms on same graph
 ```
-x <- 0:500
-plot(x, dnorm(x, 250, 80), type="l", lwd=2, xlab="Score", ylab="PDF", ylim=c(0, .008), main="Theoretical increase in accuracy")
-lines(x, dnorm(x, 250, 50), type="l", lwd=2, col="red")
-legend("topright", c("m=250, sd=80", "m=250, sd=50"), lty=c(1, 1), lwd=c(2, 2), col=c("black", "red"))
+x <- 0:100
+plot(x, dnorm(x, 50, 10), type="l", lwd=2, xlab="x-axis", ylab="y-axis", ylim=c(0, .08), main="Multiple dnorms")
+lines(x, dnorm(x, 50, 5), type="l", lwd=2, col="red")
+legend("topright", c("m=50, sd=10", "m=50, sd=5"), lty=c(1, 1), lwd=c(2, 2), col=c("black", "red"))
 ```
-[Top]()
+![multiple_dnorms](/references/r_multiple_dnorms.png)
+[Top](https://github.com/smatsushima1/home/blob/master/r/graphs.md#graphs)
