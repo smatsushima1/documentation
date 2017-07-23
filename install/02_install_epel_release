@@ -1,7 +1,5 @@
 #!/bin/bash
 
-su -
-
 echo "Enter user"
 read USER
 if [ -d "/home/$USER/rpm/" ]
@@ -14,8 +12,6 @@ fi
 
 wget -P /home/$USER/rpm/ https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum install -y ./epel-release-latest-*.noarch.rpm
-
-exit
 
 # https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/
 # EPEL FAQ: https://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F

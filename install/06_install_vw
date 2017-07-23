@@ -1,7 +1,5 @@
 #!/bin/bash
 
-su -
-
 echo "Enter user"
 read USER
 if [ -d "/home/$USER/git/" ]
@@ -28,4 +26,4 @@ make
 make install
 vw --version
 
-exit
+# https://github.com/JohnLangford/vowpal_wabbit

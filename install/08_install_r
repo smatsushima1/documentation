@@ -1,7 +1,5 @@
 #!/bin/bash
 
-su -
-
 echo "Enter user"
 read $USER
 if [ -d "/home/$USER/rpm/" ]
@@ -24,8 +22,6 @@ yum localinstall -y texinfo-tex-5.1-4.el7.x86_64.rpm
 yum install -y R
 wget -P /home/$USER/rpm/ https://download1.rstudio.org/rstudio-1.0.143-x86_64.rpm
 yum install -y rstudio-1.0.143-x86_64.rpm
-
-exit
 
 # R = https://cran.rstudio.com/
 # RStudio = https://www.rstudio.com/products/rstudio/download/

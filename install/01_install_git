@@ -1,7 +1,5 @@
 #!/bin/bash
 
-su -
-
 echo "Enter user"
 read USER
 if [ -d "/home/$USER/git/" ]

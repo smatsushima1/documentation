@@ -1,9 +1,5 @@
 #!/bin/bash
 
-su -
-
 yum install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-
-exit
 
 # https://www.google.com/chrome/browser/desktop/index.html

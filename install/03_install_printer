@@ -3,16 +3,12 @@
 # search online at brother's website for printer model and follow download link from there
 # http://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=hll2340dw_us_eu_as&os=127&dlid=dlf006893_000&flang=4&type3=625
 
-su -
-
 echo "Enter user"
 read USER
 
 cd /home/$USER/Downloads/
 chmod +x linux-brprinter-installer-2.1.1-1
 yum install -y linux-brprinter-installer-2.1.1-1
-
-exit
 
 # model name:HL-L2340DW
 # when prompted, say yes

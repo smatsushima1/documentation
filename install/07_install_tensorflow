@@ -1,7 +1,5 @@
 #!/bin/bash
 
-su -
-
 echo "Enter user"
 read USER
 cd /home/$USER/
@@ -10,7 +8,5 @@ conda install -y tensorflow
 conda install -y theano
 conda install -y keras
 conda update --all
-
-exit
 
 # https://www.tensorflow.org/
