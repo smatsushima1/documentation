@@ -60,6 +60,7 @@ Command | Function
 
 ### Modifications to .vimrc
 Create a ```.vimrc``` file in the home directory and input the below code. You must source it while in vim with ```:source [LOCATION_OF_.vimrc_FILE]```
+
 Command | Function
 --- | ---
 ```set expandtab tabstop=4 shiftwidth=4 softtabstop=4``` | tabs = 4 spaces
