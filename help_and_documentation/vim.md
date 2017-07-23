@@ -59,14 +59,7 @@ Command | Function
 [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### Modifications to .vimrc
-Create a ```.vimrc``` file in the home directory and input the following:
-```
-set expandtab tabstop=4 shiftwidth=4 softtabstop=4
-set number
-set cursorline
-set wildmenu
-set showmatch
-```
+Create a ```.vimrc``` file in the home directory and input the below code. You must source it while in vim with ```:source [LOCATION_OF_.vimrc_FILE]```
 Command | Function
 --- | ---
 ```set expandtab tabstop=4 shiftwidth=4 softtabstop=4``` | tabs = 4 spaces
@@ -74,6 +67,14 @@ Command | Function
 ```set cursorline``` | highlights line that cursor is on
 ```set wildmenu``` | shows matches for words when auto-completing
 ```set showmatch``` | shows matching parenthesis when in brackets
+```nnoremap j gj | move up per display line, ignoring line length with j```
+```nnoremap k gk | move down per display line, ignoring line length with k```
+```nnoremap <Down> gj | same as above, but with down arrow```
+```nnoremap <Up> gk | same as above, but with up arrow```
+```vnoremap j gj | -```
+```vnoremap k gk | -```
+```vnoremap <Down> gj | -```
+```vnoremap <Up> gk | -```
 
 [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 

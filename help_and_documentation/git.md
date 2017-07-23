@@ -281,13 +281,13 @@ nothing to commit, working directory clean
 ### Alternative: erasing commit history
 An alternative way that essentially erases the git commit history is to delete the ```.git``` folder within the main repo page then re-initializing and re-configuring it:
 ```
-git reset --hard
 rm -rf .git/
 git init
 git add .
 git commit -m '[TEXT]'
 git remote add [REPO] [REPO_URL_FROM_CLONE]
-git push --force [REPO] [BRANCH]
+git checkout master
+git push -u --force [REPO] [BRANCH]
 ```
 The actual instance of the code for the above is as follows:
 ```
