@@ -59,7 +59,10 @@ Command | Function
 [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### Modifications to .vimrc
-Create a ```.vimrc``` file in the home directory and input the below code. You must source it while in vim with ```:source [LOCATION_OF_.vimrc_FILE]```
+Create a ```.vimrc``` file in the home directory and input the below code. You must source it while in vim with:
+```
+:source [LOCATION_OF_.vimrc_FILE]
+```
 
 Command | Function
 --- | ---
