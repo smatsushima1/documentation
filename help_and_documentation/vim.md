@@ -87,6 +87,7 @@ Command | Function
 ```set cursorline``` | highlights line that cursor is on
 ```set wildmenu``` | shows matches for words when auto-completing
 ```set showmatch``` | shows matching parenthesis when in brackets
+```set textwidth=80``` | sets automatic word-wrapping at 80 characters
 ```nnoremap j gj``` | move up per display line, ignoring line length with j
 ```nnoremap k gk``` | move down per display line, ignoring line length with k
 ```nnoremap <Down> gj``` | same as above, but with down arrow
