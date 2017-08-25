@@ -63,6 +63,22 @@ Create a ```.vimrc``` file in the home directory and input the below code. You m
 ```
 :source [LOCATION_OF_.vimrc_FILE]
 ```
+```
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+set number
+set cursorline
+set wildmenu
+set showmatch
+set textwidth=80
+nnoremap j gj
+nnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap j gj
+vnoremap k gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+```
 
 Command | Function
 --- | ---
