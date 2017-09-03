@@ -25,11 +25,11 @@ Command | Function
 ```b``` | back one word (faster navigation)
 ```[CTRL+d]``` | down one page
 ```[CTRL+u]``` | up one page
- | 
+------ | ------
 ```:%s/1/2/gc``` | replace all 1s with 2s in the document (g), and asks for approval at each instance (c)
 ```:r [FILE]``` | pastes everything from a file in the document
 ```:w [NAME]``` | creates an additional file named [NAME] 
- | 
+------ | ------
 ```[CTRL+v] [MOVE_CURSOR] [SHIFT+i] [INPUT] [ESC]``` | inputs [INPUT] at the beginning of every line
 
 [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
