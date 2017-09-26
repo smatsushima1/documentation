@@ -43,6 +43,7 @@ set wildmenu
 set showmatch
 set textwidth=80
 set nobackup nowritebackup noundofile
+set mouse=a
 
 nnoremap j gj
 nnoremap k gk
@@ -68,6 +69,7 @@ Command | Function
 ```set showmatch``` | shows matching parenthesis when in brackets
 ```set textwidth=80``` | sets automatic word-wrapping at 80 characters
 ```set nobackup nowritebackup noundofile``` | no temp files saved
+```set mouse=a``` | enables mouse support
 ```nnoremap j gj``` | move up per display line, ignoring line length with j
 ```nnoremap k gk``` | move down per display line, ignoring line length with k
 ```nnoremap <Down> gj``` | same as above, but with down arrow
@@ -76,10 +78,10 @@ Command | Function
 ```vnoremap k gk``` | -
 ```vnoremap <Down> gj``` | -
 ```vnoremap <Up> gk``` | -
-```map <c-h> <c-w>W``` | previous window
-```map <c-j> :tabprevious<CR>``` | previous tab
-```map <c-k> :tabnext<CR>``` | next tab
-```map <c-l> <c-w>w``` | next window
+```nnoremap <c-h> <c-w>W``` | previous window
+```nnoremap <c-j> :tabprevious<CR>``` | previous tab
+```nnoremap <c-k> :tabnext<CR>``` | next tab
+```nnoremap <c-l> <c-w>w``` | next window
 
 ###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
