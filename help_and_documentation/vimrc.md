@@ -1,38 +1,10 @@
 # Vim Help
 
 ### Contents
-- [**Commands**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#commands)
 - [**Remapping Caps Lock key for CentOS/RHEL**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#remapping-caps-lock-key-for-centos)
 - [**Remapping Caps Lock key for Windows**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#remapping-caps-lock-key-for-windows)
-- [**Modifications to .vimrc**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#modifications-to-vimrc)
+- [**.vimrc**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vimrc)
 - [**Resources**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#resources)
-
-### Commands
-*This list will be updated as more commands are discovered*
-
-![cheat_sheet](/references/vim_cheat_sheet.gif)
-
-Command | Function
---- | ---
-```I``` | insert at beginning of line
-```A``` | insert at end of line
-```o``` | insert new line below
-```O``` | insert new line above
-```ciw``` | change in word
-```C``` | deletes everything after cursor then goes to insert mode
-```w``` | next word (faster navigation)
-```e``` | end of word (faster navigation)
-```b``` | back one word (faster navigation)
-```[CTRL+d]``` | down one page
-```[CTRL+u]``` | up one page
------- | ------
-```:%s/1/2/gc``` | replace all 1s with 2s in the document (g), and asks for approval at each instance (c)
-```:r [FILE]``` | pastes everything from a file in the document
-```:w [NAME]``` | creates an additional file named [NAME] 
------- | ------
-```[CTRL+v] [MOVE_CURSOR] [SHIFT+i] [INPUT] [ESC]``` | inputs [INPUT] at the beginning of every line
-
-###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### Remapping Caps Lock key for CentOS
 - search for "Tweak Tool" in the program finder
@@ -58,7 +30,7 @@ Command | Function
 
 ###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
-### Modifications to .vimrc
+### .vimrc
 Create a ```.vimrc``` file in the home directory and input the below code. You must source it while in vim with:
 ```
 :source [LOCATION_OF_.vimrc_FILE]
@@ -81,10 +53,10 @@ vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
 
-map <c-h> <c-w>W
-map <c-j> :tabprevious<CR>
-map <c-k> :tabnext<CR>
-map <c-l> <c-w>w
+nnoremap <c-h> <c-w>W
+nnoremap <c-j> :tabprevious<CR>
+nnoremap <c-k> :tabnext<CR>
+nnoremap <c-l> <c-w>w
 ```
 
 Command | Function
