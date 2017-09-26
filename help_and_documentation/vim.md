@@ -32,7 +32,7 @@ Command | Function
 ------ | ------
 ```[CTRL+v] [MOVE_CURSOR] [SHIFT+i] [INPUT] [ESC]``` | inputs [INPUT] at the beginning of every line
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
+###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### Remapping Caps Lock key for CentOS
 - search for "Tweak Tool" in the program finder
@@ -41,7 +41,7 @@ Command | Function
 - select "Caps Lock key behavior"
 - choose desired option
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
+###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### [Remapping Caps Lock key for Windows](https://commons.lbl.gov/display/~jwelcher@lbl.gov/Making+Caps+Lock+a+Control+Key)
 - run regedit.exe from the Windows search bar
@@ -56,7 +56,7 @@ Command | Function
         - or: 17 x 0s, 2, 7 x 0s, 1, 2 x 0s, 3a, 10 x 0s
 - restart the system
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
+###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### Modifications to .vimrc
 Create a ```.vimrc``` file in the home directory and input the below code. You must source it while in vim with:
@@ -70,6 +70,8 @@ set cursorline
 set wildmenu
 set showmatch
 set textwidth=80
+set nobackup nowritebackup noundofile
+
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
@@ -78,6 +80,11 @@ vnoremap j gj
 vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
+
+map <c-h> <c-w>W
+map <c-j> :tabprevious<CR>
+map <c-k> :tabnext<CR>
+map <c-l> <c-w>w
 ```
 
 Command | Function
@@ -88,6 +95,7 @@ Command | Function
 ```set wildmenu``` | shows matches for words when auto-completing
 ```set showmatch``` | shows matching parenthesis when in brackets
 ```set textwidth=80``` | sets automatic word-wrapping at 80 characters
+```set nobackup nowritebackup noundofile``` | no temp files saved
 ```nnoremap j gj``` | move up per display line, ignoring line length with j
 ```nnoremap k gk``` | move down per display line, ignoring line length with k
 ```nnoremap <Down> gj``` | same as above, but with down arrow
@@ -96,8 +104,12 @@ Command | Function
 ```vnoremap k gk``` | -
 ```vnoremap <Down> gj``` | -
 ```vnoremap <Up> gk``` | -
+```map <c-h> <c-w>W``` | previous window
+```map <c-j> :tabprevious<CR>``` | previous tab
+```map <c-k> :tabnext<CR>``` | next tab
+```map <c-l> <c-w>w``` | next window
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
+###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
 
 ### Resources
 Link | Explanation
@@ -105,4 +117,4 @@ Link | Explanation
 [**Vim Tips Wiki**](http://vim.wikia.com/wiki/Vim_Tips_Wiki) | Vim wiki
 [**Vim Genius**](http://www.vimgenius.com/) | Interactive exercises on vim
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
+###### [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/vim.md#vim-help)
