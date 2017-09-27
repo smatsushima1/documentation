@@ -14,8 +14,13 @@ alias gpp="git pull && git push && git status"
 # case-insensitive auto-completion
 bind 'set completion-ignore-case on'
 
-### switch to zsh
+# switch to zsh
 zsh
 
-### using vim on the command line
+# using vim on the command line
 set -o vi
+
+# start tmux automatically
+# https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+[[ $- != *i* ]] && return
+[[ -z "$TMUX" ]] && exec tmux
