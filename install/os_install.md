@@ -1,4 +1,4 @@
-# Useful Progrmas
+# Installing OSs
 
 [rufus](https://rufus.akeo.ie) - allows CentOS to run off of a bootable USB drive.
 
