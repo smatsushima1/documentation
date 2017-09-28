@@ -1,4 +1,4 @@
-# Graphs
+# R
 ### Contents
 - [Multiple dnorms on same graph](https://github.com/smatsushima1/home/blob/master/r/graphs.md#multiple-dnorms-on-same-graph)
 

@@ -31,9 +31,3 @@ vnoremap j gj
 vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
-
-" remaps HJKL to move between tabs and windows
-nnoremap <H> <c-w>W
-nnoremap <J> :tabprevious<CR>
-nnoremap <K> :tabnext<CR>
-nnoremap <L> <c-w>w

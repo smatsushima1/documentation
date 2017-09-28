@@ -22,5 +22,5 @@ set -o vi
 
 # start tmux automatically
 # https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
-# [[ $- != *i* ]] && return
-# [[ -z "$TMUX" ]] && exec tmux
+[[ $- != *i* ]] && return
+[[ -z "$TMUX" ]] && exec tmux
