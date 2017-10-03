@@ -14,8 +14,6 @@
 - [**Changing Oh My Zsh to the default shell**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#changing-oh-my-zsh-to-the-default-shell)
     - [**Alternative: zsh in .bashrc**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#alternative-zsh-in-bashrc)
     - [**Alternative 2: modify passwd file**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#alternative-2-modify-passwd-file)
-- [**Themes**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#themes)
-- [**Aliases**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#aliases)
 
 ### Installation
 Zsh is required for oh-my-zsh:
@@ -133,30 +131,3 @@ user:x:1000:1000:user:/home/user:/bin/zsh
 This method should be avoided because it alters the system file. After doing this method, the ```chsh``` command will not work because the system will forevor run the new shell.
 
 [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#oh-my-zsh)
-
-### Themes
-To change a theme, navigate to the .zshrc file from the home directory and use vim to edit it:
-```
-vim ~/.bashrc
-```
-Once there, go to the line that says:
-```
-ZSH_THEME="robbyrussell"
-```
-From here, replace the text string inside the quotes with any of the themes presented [here](https://github.com/robbyrussell/oh-my-zsh/wiki/Themes).
-
-You could also type "random" to display a different theme each time the terminal is started, or you can delete all the text inside the quotes to have no theme at all.
-
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#oh-my-zsh)
-
-### Aliases
-If more aliases are desired, the same format is used to create aliases for bash:
-```
-vim ~/.zshrc
-```
-In the aliases section, type:
-```
-alias [NEW_COMMAND]="[OLD_COMMAND]"
-```
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/oh_my_zsh.md#oh-my-zsh)
-

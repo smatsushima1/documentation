@@ -1,6 +1,7 @@
-# Remap Control
+# Remap Caps Lock
 
 ### CentOS
+
 - search for "Tweak Tool" in the program finder
 - open "Tweak Tool"
 - select "Typing" (along the left)
@@ -8,6 +9,7 @@
 - choose desired option
 
 ### [Windows](https://commons.lbl.gov/display/~jwelcher@lbl.gov/Making+Caps+Lock+a+Control+Key)
+
 - run regedit.exe from the Windows search bar
 - verify you are in the folder "Keyboard Layout" (not "Keyboard Layouts") from the left pane: HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/Keyboard Layout
 - from the top, select "Edit" > "New" > "Binary Value" and call it "Scancode Map"

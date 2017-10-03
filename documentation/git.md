@@ -6,7 +6,6 @@
 - [**Push an existing repo**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#push-an-existing-repo)
 - [**Reading submodules from cloned repos**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#reading-submodules-from-cloned-repos)
 - [**Working with same-name submodules**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#working-with-same-name-submodules)
-- [**How to ignore ~**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#how-to-ignore-)
 - [**Pushing a file too large**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#pushing-a-file-too-large)
     - [**Removing file from commit history**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#removing-file-from-commit-history)
     - [**Alternative: erasing commit history**](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#alternative-erasing-commit-history)
@@ -81,20 +80,6 @@ rm -rf [SUBMODULE_IN_QUESTION]
 ```
 At this point, the correct submod can be added to the main repo with no overlapping issues.
 
-[Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
-
-### How to ignore ~
-Files that end with ~ are backup files stored on the computer and are usually created by editing a file with [Babun](http://babun.github.io/). These offer a nice safety feature, but adds too many files in the repo page. Ignoring them and preventing them from being added, committed, and pushed, requires the user to modify the ```.gitignore``` file:
-```
-cd [REPO]
-vim .gitignore
-```
-Add these lines at the bottom of the script
-```
-# vim temp files
-*.*~
-*~
-```
 [Top](https://github.com/smatsushima1/home/blob/master/help_and_documentation/git.md#git---config-help-and-documentation)
 
 ### Pushing a file too large
