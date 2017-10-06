@@ -2,6 +2,8 @@
 alias l="ls -ahl"
 alias ..="cd .."
 alias v="vim"
+alias c="clear"
+alias e="explorer ."
 alias ga="git add"
 alias gc="git commit"
 alias gcm="git commit -m"
