@@ -1,3 +1,8 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" main manual: http://vimdoc.sourceforge.net/htmldoc/help.html
+" all key bindings: http://vimdoc.sourceforge.net/htmldoc/vimindex.html
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " sets tabs to 4 spaces
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
@@ -13,21 +18,54 @@ set wildmenu
 " shows matching braces
 set showmatch
 
-" auto-wraps lines at 80 characters
-set textwidth=80
-
 " no creation of ~ temp files
 set nobackup nowritebackup noundofile
 
 " sets mouse support
 set mouse=a
 
-" remaps hjkl to move with the line
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" remappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" hjkl moves with each character, not line, in normal mode
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
+
+" hjkl moves with each character, not line, in visual mode
 vnoremap j gj
 vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
+
+" ZA = save and quit-all
+nnoremap ZA :wqa<CR>
+
+" C-Space = C-W
+map <NUL> <C-W>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" netrw modifications
+" netrw manual: http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
+" :Vex to start
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" no banner
+let g:netrw_banner=0
+
+" tree view
+let g:netrw_liststyle=3
+
+" opens new file in another tab
+let g:netrw_browse_split=3
+
+" splits window vertically with new cursor at the right
+let g:netrw_altv=1
+
+" netrw starts at 25% of screen size
+let g:netrw_winsize=25
+
+" auto-starts netrw
+autocmd vimenter * Vexplore
