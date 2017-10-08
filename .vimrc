@@ -1,6 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " main manual: http://vimdoc.sourceforge.net/htmldoc/help.html
-" all key bindings: http://vimdoc.sourceforge.net/htmldoc/vimindex.html
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " sets tabs to 4 spaces
@@ -26,6 +25,7 @@ set mouse=a
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remappings
+" all key bindings: http://vimdoc.sourceforge.net/htmldoc/vimindex.html
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " hjkl moves with each character, not line, in normal mode
@@ -68,4 +68,5 @@ let g:netrw_altv=1
 let g:netrw_winsize=25
 
 " auto-starts netrw
-autocmd vimenter * Vexplore
+autocmd vimenter * Vex
+
