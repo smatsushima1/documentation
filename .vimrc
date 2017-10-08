@@ -43,6 +43,9 @@ vnoremap <Up> gk
 " ZA = save and quit-all
 nnoremap ZA :wqa<CR>
 
+" ZS = save-all
+nnoremap ZS :wa<CR>
+
 " C-Space = C-W
 map <NUL> <C-W>
 
@@ -68,5 +71,5 @@ let g:netrw_altv=1
 let g:netrw_winsize=25
 
 " auto-starts netrw
-autocmd vimenter * Vex
+au VimEnter * Vex
 
