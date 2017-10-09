@@ -46,13 +46,12 @@ nnoremap ZA :wqa<CR>
 " ZS = save-all
 nnoremap ZS :wa<CR>
 
-" C-Space = C-W
-map <NUL> <C-W>
+" C-j = C-W
+map <C-j> <C-W>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " netrw modifications
 " netrw manual: http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
-" :Vex to start
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " no banner
@@ -70,6 +69,7 @@ let g:netrw_altv=1
 " netrw starts at 25% of screen size
 let g:netrw_winsize=25
 
-" auto-starts netrw
+" auto-starts netrw with cursor in file
 au VimEnter * Vex
+au VimEnter * wincmd l
 
