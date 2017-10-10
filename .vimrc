@@ -1,4 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" mods
 " main manual: http://vimdoc.sourceforge.net/htmldoc/help.html
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -22,6 +23,14 @@ set nobackup nowritebackup noundofile
 
 " sets mouse support
 set mouse=a
+
+" don't show hidden buffers in tabs
+set hidden
+
+" for pathogen.vim
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remappings
@@ -50,26 +59,10 @@ nnoremap ZS :wa<CR>
 map <C-j> <C-W>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" netrw modifications
-" netrw manual: http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
+" NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" no banner
-let g:netrw_banner=0
-
-" tree view
-let g:netrw_liststyle=3
-
-" opens new file in another tab
-let g:netrw_browse_split=3
-
-" splits window vertically with new cursor at the right
-let g:netrw_altv=1
-
-" netrw starts at 25% of screen size
-let g:netrw_winsize=25
-
-" auto-starts netrw with cursor in file
-au VimEnter * Vex
-au VimEnter * wincmd l
+" start NERDTree automatically
+au vimenter * NERDTree
+au vimenter * wincmd l
 
