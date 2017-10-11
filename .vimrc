@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" mods
+" modifications
 " main manual: http://vimdoc.sourceforge.net/htmldoc/help.html
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -27,11 +27,6 @@ set mouse=a
 " don't show hidden buffers in tabs
 set hidden
 
-" for pathogen.vim
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remappings
 " all key bindings: http://vimdoc.sourceforge.net/htmldoc/vimindex.html
@@ -49,20 +44,6 @@ vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
 
-" ZA = save and quit-all
-nnoremap ZA :wqa<CR>
-
-" ZS = save-all
-nnoremap ZS :wa<CR>
-
 " C-j = C-W
 map <C-j> <C-W>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" start NERDTree automatically
-au vimenter * NERDTree
-au vimenter * wincmd l
 
