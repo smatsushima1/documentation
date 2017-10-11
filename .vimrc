@@ -3,14 +3,29 @@
 " main manual: http://vimdoc.sourceforge.net/htmldoc/help.html
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" allows text highlighting
+syntax enable
+
+" allows some vim features to work
+filetype plugin on
+
+" automatically indent based on file syntax
+filetype indent on
+
+" let vim not act like vi
+set nocompatible
+
 " sets tabs to 4 spaces
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 " shows number of line
 set number
 
-" shows line of cursor
+" shows line where cursor is on
 set cursorline
+
+" searches down in subdirectories
+set path+=**
 
 " shows matches for auto-completion
 set wildmenu
@@ -26,6 +41,9 @@ set mouse=a
 
 " don't show hidden buffers in tabs
 set hidden
+
+" shows commad in bottom
+set showcmd
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remappings
@@ -46,4 +64,13 @@ vnoremap <Up> gk
 
 " C-j = C-W
 map <C-j> <C-W>
+
+" ZA = save and quit-all
+nnoremap ZA :wqa<CR>
+
+" ZS = save-all
+nnoremap ZS :wa<CR>
+
+" ZX = quit without save-all
+nnoremap ZX :qa<CR>
 
