@@ -23,7 +23,7 @@ alias gl="git pull"
 alias gp="git push"
 alias gagc="git add -A && git commit -m"
 alias gpp="git pull && git push && git status"
-alias reloadgitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/github_rsa'
+alias reloadgitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 
 # start tmux automatically
 # https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
