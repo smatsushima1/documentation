@@ -25,7 +25,7 @@ for a in {0..15}
   do echo -en "  \033[38;5;${a}m${a}m"
 done
 
-echo -e "  \033[m\n"
+echo -e "\n"
 
 # 16-51
 for a in {16..51}
