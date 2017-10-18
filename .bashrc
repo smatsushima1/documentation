@@ -1,5 +1,6 @@
 ################################################################################
 # source global definitions
+################################################################################
 
 if [ -f /etc/bashrc ]
     then . /etc/bashrc
@@ -9,6 +10,7 @@ fi
 # enable auto-completion
 
 # yum install -y auto-completion*
+################################################################################
 
 if [ -f /usr/share/bash-completion/bash_completion ]
     then . /usr/share/bash-completion/bash_completion
@@ -18,11 +20,13 @@ fi
 
 ################################################################################
 # paths and environment variables
+################################################################################
 
 export PATH="/home/user/anaconda3/bin:$PATH"
 
 ################################################################################
 # expand history size
+################################################################################
 
 export HISTFILESIZE=10000
 export HISTSIZE=500
@@ -36,7 +40,7 @@ export HISTSIZE=500
 #   command input from the user will be the last \[COLOR\] defined
 # - to mitigate this, set the last \[COLOR\] before the right double quote to
 #   no-color to have normal colored input text
-# - for a full list of colors, visit: 
+# - for a full list of colors: https://github.com/smatsushima1/home/blob/master/colors_demo
 
 # arguments:
 # \a - A bell character.
@@ -68,11 +72,13 @@ export HISTSIZE=500
 # \nnn - The character whose ASCII code is the octal value nnn.
 # \\ - A backslash.
 # \[ - Begin a sequence of non-printing characters.
+################################################################################
 
-PS1="\[\033[1;33m\]\w \[\033[1;32m\]$ \[\033[0m\]"
+PS1="\[\033[1;32m\]\w \[\033[0m\]"
 
 ################################################################################
 # aliases
+################################################################################
 
 alias l="ls -ahl"
 alias ..="cd .."
@@ -80,6 +86,7 @@ alias v="vim"
 alias c="cat"
 alias cl="clear"
 alias e="explorer ."
+
 alias ga="git add"
 alias gc="git commit"
 alias gcm="git commit -m"
@@ -95,6 +102,7 @@ alias reloadgitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
 
 # list all functions: declare -f 
 # remove function: unset -f [FUNCTION]
+################################################################################
 
 # automatically do ls -ahl after cd
 # cd ()
@@ -109,6 +117,7 @@ alias reloadgitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
 # start tmux automatically
 
 # https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+################################################################################
 
 #[[ $- != *i* ]] && return
 #[[ -z "$TMUX" ]] && exec tmux
