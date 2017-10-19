@@ -33,6 +33,9 @@ set backspace=indent,eol,start " backspaces work as normal
 set showmatch               " shows matching braces
 set sidescroll=10           " automatically scrolls 10 characters
 set background=dark         " font will brighten as if in dark background
+set linebreak               " words don't get broken at end of line
+set foldcolumn=4            " shows folds in columns
+set viminfo='500            " remembers 500 vim commands
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remappings
