@@ -42,5 +42,5 @@ cat vi_diff.txt version4.txt version5.txt version6.txt version7.txt version8.txt
 
 cat os_390.txt os_amiga.txt os_beos.txt os_mac.txt os_mint.txt os_msdos.txt os_os2.txt os_qnx.txt os_risc.txt os_unix.txt os_vms.txt os_win32.txt > rm_08_remarks_about_specific_systems.txt
 
-cat pi_getscript.txt pi_gzip.txt pi_logipat.txt pi_netrw.txt pi_tar.txt pi_vimball.txt pi_zip.txt > rm_09_standard_plugins
+cat pi_getscript.txt pi_gzip.txt pi_logipat.txt pi_netrw.txt pi_tar.txt pi_vimball.txt pi_zip.txt > rm_09_standard_plugins.txt
 

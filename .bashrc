@@ -8,7 +8,7 @@ fi
 
 ################################################################################
 # enable auto-completion
-
+#
 # yum install -y auto-completion*
 ################################################################################
 
@@ -33,7 +33,7 @@ export HISTSIZE=500
 
 ################################################################################
 # prompt modification
-
+#
 # notes:
 # - \[COLOR\] turns all text thereafter \[COLOR\] until another is defined
 # - if another \[COLOR\] isn't defined before the right double quote, the
@@ -41,7 +41,7 @@ export HISTSIZE=500
 # - to mitigate this, set the last \[COLOR\] before the right double quote to
 #   no-color to have normal colored input text
 # - for a full list of colors: https://github.com/smatsushima1/home/blob/master/colors_demo
-
+#
 # arguments:
 # \a - A bell character.
 # \d - The date, in "Weekday Month Date" format (e.g., "Tue May 26").
@@ -95,11 +95,11 @@ alias gl="git pull"
 alias gp="git push"
 alias gagc="git add -A && git commit -m"
 alias gpp="git pull && git push && git status"
-alias reloadgitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
+alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 
 ################################################################################
 # functions
-
+#
 # list all functions: declare -f 
 # remove function: unset -f [FUNCTION]
 ################################################################################
@@ -115,7 +115,7 @@ alias reloadgitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
 
 ################################################################################
 # start tmux automatically
-
+#
 # https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
 ################################################################################
 
