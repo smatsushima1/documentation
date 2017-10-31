@@ -65,3 +65,9 @@ nnoremap ZS :wa<CR>
 " ZX = quit without save-all
 nnoremap ZX :qa<CR>
 
+" space acts like space in normal mode
+nnoremap <space> i<space><esc>
+
+" backspace acts like backspace in normal mode
+nnoremap <bs> i<bs><esc>l
+
