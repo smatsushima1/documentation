@@ -71,3 +71,15 @@ nnoremap <space> i<space><esc>
 " backspace acts like backspace in normal mode
 nnoremap <bs> i<bs><esc>l
 
+" enter acts like enter in normal mode
+nnoremap <enter> i<enter><esc>
+
+" move <C-l> to <C-k>
+nnoremap <C-k> <C-l>
+
+" <C-h> = 0
+nnoremap <C-h> 0
+
+" <C-l> = $
+nnoremap <C-l> $
+
