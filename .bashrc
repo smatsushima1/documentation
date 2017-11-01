@@ -7,6 +7,12 @@ if [ -f /etc/bashrc ]
 fi
 
 ################################################################################
+# check window size after each command and adjust accordingly
+################################################################################
+
+shopt -s checkwinsize
+
+################################################################################
 # enable auto-completion
 #
 # yum install -y auto-completion*
