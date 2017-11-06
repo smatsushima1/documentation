@@ -66,10 +66,10 @@ nnoremap ZS :wa<CR>
 nnoremap ZX :qa<CR>
 
 " space acts like space in normal mode
-nnoremap <space> i<space><esc>
+nnoremap <space> i<space><right><esc>
 
 " backspace acts like backspace in normal mode
-nnoremap <bs> i<bs><esc>l
+nnoremap <bs> i<bs><right><esc>
 
 " enter acts like enter in normal mode
 nnoremap <enter> i<enter><esc>
