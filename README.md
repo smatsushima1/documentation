@@ -1,3 +1,3 @@
 # Home
 
-### Install
+### [Install](/install)
