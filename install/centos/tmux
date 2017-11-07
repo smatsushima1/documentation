@@ -1,0 +1,13 @@
+#!/bin/bash
+
+################################################################################
+# tmux
+################################################################################
+
+yum install -y gcc libevent-devel.x86_64 ncurses-devel.x86_64 make
+wget https://github.com/tmux/tmux/releases/download/2.5/tmux-2.5.tar.gz -P ~/rpm
+tar -xzf ~/rpm/tmux*
+cd tmux*
+./configure
+make
+
