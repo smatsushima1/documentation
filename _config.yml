@@ -2,3 +2,10 @@
 title: My repo
 name: smatsushima1
 theme: jekyll-theme-midnight
+
+# links
+links:
+- title: page_1
+  url: google.com
+- title: page 2
+  url: youtube.com
