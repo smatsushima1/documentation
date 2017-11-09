@@ -1,11 +1,10 @@
 # site settings
 title: My repo
-name: smatsushima1
+author: smatsushima1
+email: smatsushima1@gmail.com
+github_username: smatsushima1
+
+# build settings
+markdown: kramdown
 theme: jekyll-theme-midnight
 
-# links
-primarylinks:
- - title: page_1
-   url: google.com
- - title: page 2
-   url: youtube.com
