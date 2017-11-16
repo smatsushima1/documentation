@@ -1,9 +1,6 @@
 ---
 layout: default
-title: Home
 ---
-
-# About
 
 ![getting_ready](references/getting_ready.jpg)
 
