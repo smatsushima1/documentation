@@ -3,7 +3,7 @@ layout: default
 title: Installation Help
 ---
 
-### Contents
+# Contents
 
 - [EPEL release](https://github.com/smatsushima1/home/wiki/Installation-help#epel-release)
 - [Brother printer](https://github.com/smatsushima1/home/wiki/Installation-help#brother-printer)
@@ -13,7 +13,7 @@ title: Installation Help
 
 ---
 
-### [EPEL release](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
+# [EPEL release](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 
 [EPEL FAQ](https://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F)
 
@@ -22,11 +22,9 @@ wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum localinstall -y epel-release-latest-*.noarch.rpm
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Installation-help#contents)
-
 ---
 
-### Brother printer
+# Brother printer
 
 Search online at brothers website for printer model and follow download link from [there](http://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=hll2340dw_us_eu_as&os=127&dlid=dlf006893_000&flang=4&type3=625)
 
@@ -46,11 +44,9 @@ gunzip linux-brprinter-installer-2.1.1-1.gz
 bash linux-brprinter-installer-2.1.1-1 HL-L2340DW
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Installation-help#contents)
-
 ---
 
-### [Anaconda](https://www.continuum.io/downloads#linux)
+# [Anaconda](https://www.continuum.io/downloads#linux)
 
 Do not heed warning - allow the path variable to change
 
@@ -60,11 +56,9 @@ bash Anaconda3*.sh
 rm Anaconda3*.sh
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Installation-help#contents)
-
 ---
 
-### R
+# R
 
 - [R](https://cran.rstudio.com/)
 - [RStudio](https://www.rstudio.com/products/rstudio/download/)
@@ -88,11 +82,9 @@ wget https://download1.rstudio.org/rstudio-1.0.143-x86_64.rpm
 yum install -y rstudio*.rpm
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Installation-help#contents)
-
 ---
 
-### OS install tools
+# OS install tools
 
 - [rufus](https://rufus.akeo.ie) - booting distros off of USB drive
 - [imageUSB](http://www.osforensics.com/tools/write-usb-images.html) - good for "zeroing" a usb drive and resetting it back to its original state
@@ -100,4 +92,3 @@ yum install -y rstudio*.rpm
 - [magic jelly bean key finder](https://www.magicaljellybean.com/) - for finding
   Windows 10 and Office keys
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Installation-help#contents)

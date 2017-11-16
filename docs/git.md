@@ -3,7 +3,7 @@ layout: default
 title: Git
 ---
 
-### Contents
+# Contents
 
 - [Create new repo from command line](https://github.com/smatsushima1/home/wiki/Git#create-new-repo-from-command-line)
 - [Push an existing repo](https://github.com/smatsushima1/home/wiki/Git#push-an-existing-repo)
@@ -16,7 +16,7 @@ title: Git
 
 ---
 
-### Create new repo from command line
+# Create new repo from command line
 
 ```
 echo "# test" >> README.md
@@ -27,22 +27,18 @@ git remote add origin [REPO]
 git push -u origin master
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Push an existing repo
+# Push an existing repo
 
 ```
 git remote add origin [REPO]
 git push -u origin master
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Reading submodules from cloned repos
+# Reading submodules from cloned repos
 
 Submodules within clones repos wont be readable until they are ininitialized:
 
@@ -51,11 +47,9 @@ git submodule init
 git submodule update
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Working with same-name submodules
+# Working with same-name submodules
 
 If one were to create and initialize a submodule, remove it, then create another submodule with the same name, the data from the former submodule will reinitialize with the latter submodule. Reversing this simply entitles the user to remove the former submodules 'private' files and credentials from the ```.gitmodules``` directory:
 
@@ -78,11 +72,9 @@ rm -rf [SUBMODULE_IN_QUESTION]
 
 At this point, the correct submod can be added to the main repo with no overlapping issues.
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Pushing a file too large
+# Pushing a file too large
 
 The maximum file size git can commit is 100 Mb. Pushing a file larger than that will forevor save it in the commit history and the system will always try to re-push it even after it has been deleted. The following error message will forevor haunt the user:
 
@@ -115,11 +107,9 @@ Links to help solve this are as follows:
 - https://stackoverflow.com/questions/14969775/delete-all-git-commit-history
 - https://stackoverflow.com/questions/19573031/cant-push-to-github-because-of-large-file-which-i-already-deleted
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Removing file from commit history
+# Removing file from commit history
 
 ```
 git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch [PATH_TO_FILE]' HEAD
@@ -278,11 +268,9 @@ To https://github.com/smatsushima1/test.git
 nothing to commit, working directory clean
 ```
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Alternative: erasing commit history
+# Alternative: erasing commit history
 
 An alternative way that essentially erases the git commit history is to delete the ```.git``` folder within the main repo page then re-initializing and re-configuring it:
 
@@ -400,14 +388,11 @@ Everything up-to-date
 
 It is imperative to note that the above step will erase the commit history. The ```git log``` action only shows one value instead of the many that were there before - meaning that there will be no previous commits to reference if trying to revert to an older version of the commit history. For this reason, this method isnt recommended unless absolutely necessary. 
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)
-
 ---
 
-### Resources
+# Resources
 
 Link | Explanation
 --- | ---
 [**Pro Git**](https://git-scm.com/book/en/v2) | Definitive book on the basics of Git
 
-###### [Top](https://github.com/smatsushima1/home/wiki/Git#contents)

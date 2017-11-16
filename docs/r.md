@@ -3,7 +3,7 @@ layout: default
 title: R
 ---
 
-### Contents
+# Contents
 
 - [Hexidecimal colors](https://github.com/smatsushima1/home/wiki/R#hexidecimal-colors)
 - [Multiple dnorms on same graph](https://github.com/smatsushima1/home/wiki/R#multiple-dnorms-on-same-graph)
@@ -13,13 +13,13 @@ title: R
 
 ---
 
-### Hexidecimal colors
+# Hexidecimal colors
 
-[[/references/r_01.png]]
+![r_01](/docs/references/r_01.png)
 
 ---
 
-### Multiple dnorms on same graph
+# Multiple dnorms on same graph
 
 ```r
 x <- 0:100
@@ -43,11 +43,11 @@ legend("topright",
        col=c("black", "red"))
 ```
 
-[[/references/r_02.png]]
+![r_02](/docs/references/r_02.png)
 
 ---
 
-### Horizontal bar graph
+# Horizontal bar graph
 
 ```r
 library(ggplot2)
@@ -84,11 +84,11 @@ ggplot(data = df, aes(x = x_axis, y = y_axis, fill = x_axis)) +
         plot.title = element_text(face = "bold", size = 20, hjust = 0.5))
 ```
 
-[[/references/r_03.png]]
+![r_03](/docs/references/r_03.png)
 
 ---
 
-### Pie chart
+# Pie chart
 
 ```r
 library(ggplot2)
@@ -105,11 +105,11 @@ ggplot(data = df, aes(x = "", y = y_axis, fill = x_axis)) +
   scale_fill_manual(values = ifelse(x == 2, c("#3333FF", "#33CC00"), c("#FF3333", "#33CC00")))
 ```
 
-[[/references/r_04.png]]
+![r_04](/docs/references/r_04.png)
 
 ---
 
-### Emphasizing specific plot points
+# Emphasizing specific plot points
 
 *Override plot points to add size and emphasis to others*
 
@@ -137,6 +137,5 @@ ggplot(data = df, aes(x = x_axis, y = y_axis, color = value)) +
   guides(color = guide_legend(override.aes = list(size = c(1, 5))))
 ```
 
-[[/references/r_05.png]]
+![r_05](/docs/references/r_05.png)
 
-###### [Top](https://github.com/smatsushima1/home/wiki/R#contents)

@@ -3,7 +3,7 @@ layout: default
 title: Remapping Caps Lock
 ---
 
-### CentOS
+# CentOS
 
 With Gnome desktop:
 
@@ -13,7 +13,7 @@ With Gnome desktop:
 - select "Caps Lock key behavior"
 - choose desired option
 
-### Ubuntu
+# Ubuntu
 
 With Cinnamon desktop:
 
@@ -21,7 +21,7 @@ With Cinnamon desktop:
 - Layouts > Options
 - Caps Lock key behavior > [SELECT_CHOICE]
 
-### [Windows](https://commons.lbl.gov/display/~jwelcher@lbl.gov/Making+Caps+Lock+a+Control+Key)
+# [Windows](https://commons.lbl.gov/display/~jwelcher@lbl.gov/Making+Caps+Lock+a+Control+Key)
 
 - run regedit.exe from the Windows search bar
 - verify you are in the folder "Keyboard Layout" (not "Keyboard Layouts") from the left pane: HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/Keyboard Layout
