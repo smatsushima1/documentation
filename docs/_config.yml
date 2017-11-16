@@ -1,7 +1,10 @@
 # site settings
+title: Home
 author: smatsushima1
 email: smatsushima1@gmail.com
 github_username: smatsushima1
+repo: "https://github.com/smatsushima1/home"
+pub_year: 2017
 
 # build settings
 markdown: kramdown
