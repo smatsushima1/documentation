@@ -15,7 +15,7 @@ title: R
 
 # Hexidecimal colors
 
-![r_01](/docs/references/r_01.png)
+![r_01](docs/references/r_01.png)
 
 ---
 
@@ -43,7 +43,7 @@ legend("topright",
        col=c("black", "red"))
 ```
 
-![r_02](/docs/references/r_02.png)
+![r_02](docs/references/r_02.png)
 
 ---
 
@@ -84,7 +84,7 @@ ggplot(data = df, aes(x = x_axis, y = y_axis, fill = x_axis)) +
         plot.title = element_text(face = "bold", size = 20, hjust = 0.5))
 ```
 
-![r_03](/docs/references/r_03.png)
+![r_03](docs/references/r_03.png)
 
 ---
 
@@ -105,7 +105,7 @@ ggplot(data = df, aes(x = "", y = y_axis, fill = x_axis)) +
   scale_fill_manual(values = ifelse(x == 2, c("#3333FF", "#33CC00"), c("#FF3333", "#33CC00")))
 ```
 
-![r_04](/docs/references/r_04.png)
+![r_04](docs/references/r_04.png)
 
 ---
 
@@ -137,5 +137,5 @@ ggplot(data = df, aes(x = x_axis, y = y_axis, color = value)) +
   guides(color = guide_legend(override.aes = list(size = c(1, 5))))
 ```
 
-![r_05](/docs/references/r_05.png)
+![r_05](docs/references/r_05.png)
 
