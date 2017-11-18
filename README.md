@@ -1,3 +1,2 @@
-# docs
+# home
 
-*This folder is for website content only*
