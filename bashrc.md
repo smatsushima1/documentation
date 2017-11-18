@@ -1,7 +1,6 @@
 ---
 layout: default
 title: .bashrc
-position: 1
 ---
 
 ```bash
