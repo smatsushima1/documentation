@@ -3,16 +3,6 @@ layout: default
 title: Installation Help
 ---
 
-# Contents
-
-- [EPEL release](https://github.com/smatsushima1/home/wiki/Installation-help#epel-release)
-- [Brother printer](https://github.com/smatsushima1/home/wiki/Installation-help#brother-printer)
-- [Anaconda](https://github.com/smatsushima1/home/wiki/Installation-help#anaconda)
-- [R](https://github.com/smatsushima1/home/wiki/Installation-help#r)
-- [OS install tools](https://github.com/smatsushima1/home/wiki/Installation-help#os-install-tools)
-
----
-
 # [EPEL release](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 
 [EPEL FAQ](https://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F)

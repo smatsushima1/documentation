@@ -3,16 +3,6 @@ layout: default
 title: R
 ---
 
-# Contents
-
-- [Hexidecimal colors](https://github.com/smatsushima1/home/wiki/R#hexidecimal-colors)
-- [Multiple dnorms on same graph](https://github.com/smatsushima1/home/wiki/R#multiple-dnorms-on-same-graph)
-- [Horizontal bar graph](https://github.com/smatsushima1/home/wiki/R#horizontal-bar-graph)
-- [Pie chart](https://github.com/smatsushima1/home/wiki/R#pie-chart)
-- [Emphasizing specific plot points](https://github.com/smatsushima1/home/wiki/R#emphasizing-specific-plot-points)
-
----
-
 # Hexidecimal colors
 
 ![r_01](references/r_01.png)

@@ -3,19 +3,6 @@ layout: default
 title: Git
 ---
 
-# Contents
-
-- [Create new repo from command line](https://github.com/smatsushima1/home/wiki/Git#create-new-repo-from-command-line)
-- [Push an existing repo](https://github.com/smatsushima1/home/wiki/Git#push-an-existing-repo)
-- [Reading submodules from cloned repos](https://github.com/smatsushima1/home/wiki/Git#reading-submodules-from-cloned-repos)
-- [Working with same-name submodules](https://github.com/smatsushima1/home/wiki/Git#working-with-same-name-submodules)
-- [Pushing a file too large](https://github.com/smatsushima1/home/wiki/Git#pushing-a-file-too-large)
-    - [Removing file from commit history](https://github.com/smatsushima1/home/wiki/Git#removing-file-from-commit-history)
-    - [Alternative: erasing commit history](https://github.com/smatsushima1/home/wiki/Git#alternative-erasing-commit-history)
-- [Resources](https://github.com/smatsushima1/home/wiki/Git#resources)
-
----
-
 # Create new repo from command line
 
 ```
