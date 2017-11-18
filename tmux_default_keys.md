@@ -5,6 +5,7 @@ title: .tmux.conf
 
 # Default tmux key bindings
 
+*Required* | -r for recursive | copy-mode or prefix | Button command | Purpose
 :--- | ---: | :--- | :--- | :---
 bind-key |    -T | copy-mode    | C-Space           | send-keys -X begin-selection
 bind-key |    -T | copy-mode    | C-a               | send-keys -X start-of-line
