@@ -84,15 +84,15 @@ ggplot(data = df, aes(x = x_axis, y = y_axis, fill = x_axis)) +
 library(ggplot2)
 library(scales)
 
-x <- 2
-
 df <- data.frame(x_axis = c("good", "bad"),
-                 y_axis = c(100, 0))
+                 y_axis = c(50, 50))
 
 ggplot(data = df, aes(x = "", y = y_axis, fill = x_axis)) +
   geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start = 0) +
-  scale_fill_manual(values = ifelse(x == 2, c("#3333FF", "#33CC00"), c("#FF3333", "#33CC00")))
+  coord_polar(theta = "y", start = 0) +
+  scale_fill_manual(values = c('red', 'blue')) +
+  labs(title = 'Pie Chart', subtitle = 'Example', fill = 'Pie Chart') +
+  theme_void()
 ```
 
 ![r_04](references/r_04.png)
