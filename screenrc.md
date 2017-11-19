@@ -35,7 +35,7 @@ bind '-' resize -5
 
 ---
 
-# Default key bindings
+## Default key bindings
 
 ```
 DEFAULT KEY BINDINGS

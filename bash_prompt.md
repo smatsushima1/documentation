@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Custom Bash Prompt
+title: Customizing bash prompt
 ---
 
 To customize your bash prompt, simply include a ```PS1``` variable in your ```.bashrc``` file. An explanation of what that means will follow, but it is easier to show an example and explain what it means, character by character:
 
-```bash
+```
 PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 ```
 
@@ -17,17 +17,20 @@ _|_   ______|_____  | |  ____|___
 | |  |            | | | |        |       
 PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 ```
-**1.** The ```PS1``` variable previously alluded to. and simply means what the prompt is on the first line. Your custom prompt can have up to ```PS4```, meaning the fourth line of values before typing each command from the shell, The values are notes **3** and **4** and will be explained below.
-**2.** The color of everything thereafter until another color is defined. See **Colors** section below for all possible colors and syntax for each.
-**3.** A variable - in this case, this shows the current directory with the home directory as ```~```. See **Variables** below for all possible variables.
-**4.** Dollar symbol. Anything can be placed here including text and symbols. ```$``` was used simply for tradition.
-**5.** The "no color" color. If this value isn't included at the end, then everything will be the previous color specified, including the output of the shell commands.
 
-- for a full list of colors: https://github.com/smatsushima1/home/blob/master/colors_demo
+**1.** The ```PS1``` variable previously alluded to. and simply means what the prompt is on the first line. Your custom prompt can have up to ```PS4```, meaning the fourth line of values before typing each command from the shell, The values are notes **3** and **4** and will be explained below.
+
+**2.** The color of everything thereafter until another color is defined. See **Colors** section below for all possible colors and syntax for each.
+
+**3.** A variable - in this case, this shows the current directory with the home directory as ```~```. See **Variables** below for all possible variables.
+
+**4.** Dollar symbol. Anything can be placed here including text and symbols. ```$``` was used simply for tradition.
+
+**5.** The "no color" color. If this value isn't included at the end, then everything will be the previous color specified, including the output of the shell commands.
 
 ## Variables
 
-**This was copied from the bash reference manual - it can be found in the ```references``` directory of my github page```
+**This was copied from the bash reference manual - it can be found in the ```references``` directory of my github page**
 
 Variable | Explanation
 :--- | :---
@@ -59,4 +62,5 @@ Variable | Explanation
 \[ | Begin a sequence of non-printing characters.
 
 ## Colors
+- for a full list of colors: https://github.com/smatsushima1/home/blob/master/colors_demo
 

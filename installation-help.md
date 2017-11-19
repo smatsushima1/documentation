@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Installation Help
+title: Installation help
 ---
 
-# [EPEL release](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
+## [EPEL release](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 
 [EPEL FAQ](https://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F)
 
@@ -14,7 +14,7 @@ yum localinstall -y epel-release-latest-*.noarch.rpm
 
 ---
 
-# Brother printer
+## Brother printer
 
 Search online at brothers website for printer model and follow download link from [there](http://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=hll2340dw_us_eu_as&os=127&dlid=dlf006893_000&flang=4&type3=625)
 
@@ -36,7 +36,7 @@ bash linux-brprinter-installer-2.1.1-1 HL-L2340DW
 
 ---
 
-# [Anaconda](https://www.continuum.io/downloads#linux)
+## [Anaconda](https://www.continuum.io/downloads#linux)
 
 Do not heed warning - allow the path variable to change
 
@@ -48,7 +48,7 @@ rm Anaconda3*.sh
 
 ---
 
-# R
+## R
 
 - [R](https://cran.rstudio.com/)
 - [RStudio](https://www.rstudio.com/products/rstudio/download/)
@@ -74,7 +74,7 @@ yum install -y rstudio*.rpm
 
 ---
 
-# OS install tools
+## OS install tools
 
 - [rufus](https://rufus.akeo.ie) - booting distros off of USB drive
 - [imageUSB](http://www.osforensics.com/tools/write-usb-images.html) - good for "zeroing" a usb drive and resetting it back to its original state
