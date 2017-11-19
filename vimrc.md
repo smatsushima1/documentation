@@ -1,7 +1,6 @@
 ---
 layout: default
 title: .vimrc
-position: 3
 ---
 
 ```

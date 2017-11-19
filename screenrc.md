@@ -1,7 +1,6 @@
 ---
 layout: default
 title: .screenrc
-position: 5
 ---
 
 ```bash

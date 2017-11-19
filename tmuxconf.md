@@ -1,7 +1,6 @@
 ---
 layout: default
 title: .tmuxconf
-position: 4
 ---
 
 ```bash
