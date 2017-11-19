@@ -1,6 +1,6 @@
 ---
 layout: default
-title: R
+title: R graphs
 ---
 
 # Hexidecimal colors
