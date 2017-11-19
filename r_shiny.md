@@ -74,8 +74,10 @@ file_name <- paste("data", sysdate, sep = "-")
 ##############################################################################
 
 ui <- shinyUI(navbarPage("Downloading Excel Files with openxlsx",
-                         tabPanel("Data w/ Tablestyle", downloadButton("download_1", "Download")),
-                         tabPanel("Data w/o Tablestyle", downloadButton("download_2", "Download"))
+                         tabPanel("Data w/ Tablestyle", 
+                                  downloadButton("download_1", "Download")),
+                         tabPanel("Data w/o Tablestyle", 
+                                  downloadButton("download_2", "Download"))
                          ))
 
 ##############################################################################
@@ -100,47 +102,63 @@ df_2 <- data.frame(column_1 = c("4", "5", "6"),
 # output
 ##############################################################################
 
-output$download_1 <- downloadHandler(filename = paste(file_name, "xlsx", sep = "."),
-                                     content = function(download_file) {
+output$download_1 <- 
+  downloadHandler(filename = paste(file_name, "xlsx", sep = "."),
+                  content = function(download_file) {
   
-                                       # R creates a temp file to be worked on but requires a '.xlsx' extension
-                                       temp <- tempfile(fileext = ".xlsx")
+                    # R creates a temp file but requires a '.xlsx' extension
+                    temp <- tempfile(fileext = ".xlsx")
   
-                                       # creates base workbook to be
-                                       workbook <- createWorkbook()
+                    # creates base workbook to be
+                    workbook <- createWorkbook()
   
-                                       # adds sheets
-                                       addWorksheet(wb = workbook, sheetName = "sheet_01")
-                                       addWorksheet(wb = workbook, sheetName = "sheet_02")
+                    # adds sheets
+                    addWorksheet(wb = workbook, sheetName = "sheet_01")
+                    addWorksheet(wb = workbook, sheetName = "sheet_02")
   
-                                       # writes data to sheets as a table, with a table syle
-                                       writeDataTable(wb = workbook, sheet = "sheet_01", x = df_1, tableStyle = "TableStyleMedium2")
-                                       writeDataTable(wb = workbook, sheet = "sheet_02", x = df_2, tableStyle = "TableStyleMedium2")
+                    # writes data as a table, with table syles
+                    writeDataTable(wb = workbook, 
+                                   sheet = "sheet_01", 
+                                   x = df_1, 
+                                   tableStyle = "TableStyleMedium2")
+                    writeDataTable(wb = workbook, 
+                                   sheet = "sheet_02", 
+                                   x = df_2, 
+                                   tableStyle = "TableStyleMedium2")
   
-                                       # auto-fit column widths for each sheet
-                                       setColWidths(wb = workbook, sheet = "sheet_01", cols = 1:ncol(df_1), widths = "auto")
-                                       setColWidths(wb = workbook, sheet = "sheet_02", cols = 1:ncol(df_2), widths = "auto")
+                    # auto-fit column widths for each sheet
+                    setColWidths(wb = workbook, 
+                                 sheet = "sheet_01", 
+                                 cols = 1:ncol(df_1), 
+                                 widths = "auto")
+                    setColWidths(wb = workbook, 
+                                 sheet = "sheet_02", 
+                                 cols = 1:ncol(df_2), 
+                                 widths = "auto")
   
-                                       # saves all changes to workbook
-                                       saveWorkbook(wb = workbook, file = download_file, overwrite = TRUE)
+                    # saves all changes to workbook
+                    saveWorkbook(wb = workbook, 
+                                 file = download_file, 
+                                 overwrite = TRUE)
   
-                                       # rewrites temp file as file to be downloaded
-                                       file.rename(temp, download_file)
-                                     })
+                    # rewrites temp file as file to be downloaded
+                    file.rename(temp, download_file)
+                  })
 
-# an alternative to the previous method, with less syntax but no table styles
-output$download_2 <- downloadHandler(filename = paste(file_name, "xlsx", sep = "."),
-                                     content = function(download_file) {
-                                       temp <- tempfile(fileext = ".xlsx")
+# a simpler alternative to the previous method, but no table styles
+output$download_2 <- 
+  downloadHandler(filename = paste(file_name, "xlsx", sep = "."),
+                  content = function(download_file) {
+                    temp <- tempfile(fileext = ".xlsx")
   
-                                       write.xlsx(x = list(df_1, df_2),
-                                                  file = temp,
-                                                  asTable = TRUE,
-                                                  colWidths = "auto",
-                                                  sheetName = c("sheet_01", "sheet_02"))
+                    write.xlsx(x = list(df_1, df_2),
+                               file = temp,
+                               asTable = TRUE,
+                               colWidths = "auto",
+                               sheetName = c("sheet_01", "sheet_02"))
   
-                                       file.rename(temp, download_file)
-                                       })
+                    file.rename(temp, download_file)
+                    })
 
 }
 
