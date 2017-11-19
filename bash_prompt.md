@@ -9,6 +9,8 @@ To customize your bash prompt, simply include a ```PS1``` variable in your ```.b
 PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 ```
 
+---
+
 ## Example with notes
 
 ```
@@ -23,6 +25,8 @@ PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 3. A variable - in this case, this shows the current directory with the home directory as ```~```. See **Variables** below for all possible variables.
 4. Dollar symbol. Anything can be placed here including text and symbols. ```$``` was used simply for tradition.
 5. The "no color" color. If this value isn't included at the end, then everything will be the previous color specified, including the output of the shell commands.
+
+---
 
 ## Variables
 
@@ -56,6 +60,8 @@ Variable | Explanation
 \nnn | The character whose ASCII code is the octal value nnn.
 \\ | A backslash.
 \[ | Begin a sequence of non-printing characters.
+
+---
 
 ## Colors
 - for a full list of colors: https://github.com/smatsushima1/home/blob/master/colors_demo
