@@ -54,11 +54,9 @@ PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 # aliases
 ##############################################################################
 
-alias l="ls -Ahl --group-directories-first"
+alias l="ls -Ahlv --group-directories-first"
 alias ..="cd .."
 alias v="vim"
-alias c="cat"
-alias cl="clear"
 
 alias gagc="git add -A && git commit -m"
 alias gpp="git pull && git push && git status"
