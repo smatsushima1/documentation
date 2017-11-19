@@ -3,14 +3,14 @@ layout: default
 title: Ejabberd
 ---
 
-## Installation
+# Installation
 
 1. Go to the ejabberd [download page](https://www.process-one.net/en/ejabberd/downloads/) and ```wget``` the desired link: ```wget https://www.process-one.net/downloads/downloads-action.php?file=/ejabberd/17.09/ejabberd-17.09-0.x86_64.rpm```
 2. Install the package: ```yum localinstall -y downloads-action*```
 
 ---
 
-## [Configuration](https://docs.ejabberd.im/admin/)
+# [Configuration](https://docs.ejabberd.im/admin/)
 
 1. Go the ejabberd ```bin``` directory: ```cd /opt/ejabberd*/bin```
 2. Start the server: ```./ejabberdctl start```
@@ -20,7 +20,7 @@ title: Ejabberd
 
 ---
 
-## Configuration with the web-interface
+# Configuration with the web-interface
 
 - it is possible to do the above steps in the web interface. Simply type in the browser: ```http://127.0.0.1:5280/admin```
 - the UN for the login box is ```admin@[HOST_NAME]``` which in this case is ```admin@localhost```

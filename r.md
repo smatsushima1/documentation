@@ -3,13 +3,13 @@ layout: default
 title: R
 ---
 
-## Hexidecimal colors
+# Hexidecimal colors
 
 ![r_01](references/r_01.png)
 
 ---
 
-## Multiple dnorms on same graph
+# Multiple dnorms on same graph
 
 ```r
 x <- 0:100
@@ -37,7 +37,7 @@ legend("topright",
 
 ---
 
-## Horizontal bar graph
+# Horizontal bar graph
 
 ```r
 library(ggplot2)
@@ -78,7 +78,7 @@ ggplot(data = df, aes(x = x_axis, y = y_axis, fill = x_axis)) +
 
 ---
 
-## Pie chart
+# Pie chart
 
 ```r
 library(ggplot2)
@@ -99,7 +99,7 @@ ggplot(data = df, aes(x = "", y = y_axis, fill = x_axis)) +
 
 ---
 
-## Emphasizing specific plot points
+# Emphasizing specific plot points
 
 *Override plot points to add size and emphasis to others*
 

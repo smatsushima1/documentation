@@ -11,7 +11,7 @@ PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 
 ---
 
-## Example with notes
+# Example with notes
 
 ```
  1          2       3 4      5  
@@ -28,9 +28,9 @@ PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 
 ---
 
-## Variables
+# Variables
 
-**This was copied from the bash reference manual - it can be found in the ```references``` directory of my github page**
+*This was copied from the bash reference manual - it can be found in the ```references``` directory of my github page*
 
 Variable | Explanation
 :--- | :---
@@ -63,6 +63,7 @@ Variable | Explanation
 
 ---
 
-## Colors
+# Colors
+
 - for a full list of colors: https://github.com/smatsushima1/home/blob/master/colors_demo
 

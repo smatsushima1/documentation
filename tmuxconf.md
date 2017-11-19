@@ -72,7 +72,7 @@ bind -r C-l resize-pane -R 5
 
 ---
 
-## Default key bindings
+# Default key bindings
 
 ```
 bind-key    -T copy-mode    C-Space           send-keys -X begin-selection

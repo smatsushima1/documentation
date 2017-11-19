@@ -3,7 +3,7 @@ layout: default
 title: Git
 ---
 
-## Create new repo from command line
+# Create new repo from command line
 
 ```
 echo "# test" >> README.md
@@ -16,7 +16,7 @@ git push -u origin master
 
 ---
 
-## Push an existing repo
+# Push an existing repo
 
 ```
 git remote add origin [REPO]
@@ -25,7 +25,7 @@ git push -u origin master
 
 ---
 
-## Reading submodules from cloned repos
+# Reading submodules from cloned repos
 
 Submodules within clones repos wont be readable until they are ininitialized:
 
@@ -36,7 +36,7 @@ git submodule update
 
 ---
 
-## Working with same-name submodules
+# Working with same-name submodules
 
 If one were to create and initialize a submodule, remove it, then create another submodule with the same name, the data from the former submodule will reinitialize with the latter submodule. Reversing this simply entitles the user to remove the former submodules 'private' files and credentials from the ```.gitmodules``` directory:
 
@@ -61,7 +61,7 @@ At this point, the correct submod can be added to the main repo with no overlapp
 
 ---
 
-## Pushing a file too large
+# Pushing a file too large
 
 The maximum file size git can commit is 100 Mb. Pushing a file larger than that will forevor save it in the commit history and the system will always try to re-push it even after it has been deleted. The following error message will forevor haunt the user:
 
@@ -96,7 +96,7 @@ Links to help solve this are as follows:
 
 ---
 
-## Removing file from commit history
+# Removing file from commit history
 
 ```
 git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch [PATH_TO_FILE]' HEAD
@@ -257,7 +257,7 @@ nothing to commit, working directory clean
 
 ---
 
-## Alternative: erasing commit history
+# Alternative: erasing commit history
 
 An alternative way that essentially erases the git commit history is to delete the ```.git``` folder within the main repo page then re-initializing and re-configuring it:
 
@@ -377,7 +377,7 @@ It is imperative to note that the above step will erase the commit history. The 
 
 ---
 
-## Resources
+# Resources
 
 Link | Explanation
 --- | ---
