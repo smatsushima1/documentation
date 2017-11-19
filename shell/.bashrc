@@ -47,7 +47,7 @@ PS1="\[\033[1;32m\]\w $ \[\033[0m\]"
 # aliases
 ################################################################################
 
-alias l="ls -Ahl --group-directories-first"
+alias l="ls -Ahlv --group-directories-first"
 alias ..="cd .."
 alias v="vim"
 
