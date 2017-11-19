@@ -5,7 +5,7 @@ title: R Shiny
 
 # Auto-switching tabs
 
-*Thanks to: https://groups.google.com/forum/#!topic/shiny-discuss/Zmp1bkqTfB0*
+*https://groups.google.com/forum/#!topic/shiny-discuss/Zmp1bkqTfB0 *
 
 ```r
 library(shiny)
