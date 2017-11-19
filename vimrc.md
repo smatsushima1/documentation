@@ -4,48 +4,48 @@ title: .vimrc
 ---
 
 ```
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " modifications
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-syntax enable               " allows text highlighting
-filetype plugin on          " allows some vim features to work
-filetype indent on          " automatically indent based on file syntax
-set nocompatible            " let vim not act like vi
+syntax enable                  " allows text highlighting
+filetype plugin on             " allows some vim features to work
+filetype indent on             " automatically indent based on file syntax
+set nocompatible               " let vim not act like vi
 
-set expandtab               " sets tabs to spaces in insert mode
-set tabstop=4               " sets tabs to 4 spaces
-set shiftwidth=4            " sets shifts to 4 spaces
-set softtabstop=4           " tabs get deleted as tabs, not spaces
+set expandtab                  " sets tabs to spaces in insert mode
+set tabstop=4                  " sets tabs to 4 spaces
+set shiftwidth=4               " sets shifts to 4 spaces
+set softtabstop=4              " tabs get deleted as tabs, not spaces
 
-set number                  " shows number of lines on left
-set cursorline              " shows line where cursor is on
+set number                     " shows number of lines on left
+set cursorline                 " shows line where cursor is on
 
-set path+=**                " searches down in subdirectories
-set wildmenu                " shows matches for auto-completion
-set ignorecase              " ignores case when searching
-set hlsearch                " highlight matches as searching
-set incsearch               " matches while typing
+set path+=**                   " searches down in subdirectories
+set wildmenu                   " shows matches for auto-completion
+set ignorecase                 " ignores case when searching
+set hlsearch                   " highlight matches as searching
+set incsearch                  " matches while typing
 
-set nobackup                " no creation of ~ temp files
-set nowritebackup           " no creation of ~ temp files
-set noundofile              " no creation of ~ temp files
+set nobackup                   " no creation of ~ temp files
+set nowritebackup              " no creation of ~ temp files
+set noundofile                 " no creation of ~ temp files
 
-set mouse=a                 " sets mouse support
-set hidden                  " don't show hidden buffers in tabs
-set ruler                   " show cursor position in lower right corner
-set showcmd                 " shows commad in bottom
+set mouse=a                    " sets mouse support
+set hidden                     " don't show hidden buffers in tabs
+set ruler                      " show cursor position in lower right corner
+set showcmd                    " shows commad in bottom
 set backspace=indent,eol,start " backspaces work as normal
-set showmatch               " shows matching braces
-set sidescroll=10           " automatically scrolls 10 characters
-set background=dark         " font will brighten as if in dark background
-set linebreak               " words don't get broken at end of line
-set foldcolumn=4            " shows folds in columns
-set viminfo='500            " remembers 500 vim commands
+set showmatch                  " shows matching braces
+set sidescroll=10              " automatically scrolls 10 characters
+set background=dark            " font will brighten as if in dark background
+set linebreak                  " words don't get broken at end of line
+set foldcolumn=4               " shows folds in columns
+set viminfo='500               " remembers 500 vim commands
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " hjkl moves with each character, not line, in normal mode
 nnoremap j gj
