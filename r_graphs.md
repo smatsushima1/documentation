@@ -118,7 +118,10 @@ df2 <- data.frame(x_axis = 4:5,
 ggplot(data = df, aes(x = x_axis, y = y_axis, color = value)) +
   geom_point() +
   geom_point(data = df2, aes(x = x_axis, y = y_axis), size = 5) +
-  labs(title = "Emphasize Chart", x = "x_axis title", y = "y_axis title", color = "Legend") +
+  labs(title = "Emphasize Chart", 
+       x = "x_axis title", 
+       y = "y_axis title", 
+       color = "Legend") +
   scale_color_manual(values = c("#3333FF", "#FF3333"),
                      labels = c("1st Layer", "2nd Layer")) +
   theme(legend.position = c(.10, .90),
