@@ -47,19 +47,12 @@ PS1="\[\033[1;32m\]\w $ \[\033[0m\]"
 # aliases
 ################################################################################
 
-alias l="ls -ahl"
+alias l="ls -Ahl --group-directories-first"
 alias ..="cd .."
 alias v="vim"
 alias c="cat"
 alias cl="clear"
-alias e="explorer ."
 
-alias ga="git add"
-alias gc="git commit"
-alias gcm="git commit -m"
-alias gst="git status"
-alias gl="git pull"
-alias gp="git push"
 alias gagc="git add -A && git commit -m"
 alias gpp="git pull && git push && git status"
 alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'

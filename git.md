@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Git
+position: 8
 ---
 
 # Create new repo from command line

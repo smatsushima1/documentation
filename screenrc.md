@@ -1,7 +1,7 @@
 ---
 layout: default
 title: .screenrc
-navigation_weight: 4
+position: 5
 ---
 
 ```bash

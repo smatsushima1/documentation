@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Installation help
+position: 7
 ---
 
 # [EPEL release](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)

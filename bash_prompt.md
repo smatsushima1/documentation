@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Customizing bash prompt
-navigation_weight: 5
+position: 6
 ---
 
 To customize your bash prompt, simply include a ```PS1``` variable in your ```.bashrc``` file. An explanation of what that means will follow, but it is easier to show an example and explain what it means, character by character:
