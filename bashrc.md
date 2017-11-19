@@ -1,6 +1,6 @@
 ---
 layout: default
-title: .bashrc
+title: ".bashrc"
 ---
 
 ```bash
