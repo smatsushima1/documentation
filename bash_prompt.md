@@ -23,7 +23,7 @@ PS1="\[\033[1;32m\]\w $ \[\033[m\]"
 1. ```PS1``` - The prompt on the first line. Your custom prompt can have up to ```PS4```, meaning the fourth line of values before typing each command from the shell, The values are notes **3** and **4** and will be explained below.
 2. ```\[\033[1;32m\]``` - The color of everything thereafter until another color is defined. See **Colors** section below for all possible colors and syntax for each.
 3. ```\w``` - A variable, which in this case shows the current directory with the home directory as ```~```. See **Variables** below for all possible variables.
-4. ```$``` - Anything can be placed here including text and symbols, but a ```$``` was used simply for tradition.
+4. ```$``` - Anything can be placed here including text and symbols, but a ```$``` was used for tradition.
 5. ```\[\033[m\]``` - The "no color" color. If this value isn't included at the end, then everything will be colored ```\[\033[1;32m\]``` or any other color previously specified, including the output of the shell commands.
 
 ---
