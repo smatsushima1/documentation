@@ -91,7 +91,7 @@ ggplot(data = df, aes(x = "", y = y_axis, fill = x_axis)) +
   geom_bar(width = 1, stat = "identity") +
   coord_polar(theta = "y", start = 0) +
   scale_fill_manual(values = c('red', 'blue')) +
-  labs(title = 'Pie Chart', subtitle = 'Example', fill = 'Pie Chart') +
+  labs(title = 'Pie Chart', subtitle = 'Example', fill = 'Legend') +
   theme_void()
 ```
 
