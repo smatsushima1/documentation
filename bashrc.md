@@ -1,6 +1,7 @@
 ---
 layout: default
 title: .bashrc
+navigation_weight: 1
 ---
 
 ```bash

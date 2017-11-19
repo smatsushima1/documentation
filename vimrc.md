@@ -1,6 +1,7 @@
 ---
 layout: default
 title: .vimrc
+navigation_weight: 2
 ---
 
 ```

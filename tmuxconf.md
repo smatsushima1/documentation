@@ -1,6 +1,7 @@
 ---
 layout: default
 title: .tmuxconf
+navigation_weight: 3
 ---
 
 ```bash
