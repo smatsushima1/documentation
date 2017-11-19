@@ -106,7 +106,7 @@ output$download_1 <-
   downloadHandler(filename = paste(file_name, "xlsx", sep = "."),
                   content = function(download_file) {
   
-                    # R creates a temp file but requires a '.xlsx' extension
+                    # R creates a temp file but requires a ".xlsx" extension
                     temp <- tempfile(fileext = ".xlsx")
   
                     # creates base workbook to be
@@ -158,7 +158,7 @@ output$download_2 <-
                                sheetName = c("sheet_01", "sheet_02"))
   
                     file.rename(temp, download_file)
-                    })
+                  })
 
 }
 
