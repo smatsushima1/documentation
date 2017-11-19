@@ -4,7 +4,7 @@ author: Spence
 email: smatsushima1@gmail.com
 github_username: smatsushima1
 repo: "https://github.com/smatsushima1/home"
-description: This site documents some of the more important things I've learned in my programming journey, and I will continue to update it as I see fit.
+description: This site documents some of the more important things I've learned in my programming journey.
 
 # build settings
 markdown: kramdown
