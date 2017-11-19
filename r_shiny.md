@@ -109,7 +109,7 @@ output$download_1 <-
                     # R creates a temp file but requires a ".xlsx" extension
                     temp <- tempfile(fileext = ".xlsx")
   
-                    # creates base workbook to be
+                    # creates base workbook
                     workbook <- createWorkbook()
   
                     # adds sheets
