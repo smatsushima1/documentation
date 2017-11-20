@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Encrypting Files
+title: Encrypting files
 ---
 
 # 1. Zip files first
