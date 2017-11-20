@@ -3,19 +3,19 @@ layout: default
 title: Encrypting Files
 ---
 
-# First step: zip files first
+# 1. Zip files first
 
 ```
 zip [DESIRED_FILENAME] [FILE_TO_BE_ZIPPED]
 ```
 
-IF zipping a directory, include ```-r```. Example:
+If zipping a directory, include ```-r```. Example:
 
 ```
 zip -r directory.zip directory
 ```
 
-# Second step: encrypt files with gpg
+# 2. Encrypt files with gpg
 
 Encrypt files requiring password with the ```-c``` option. Default cipher used is AES128 but is upgraded here for ease-of-mind:
 
