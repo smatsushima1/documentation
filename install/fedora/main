@@ -48,7 +48,7 @@ if [ ! -d ~/rpm ]
 then mkdir ~/rpm
 fi
 
-yum install -y R-core-devel.x86_64
+yum install -y R-core-devel.x86_64 java-9-openjdk.x86_64
 wget https://download1.rstudio.org/rstudio-1.0.143-x86_64.rpm -P ~/rpm
 yum localinstall -y ~/rpm/rstudio-1.0.143-x86_64.rpm
 
