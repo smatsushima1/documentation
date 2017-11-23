@@ -81,5 +81,5 @@ yum install -y rstudio*.rpm
 - [Windows 10 USB boot](https://www.microsoft.com/en-us/software-download/windows10) - install Windows 10 from a bootable USB drive
 - [magic jelly bean key finder](https://www.magicaljellybean.com/) - for finding
   Windows 10 and Office keys
-- in Fedora, run ```su -c 'dnf install mediawriter```. Use this to create bootable USB drives
+- in Fedora, run ```su -c 'dnf install mediawriter'``` and run program to create bootable USB drive. Follow [instructions](https://fedoraproject.org/wiki/How_to_create_and_use_Live_USB) if need be.
 
