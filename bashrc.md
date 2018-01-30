@@ -84,7 +84,6 @@ alias gpp = "git pull && git push && git status"
 
 #[[ $- != *i* ]] && return
 #[[ -z "$TMUX" ]] && exec tmux
-```
 
 ################################################################################
 # gitkey
@@ -92,3 +91,4 @@ alias gpp = "git pull && git push && git status"
 
 eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
 
+```
