@@ -47,19 +47,18 @@ export HISTSIZE=500
 # prompt modification
 ################################################################################
 
-PS1="\[\033[1;32m\]\w $ \[\033[m\]"
+PS1="\[\033[1;32m\]\w \[\033[m\]"
 
 ################################################################################
 # aliases
 ################################################################################
 
-alias l="ls -Ahlv --group-directories-first"
-alias ..="cd .."
-alias v="vim"
+alias l = "ls -Ahlv --group-directories-first"
+alias .. = "cd .."
+alias v = "vim"
 
-alias gagc="git add -A && git commit -m"
-alias gpp="git pull && git push && git status"
-alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
+alias gagc = "git add --all && git commit -m"
+alias gpp = "git pull && git push && git status"
 
 ################################################################################
 # functions
@@ -86,3 +85,10 @@ alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 #[[ $- != *i* ]] && return
 #[[ -z "$TMUX" ]] && exec tmux
 ```
+
+################################################################################
+# gitkey
+################################################################################
+
+eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
+

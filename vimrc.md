@@ -59,9 +59,6 @@ vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
 
-" C-j = C-W
-map <C-j> <C-W>
-
 " ZA = save and quit-all
 nnoremap ZA :wqa<CR>
 
