@@ -377,6 +377,15 @@ It is imperative to note that the above step will erase the commit history. The 
 
 ---
 
+# .ssh config
+
+```
+Host github.com
+    IdentityFile ~/.ssh/[PRIVATE_KEY]
+```
+
+---
+
 # Resources
 
 Link | Explanation
