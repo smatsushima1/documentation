@@ -82,7 +82,9 @@ nnoremap <C-k> <C-l>
 
 " <C-h> = 0
 nnoremap <C-h> 0
+vnoremap <C-h> 0
 
 " <C-l> = $
 nnoremap <C-l> $
+vnoremap <C-l> $
 ```
