@@ -5,13 +5,48 @@ title: .vimrc
 
 ```
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" to install Vim 8.0 from github:
+"
+" git clone https://github.com/vim/vim.git
+" cd vim
+" configure
+" (install dependencies as needed, usually 'yum install -y ncurses-devel')
+" make
+" make install
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vundle
+"
+" https://github.com/VundleVim/Vundle.vim
+"
+" Install:
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"
+" To add plugins:
+" - type plugin name after 'call vundle#begin()' but before 'call vundle#end()
+" - exit out, then re-edit .vimrc again
+" - type ':BundleInstall' to see if package was added
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nocompatible                  " let vim not act like vi
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()               " plugins must follow this, not before
+
+Plugin 'VundleVim/Vundle.vim'     " let Vundle manage Vundle, required
+Plugin 'vim-airline/vim-airline'  " status bar on bottom of vim
+Plugin 'jalvesaq/Nvim-R'          " work with R from vim
+
+call vundle#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " modifications
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syntax enable                  " allows text highlighting
 filetype plugin on             " allows some vim features to work
 filetype indent on             " automatically indent based on file syntax
-set nocompatible               " let vim not act like vi
 
 set expandtab                  " sets tabs to spaces in insert mode
 set tabstop=4                  " sets tabs to 4 spaces
@@ -47,6 +82,11 @@ set viminfo='500               " remembers 500 vim commands
 " remappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" c-space = esc
+nmap <nul> <esc>
+imap <nul> <esc>
+vmap <nul> <esc>
+
 " hjkl moves with each character, not line, in normal mode
 nnoremap j gj
 nnoremap k gk
@@ -58,6 +98,12 @@ vnoremap j gj
 vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
+
+" ctrl-h,j,k,l moves like arrow keys in insert mode
+inoremap <c-h> <left>
+inoremap <c-j> <down>
+inoremap <c-k> <up>
+inoremap <c-l> <right>
 
 " ZA = save and quit-all
 nnoremap ZA :wqa<CR>
@@ -77,14 +123,14 @@ nnoremap <bs> i<bs><right><esc>
 " enter acts like enter in normal mode
 nnoremap <enter> i<enter><esc>
 
-" move <C-l> to <C-k>
-nnoremap <C-k> <C-l>
+" move <c-_> to <c-l>
+nmap <c-_> <C-l>
 
-" <C-h> = 0
-nnoremap <C-h> 0
-vnoremap <C-h> 0
+" <c-h> = 0
+nnoremap <c-h> 0
+vnoremap <c-h> 0
 
-" <C-l> = $
-nnoremap <C-l> $
-vnoremap <C-l> $
+" <c-l> = $
+nnoremap <c-l> $
+vnoremap <c-l> $
 ```
