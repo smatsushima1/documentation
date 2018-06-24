@@ -5,7 +5,7 @@ title: VB Macros
 
 # Charts
 
-*The following two macros generate charts without using selecting the "active" sheet*
+*The following two macros generate charts without selecting the "active" sheet*
 
 ## Basic Line Chart
 
