@@ -137,7 +137,7 @@ Option Explicit
 
 Sub checkBoxes()
 
-Dim ws As Worksheet
+Dim sn As Worksheet
 Dim r As Range
 Dim col as Integer
 Dim cell As Range
@@ -145,18 +145,18 @@ Dim cb As CheckBox
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' adjust below dimensions accordingly:
-' ws = specific sheet number, not sheet name, where checkboxes are desired
+' sn = specific sheet number, not sheet name, where checkboxes are desired
 ' r = range within the sheet number to insert the checkboxes
 ' col = column offset where linked cell will be (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Set ws = Sheet1
-Set r = ws.Range("A1:A10")
+Set sn = Sheet1
+Set r = sn.Range("A1:A10")
 col = 1
 
 For Each cell In r
 
-    Set cb = ws.CheckBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
+    Set cb = sn.CheckBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
     With cb
 
         .Caption = ""
