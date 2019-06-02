@@ -5,8 +5,6 @@ title: VB Macros
 
 # Charts
 
-*The following two macros generate charts without selecting the "active" sheet*
-
 ## Basic Line Chart
 
 ```vbnet
@@ -66,7 +64,7 @@ End With
 End Sub
 ```
 
-## Multiple Axes
+## Chart with Multiple Axes
 
 ```vbnet
 Option Explicit
@@ -128,6 +126,34 @@ With chart2.Chart
 .ChartArea.Select
 
 End With
+
+End Sub
+```
+
+# Adding Multiple Check Boxes and Links
+
+```vbnet
+Sub checkBoxes()
+
+Dim cb As CheckBox
+Dim r As Range, cell As Range
+Dim ws As Worksheet
+
+Set ws = Sheet1    'adjust sheet number accordingly
+Set r = ws.Range("A1:A10")    'adjust range accordingly
+
+For Each cell In r
+
+    Set cb = ws.CheckBoxes.Add(cell.Left, cell.Top, 30, 6)    'you can adjust left, top, height, width to your needs
+
+    With cb
+
+        .Caption = ""
+        .LinkedCell = .TopLeftCell.Offset(0, 1).Address    'adjust offset accordinlgy
+
+    End With
+
+Next
 
 End Sub
 ```
