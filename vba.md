@@ -196,7 +196,7 @@ Sub filter()
 Dim table As ListObject
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' adjust sheet number
+' adjust sheet number accordingly
 ' tables are their chronological List Object
 ' Field = column number
 ' Criteria1 = filter
