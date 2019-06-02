@@ -147,7 +147,7 @@ Dim ch_box As CheckBox
 ' adjust below dimensions accordingly:
 ' sheet_num = specific sheet number, not sheet name, where checkboxes are desired
 ' sheet_num_range = range within the sheet number to insert the checkboxes
-' col_offset = column offset where linked cell will be in reference to checkbox cell
+' col_offset = column where linked cell will be in reference to checkbox cell
  '             (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
