@@ -1,6 +1,6 @@
 ---
 layout: default
-title: VB Macros
+title: VBA
 ---
 
 # Charts
@@ -147,7 +147,8 @@ Dim ch_box As CheckBox
 ' adjust below dimensions accordingly:
 ' sheet_num = specific sheet number, not sheet name, where checkboxes are desired
 ' sheet_num_range = range within the sheet number to insert the checkboxes
-' col_offset = column offset where linked cell will be (ie 1 is right 1, -1 is left 1)
+' col_offset = column offset where linked cell will be in reference to checkbox cell
+ '             (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Set sheet_num = Sheet1
@@ -190,14 +191,15 @@ End Sub
 ```vbnet
 Option Explicit
 
-Sub attributes_button()
+Sub filter()
 
 Dim table As ListObject
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' adjust sheet number, tables are their appropriate List Object
-' field = column number
-' criteria = filter
+' adjust sheet number
+' tables are their chronological List Object
+' Field = column number
+' Criteria1 = filter
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Set table = Sheet1.ListObjects(1)
