@@ -130,13 +130,14 @@ End With
 End Sub
 ```
 
-# Adding Multiple Check Boxes and Links
+## Adding Multiple Check Boxes and Links
 
 ```vbnet
 Sub checkBoxes()
 
 Dim cb As CheckBox
-Dim r As Range, cell As Range
+Dim r As Range
+Dim cell As Range
 Dim ws As Worksheet
 
 Set ws = Sheet1    'adjust sheet number accordingly
