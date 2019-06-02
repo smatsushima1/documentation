@@ -133,24 +133,34 @@ End Sub
 ## Adding Multiple Check Boxes and Links
 
 ```vbnet
+Option Explicit
+
 Sub checkBoxes()
 
-Dim cb As CheckBox
-Dim r As Range
-Dim cell As Range
 Dim ws As Worksheet
+Dim r As Range
+Dim col as Integer
+Dim cell As Range
+Dim cb As CheckBox
 
-Set ws = Sheet1    'adjust sheet number accordingly
-Set r = ws.Range("A1:A10")    'adjust range accordingly
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' adjust below dimensions accordingly:
+' ws = specific sheet number, not sheet name, where checkboxes are desired
+' r = range within the sheet number to insert the checkboxes
+' col = column offset where linked cell will be (ie 1 is right 1, -1 is left 1)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Set ws = Sheet1
+Set r = ws.Range("A1:A10")
+col = 1
 
 For Each cell In r
 
-    Set cb = ws.CheckBoxes.Add(cell.Left, cell.Top, 30, 6)    'you can adjust left, top, height, width to your needs
-
+    Set cb = ws.CheckBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
     With cb
 
         .Caption = ""
-        .LinkedCell = .TopLeftCell.Offset(0, 1).Address    'adjust offset accordinlgy
+        .LinkedCell = .TopLeftCell.Offset(0, col).Address
 
     End With
 
