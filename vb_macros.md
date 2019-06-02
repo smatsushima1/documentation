@@ -137,34 +137,72 @@ Option Explicit
 
 Sub checkBoxes()
 
-Dim sn As Worksheet
-Dim r As Range
-Dim col as Integer
+Dim sheet_num As Worksheet
+Dim sheet_num_range As Range
+Dim col_offset As Integer
 Dim cell As Range
-Dim cb As CheckBox
+Dim ch_box As CheckBox
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' adjust below dimensions accordingly:
-' sn = specific sheet number, not sheet name, where checkboxes are desired
-' r = range within the sheet number to insert the checkboxes
-' col = column offset where linked cell will be (ie 1 is right 1, -1 is left 1)
+' sheet_num = specific sheet number, not sheet name, where checkboxes are desired
+' sheet_num_range = range within the sheet number to insert the checkboxes
+' col_offset = column offset where linked cell will be (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Set sn = Sheet1
-Set r = sn.Range("A1:A10")
-col = 1
+Set sheet_num = Sheet1
+Set sheet_num_range = sheet_num.Range("A1:A10")
+col_offset = 1
 
-For Each cell In r
+For Each cell In sheet_num_range
 
-    Set cb = sn.CheckBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
-    With cb
+    Set ch_box = sheet_num.checkBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
+    With ch_box
 
         .Caption = ""
-        .LinkedCell = .TopLeftCell.Offset(0, col).Address
+        .LinkedCell = .TopLeftCell.Offset(0, col_offset).Address
 
     End With
 
 Next
+
+End Sub
+```
+
+## Reser Button to Uncheck or Check All Boxes
+
+```vbnet
+Option Explicit
+
+Sub resetButton()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' adjust sheet number accordingly
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Sheet1.CheckBoxes.Value = False
+
+End Sub
+```
+
+## Apply Filter to Table
+
+```vbnet
+Option Explicit
+
+Sub attributes_button()
+
+Dim table As ListObject
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' adjust sheet number, tables are their appropriate List Object
+' field = column number
+' criteria = filter
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Set table = Sheet1.ListObjects(1)
+
+table.Range.AutoFilter Field:=1, Criteria1:="="
 
 End Sub
 ```
