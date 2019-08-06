@@ -12,7 +12,7 @@ title: VBA
 5. [Apply Filter to Table](#apply-filter-to-table)
 6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
 
-# Charts
+---
 
 ## Basic Line Chart
 
@@ -39,39 +39,41 @@ chart1_xvalue = "='SHEET1'!$A$2:$A$" & max_row.Row
 
 With chart1.Chart
 
-.SetSourceData Source:=Sheet1.Range(source_data_range)
-.ChartType = xlLine
+  .SetSourceData Source:=Sheet1.Range(source_data_range)
+  .ChartType = xlLine
 
-.FullSeriesCollection(1).AxisGroup = 1
-.FullSeriesCollection(1).XValues = chart1_xvalue
+  .FullSeriesCollection(1).AxisGroup = 1
+  .FullSeriesCollection(1).XValues = chart1_xvalue
 
-.FullSeriesCollection(2).AxisGroup = 2
-.FullSeriesCollection(2).XValues = chart1_xvalue
+  .FullSeriesCollection(2).AxisGroup = 2
+  .FullSeriesCollection(2).XValues = chart1_xvalue
 
-.HasTitle = True
-.ChartTitle.Text = "CHART 1 TITLE"
-.ClearToMatchStyle
-.ChartStyle = 322
-.SetElement (msoElementLegendBottom)
+  .HasTitle = True
+  .ChartTitle.Text = "CHART 1 TITLE"
+  .ClearToMatchStyle
+  .ChartStyle = 322
+  .SetElement (msoElementLegendBottom)
 
-.Axes(xlValue, xlPrimary).HasTitle = True
-.Axes(xlValue, xlPrimary).AxisTitle.Text = "PRIMARY AXIS"
-.Axes(xlValue, xlSecondary).HasTitle = True
-.Axes(xlValue, xlSecondary).AxisTitle.Text = "SECONDARY AXIS"
-.Axes(xlCategory).MajorUnit = 3
-.Axes(xlCategory).TickLabels.Orientation = xlUpward
+  .Axes(xlValue, xlPrimary).HasTitle = True
+  .Axes(xlValue, xlPrimary).AxisTitle.Text = "PRIMARY AXIS"
+  .Axes(xlValue, xlSecondary).HasTitle = True
+  .Axes(xlValue, xlSecondary).AxisTitle.Text = "SECONDARY AXIS"
+  .Axes(xlCategory).MajorUnit = 3
+  .Axes(xlCategory).TickLabels.Orientation = xlUpward
 
-.Parent.Left = Sheet1.Range("D1").Left
-.Parent.Top = Sheet1.Range("D1").Top
-.Parent.Width = Sheet1.Range("D1:M1").Width
-.Parent.Height = Sheet1.Range("D1:D15").Height
+  .Parent.Left = Sheet1.Range("D1").Left
+  .Parent.Top = Sheet1.Range("D1").Top
+  .Parent.Width = Sheet1.Range("D1:M1").Width
+  .Parent.Height = Sheet1.Range("D1:D15").Height
 
-.ChartArea.Select
+  .ChartArea.Select
 
 End With
 
 End Sub
 ```
+
+---
 
 ## Chart with Multiple Axes
 
@@ -101,43 +103,45 @@ chart2_xvalue = "='SHEET1'!$A$1:$A$365"
 
 With chart2.Chart
 
-.SetSourceData Source:=Sheet1.Range(source_data_range)
-.ChartType = xlLine
+  .SetSourceData Source:=Sheet1.Range(source_data_range)
+  .ChartType = xlLine
 
-.FullSeriesCollection(1).AxisGroup = 1
-.FullSeriesCollection(1).Name = "=""GROUP1"""
-.FullSeriesCollection(1).XValues = chart2_xvalue
+  .FullSeriesCollection(1).AxisGroup = 1
+  .FullSeriesCollection(1).Name = "=""GROUP1"""
+  .FullSeriesCollection(1).XValues = chart2_xvalue
 
-.SeriesCollection.NewSeries
-.FullSeriesCollection(2).AxisGroup = 1
-.FullSeriesCollection(2).Values = "='SHEET1'!$A$1:$A$7"
-.FullSeriesCollection(2).Name = "=""GROUP2"""
+  .SeriesCollection.NewSeries
+  .FullSeriesCollection(2).AxisGroup = 1
+  .FullSeriesCollection(2).Values = "='SHEET1'!$A$1:$A$7"
+  .FullSeriesCollection(2).Name = "=""GROUP2"""
 
-.SeriesCollection.NewSeries
-.FullSeriesCollection(3).AxisGroup = 1
-.FullSeriesCollection(3).Values = "='SHEET1'!$A$7:$A$14"
-.FullSeriesCollection(3).Name = "=""GROUP3"""
+  .SeriesCollection.NewSeries
+  .FullSeriesCollection(3).AxisGroup = 1
+  .FullSeriesCollection(3).Values = "='SHEET1'!$A$7:$A$14"
+  .FullSeriesCollection(3).Name = "=""GROUP3"""
 
-.ClearToMatchStyle
-.ChartStyle = 322
-.SetElement (msoElementLegendBottom)
+  .ClearToMatchStyle
+  .ChartStyle = 322
+  .SetElement (msoElementLegendBottom)
 
-.Axes(xlValue).MinimumScale = 0
-.Axes(xlCategory).MajorUnitScale = xlMonths
-.Axes(xlCategory).MajorUnit = 1
-.Axes(xlCategory).TickLabels.NumberFormat = "[$-en-US]d-mmm;@"
+  .Axes(xlValue).MinimumScale = 0
+  .Axes(xlCategory).MajorUnitScale = xlMonths
+  .Axes(xlCategory).MajorUnit = 1
+  .Axes(xlCategory).TickLabels.NumberFormat = "[$-en-US]d-mmm;@"
 
-.Parent.Left = Sheet2.Range("A1").Left
-.Parent.Top = Sheet2.Range("A1").Top
-.Parent.Width = Sheet2.Range("A1:F1").Width
-.Parent.Height = Sheet2.Range("A1:A20").Height
+  .Parent.Left = Sheet2.Range("A1").Left
+  .Parent.Top = Sheet2.Range("A1").Top
+  .Parent.Width = Sheet2.Range("A1:F1").Width
+  .Parent.Height = Sheet2.Range("A1:A20").Height
 
-.ChartArea.Select
+  .ChartArea.Select
 
 End With
 
 End Sub
 ```
+
+---
 
 ## Adding Multiple Check Boxes and Links
 
@@ -165,19 +169,17 @@ Set sheet_num_range = sheet_num.Range("A1:A10")
 col_offset = 1
 
 For Each cell In sheet_num_range
-
-    Set ch_box = sheet_num.checkBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
-    With ch_box
-
-        .Caption = ""
-        .LinkedCell = .TopLeftCell.Offset(0, col_offset).Address
-
-    End With
-
+  Set ch_box = sheet_num.checkBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
+  With ch_box
+    .Caption = ""
+    .LinkedCell = .TopLeftCell.Offset(0, col_offset).Address
+  End With
 Next
 
 End Sub
 ```
+
+---
 
 ## Reset Button to Uncheck or Check All Boxes
 
@@ -190,10 +192,12 @@ Sub resetButton()
 ' adjust sheet number accordingly
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Sheet1.CheckBoxes.Value = False
+Worksheets(1).CheckBoxes.Value = False
 
 End Sub
 ```
+
+---
 
 ## Apply Filter to Table
 
@@ -206,23 +210,25 @@ Dim table As ListObject
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' adjust sheet number accordingly
-' tables are their chronological List Object
+' tables are their chronological List Object, or just put their names in quotes
 ' Field = column number
 ' Criteria1 = filter
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Set table = Sheet1.ListObjects(1)
+Set table = Worksheets(1).ListObjects(1)
 
 table.Range.AutoFilter Field:=1, Criteria1:="="
 
 End Sub
 ```
 
+---
+
 ## Copy Contents From One Worksheet to Another
 
 *The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
 
-### generateWIP
+### **generateWIP**
 - This sub runs all the other subs
 - First, I declare public variables to be used throughout the macro
 - `Application.ScreenUpdating = False` allows the macro to run without opening windows, speeding up the code; this must be turned to `True` before the macro ends
@@ -284,7 +290,9 @@ closeGenerator
 End Sub
 ```
 
-### resetVariables
+---
+
+### **resetVariables**
 
 - This resets all public variables so the code can run from a clean slate
 
@@ -303,7 +311,9 @@ team_wip_name = vbNullString
 End Sub
 ```
 
-### selectWIP
+---
+
+### **selectWIP**
 
 - The user selects the  file from the specified folder and this gets saved as a variable
 - Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
@@ -351,7 +361,9 @@ End If
 End Sub
 ```
 
-### copyWIP
+---
+
+### **copyWIP**
 
 - First, open a read-only version of the user-specified file in the previous step
 - An array is created from the values of of the second column in a table
@@ -404,7 +416,9 @@ main_wip_wb.Close SaveChanges:=False
 End Sub
 ```
 
-### applyTemplate
+---
+
+### **applyTemplate**
 
 - Once the data is copied, it is then transferred to another worksheet
     - `team_wip_wb.Worksheets(Worksheets.Count).Index` captures the last sheet number; pasting after this makes it now this number plus one
@@ -468,7 +482,9 @@ End With
 End Sub
 ```
 
-### closeGenerator
+---
+
+### **closeGenerator**
 
 - Lastly, this turns `Application.ScreenUpdating = True` so macros can run "normally" again
 - The file from which the macro runs is closed so only the main file remains
