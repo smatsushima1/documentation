@@ -354,7 +354,9 @@ End Sub
 ### copyWIP
 
 - First, open a read-only version of the user-specified file in the previous step
-- Filters are then applied to a specfic worksheet
+- An array is created from the values of of the second column in a table
+    - `Application.Transpose` must be used in order to turn the initial 2D array into a 1D array
+- Filters are then applied to a specfic worksheet, using the transposed array as filter criteria
 - All data that is above the last line of data is copied onto a template file
     - `main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row` finds the last used row
 
@@ -363,28 +365,33 @@ Sub copyWIP()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 'STEP 3 - COPY DATA FROM MAIN WIP
-'- open a read-only version of the file, apply filters, copy as values to the
-'  WIP template, then close file without saving
+'- open a read-only version of the file
+'- create an array based on the last names from the team_name tables
+'- apply filters with the array
+'- copy as values to the WIP template
+'- close file without saving
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Dim row_num As Long
+Dim team_row_num, row_num As Long
+Dim team_names_array As Variant
 Dim main_wip_wb As Workbook
 Dim main_wip_ws As Worksheet
 
-Set main_wip_wb = Workbooks.Open("C:\Users\smats\WEEKLY REPORT\" & main_wip_name, , True)
-
+Set main_wip_wb = Workbooks.Open(main_wip_name, , True)
 Set main_wip_ws = main_wip_wb.Worksheets("NRFK")
+
+With Workbooks("WIP Generator.xlsm").Worksheets(1)
+  team_names_array = .ListObjects("team_names").DataBodyRange.Columns(2)
+  team_names_array = Application.Transpose(team_names_array)
+End With
 
 main_wip_ws.Range("A:A").AutoFilter _
                          Field:=1, _
                          Criteria1:="SHORE", _
                          Operator:=xlFilterValues
-
 main_wip_ws.Range("B:B").AutoFilter _
                          Field:=2, _
-                         Criteria1:=Array("COLEMAN", _
-                                          "FLOREZ", _
-                                          "MATSUSHIMA"), _
+                         Criteria1:=team_names_array, _
                          Operator:=xlFilterValues
 
 row_num = main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row
@@ -404,7 +411,7 @@ End Sub
 - Among many things, this reformats the data:
     - The `vlookup` formula included on this sheet references cell `J1`, which is just the name of the previous sheet; this formula is copied down
     - Once copied, is pasted over so only the values remain
-    - Filters are applied, as well as an auto-fit and changing of column widths for certain columns
+    - Filters are applied, as well as an auto-fit, changing of column widths for certain columns, and hiding columns
     - Headers are turned black with bold white font, and all borders are marked
 
 ```vbnet
@@ -444,6 +451,7 @@ With team_wip_ws
   .Range("A1:H1").AutoFilter
   .Columns("A:H").AutoFit
   .Columns("F:G").ColumnWidth = 75
+  .Range("A:A,B:B,E:E").EntireColumn.Hidden = True
   .Range("A1:H1").Interior.ThemeColor = xlThemeColorLight1
   With .Range("A1:H1").Font
     .ThemeColor = xlThemeColorDark1
