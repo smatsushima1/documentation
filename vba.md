@@ -318,6 +318,7 @@ End Sub
 - The user selects the  file from the specified folder and this gets saved as a variable
 - Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
     - `error_code` and `error_message` are handled outside this in `generateWIP` macro
+- The macro running this must be in the same folder as the team's WIP; the path of this file is used for the path of the team's WIP
 - Also checks to see if one of the principle files to be opened is already opened; if it is, another error ensues
 
 ```vbnet
@@ -328,6 +329,7 @@ Sub selectWIP()
 '- select WIP
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+Dim team_wip_path As String
 Dim team_wip_wb As Workbook
 
 With Application.FileDialog(msoFileDialogFilePicker)
@@ -349,7 +351,9 @@ End With
 
 team_wip_name = "240.3 Weekly WIP Status.xlsx"
 
-Set team_wip_wb = Workbooks.Open("C:\Users\smats\WIP STATUS\" & team_wip_name)
+team_wip_path = Workbooks("WIP Generator.xlsm").path
+
+Set team_wip_wb = Workbooks.Open(team_wip_path & "\" & team_wip_name)
 
 If team_wip_wb.ReadOnly Then
   team_wip_wb.Close
