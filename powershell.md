@@ -5,7 +5,7 @@ title: Powershell
 
 ## .ps1 Profile
 
-'''
+```
 ################################################################################
 # To modify this file:
 # 1) Run Powershell as administrator
