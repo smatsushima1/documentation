@@ -11,6 +11,9 @@ title: VBA
 4. [Reset Button to Uncheck or Check All Boxes](#reset-button-to-uncheck-or-check-all-boxes)
 5. [Apply Filter to Table](#apply-filter-to-table)
 6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
+7. [Folder Generator](#folder-generator)
+8. [Send Emails Based on Conditionals](#send-email-based-on-conditionals)
+9. [VBscript](#vbscript)
 
 ---
 
