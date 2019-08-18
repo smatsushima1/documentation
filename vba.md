@@ -3,7 +3,7 @@ layout: default
 title: VBA
 ---
 
-# Table of Contents
+# **Table of Contents**
 
 1. [Basic Line Chart](#basic-line-chart)
 2. [Chart With Multiple Axes](#chart-with-multiple-axes)
@@ -14,7 +14,7 @@ title: VBA
 
 ---
 
-## Basic Line Chart
+## **Basic Line Chart**
 
 ```vbnet
 Option Explicit
@@ -75,7 +75,7 @@ End Sub
 
 ---
 
-## Chart with Multiple Axes
+## **Chart with Multiple Axes**
 
 ```vbnet
 Option Explicit
@@ -143,7 +143,7 @@ End Sub
 
 ---
 
-## Adding Multiple Check Boxes and Links
+## **Adding Multiple Check Boxes and Links**
 
 ```vbnet
 Option Explicit
@@ -181,7 +181,7 @@ End Sub
 
 ---
 
-## Reset Button to Uncheck or Check All Boxes
+## **Reset Button to Uncheck or Check All Boxes**
 
 ```vbnet
 Option Explicit
@@ -199,7 +199,7 @@ End Sub
 
 ---
 
-## Apply Filter to Table
+## **Apply Filter to Table**
 
 ```vbnet
 Option Explicit
@@ -224,7 +224,7 @@ End Sub
 
 ---
 
-## Copy Contents From One Worksheet to Another
+## **Copy Contents From One Worksheet to Another**
 
 *The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
 
@@ -507,4 +507,439 @@ Application.ScreenUpdating = True
 Workbooks("WIP Generator.xlsm").Close SaveChanges:=False
 
 End Sub
+```
+
+## **Folder Generator**
+
+*In Process*
+
+```vbnet
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'- Public variables must be saved outside of functions to be used throughout
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Public error_code, _
+       error_message, _
+       file_name, _
+       description, _
+       initials, _
+       pr, _
+       ige, _
+       supp_service, _
+       psc, _
+       naics, _
+       ja, _
+       delivery_date, _
+       requirement_type, _
+       it, _
+       directory_name, _
+       sap_folder, _
+       large_folder1, _
+       large_folder2, _
+       large_folder3, _
+       large_folder4, _
+       large_folder5, _
+       large_folder6 _
+  As String
+
+Option Explicit
+Sub generateRequirement()
+
+Application.ScreenUpdating = False
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 1 - RESET VARIABLES
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+resetVariables
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+saveInput
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+createFolder
+
+If error_code = 1 Then
+  MsgBox error_message, Title:="Error"
+  resetVariables
+  Application.ScreenUpdating = True
+  Exit Sub
+End If
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+createSubfolders
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+populateForms
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'FINISHED
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+MsgBox "E-file requirement successfully generated!", Title:="Success!"
+
+resetVariables
+
+Application.ScreenUpdating = True
+
+End Sub
+Sub resetVariables()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 1 - RESET VARIABLES
+'- reset all variables before running all other steps
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+error_code = vbNullString
+error_message = vbNullString
+file_name = vbNullString
+description = vbNullString
+initials = vbNullString
+pr = vbNullString
+ige = vbNullString
+supp_service = vbNullString
+psc = vbNullString
+naics = vbNullString
+ja = vbNullString
+delivery_date = vbNullString
+requirement_type = vbNullString
+it = vbNullString
+directory_name = vbNullString
+sap_folder = vbNullString
+large_folder1 = vbNullString
+large_folder2 = vbNullString
+large_folder3 = vbNullString
+large_folder4 = vbNullString
+large_folder5 = vbNullString
+large_folder6 = vbNullString
+
+End Sub
+Sub saveInput()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
+'- first reset all public variables, then reassign them
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+file_name = "macro_dev"
+
+With Documents(file_name)
+  description = .SelectContentControlsByTitle("DESCRIPTION").Item(1).Range.Text
+  initials = .SelectContentControlsByTitle("INITIALS").Item(1).Range.Text
+  pr = .SelectContentControlsByTitle("PR").Item(1).Range.Text
+  ige = .SelectContentControlsByTitle("IGE").Item(1).Range.Text
+  supp_service = .SelectContentControlsByTitle("SUPPLY/SERVICE").Item(1).Range.Text
+  psc = .SelectContentControlsByTitle("PSC").Item(1).Range.Text
+  naics = .SelectContentControlsByTitle("NAICS").Item(1).Range.Text
+  ja = .SelectContentControlsByTitle("J&A").Item(1).Range.Text
+  delivery_date = .SelectContentControlsByTitle("DELIVERY DATE").Item(1).Range.Text
+  requirement_type = .SelectContentControlsByTitle("REQUIREMENT TYPE").Item(1).Range.Text
+  it = .SelectContentControlsByTitle("IT").Item(1).Range.Text
+End With
+
+End Sub
+Sub createFolder()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
+'- if folder is selected (Show = -1), then save path as folder_path; else, exit
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim message, folder_path As String
+
+message = "Select the folder where your requirement will be saved"
+
+With Application.FileDialog(msoFileDialogFolderPicker)
+  MsgBox message & ".", Title:="Select Folder"
+  .Title = message
+  If .Show = -1 Then
+    folder_path = .SelectedItems(1)
+  Else
+    error_code = 1
+    error_message = "No folder selected."
+    Exit Sub
+  End If
+End With
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'- Concatenate pr, initials, and description with folder_path
+'- if folder already exists, exit so as not to overwrite files
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+directory_name = folder_path & "\" & pr & ", " & initials & ", " & description
+
+If Dir(directory_name, vbDirectory) = "" Then
+  MkDir directory_name
+Else
+  error_code = 1
+  error_message = "Folder already exists."
+  Exit Sub
+End If
+
+End Sub
+Sub createSubfolders()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
+'- if SAP, then just create "WORKING" folder
+'- if Large, then create subfolders
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim working As String
+
+working = "\WORKING"
+
+If requirement_type = "SAP" Then
+  sap_folder = directory_name & working
+  MkDir sap_folder
+Else
+  large_folder1 = directory_name & "\1 PLANNING"
+  large_folder2 = directory_name & "\2 SOLICITATION"
+  large_folder3 = directory_name & "\3 EVALUATION"
+  large_folder4 = directory_name & "\4 AWARD"
+  large_folder5 = directory_name & "\5 POST AWARD"
+  large_folder6 = directory_name & "\6 CONTRACT AND MODS"
+  MkDir large_folder1
+  MkDir large_folder2
+  MkDir large_folder3
+  MkDir large_folder4
+  MkDir large_folder5
+  MkDir large_folder6
+  large_folder1 = large_folder1 & working
+  large_folder2 = large_folder2 & working
+  large_folder3 = large_folder3 & working
+  large_folder4 = large_folder4 & working
+  large_folder5 = large_folder5 & working
+  large_folder6 = large_folder6 & working
+  MkDir large_folder1
+  MkDir large_folder2
+  MkDir large_folder3
+  MkDir large_folder4
+  MkDir large_folder5
+  MkDir large_folder6
+End If
+
+End Sub
+Sub populateForms()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim forms_path As String
+
+forms_path = Documents(file_name).Path & "\FORMS\"
+
+If requirement_type = "SAP" Then
+  Documents.Open forms_path & "Blank Form.docx"
+  With Documents("Blank Form.docx")
+    .SelectContentControlsByTitle("PR").Item(1).Range.Text = pr
+    .SelectContentControlsByTitle("IGE").Item(1).Range.Text = ige
+    .SaveAs2 sap_folder & "\Blank Form.docx"
+    .Close
+  End With
+End If
+
+End Sub
+Private Sub GENERATE_Click()
+
+generateRequirement
+
+End Sub
+```
+
+## **Send Emails Based on Conditionals**
+
+*In process*
+
+```vbnet
+Option Explicit
+Sub postAwardWIP()
+
+Dim row_num, _
+    max_row, _
+    blanks, _
+    i _
+    As Long
+Dim date_now, _
+    date_cust _
+    As Date
+Dim find_range, _
+    first_address, _
+    ws_range _
+    As Range
+Dim ws As Worksheet
+
+date_now = Format(Now(), "mm-dd-yyyy")
+
+date_cust = Worksheets(2).Range("H3").Value
+
+max_row = Worksheets(2).Cells(Rows.Count, 1).End(xlUp).Row
+
+blanks = WorksheetFunction.CountBlank(Range("I2:I" & max_row))
+
+MsgBox blanks
+
+Set ws_range = Worksheets(2).Range("I2:I" & max_row)
+
+Set find_range = Worksheets(2).Range("I2:I" & max_row).Find(What:="", _
+                                            LookIn:=xlValues, _
+                                            SearchOrder:=xlByRows, _
+                                            SearchDirection:=xlNext, _
+                                            lookat:=xlPart)
+If Not find_range Is Nothing Then
+  first_address = find_range.Address
+  Do
+    MsgBox first_address
+  Set find_range = Worksheets(2).Range("I2:I" & max_row).FindNext(find_range)
+'  If find_range Is Nothing Then
+'    GoTo endFinding
+'  End If
+  Loop While find_range.Address <> first_address
+End If
+
+'endFinding:
+'  End With
+
+'If date_cust < date_now Then
+'  MsgBox "If test works"
+'Else
+'  MsgBox "derp"
+'End If
+
+End Sub
+Sub macro1()
+
+' WORKING
+
+Dim cell_value As Long
+Dim ws_range, _
+    find_range _
+    As Range
+Dim first_address _
+    As Variant
+
+Set ws_range = Worksheets(2).Range("i2:i9")
+Set find_range = ws_range.Find("", LookIn:=xlValues)
+
+If Not find_range Is Nothing Then
+  first_address = find_range.Address
+  Do
+    cell_value = find_range.Row
+    'MsgBox Worksheets(2).Range("h" & cell_value).Value
+    MsgBox find_range.Row
+    Set find_range = ws_range.FindNext(find_range)
+  Loop While find_range.Address <> first_address
+End If
+
+End Sub
+Sub macro2()
+
+' WORKING
+
+Dim file_num As Long
+Dim date_now, _
+    append_text _
+    As String
+
+date_now = Format(Now(), "D MMMM YYYY")
+append_text = "derp"
+append_text = date_now & " - " & append_text
+ 
+file_num = FreeFile
+Open "c:\users\smats\documents\office\excel\log.txt" For Append As #file_num
+Print #file_num, append_text
+Close #file_num
+
+End Sub
+Sub macro3()
+
+' WORKING
+
+If Worksheets(2).Range("H9").Value < Now() Then
+  MsgBox "yes"
+Else
+  MsgBox "no"
+End If
+
+End Sub
+Sub macro4()
+
+Dim table_column As Long
+
+table_column = Worksheets(2).ListObjects("post_award_wip").DataBodyRange.Rows.Count
+
+MsgBox table_column
+
+End Sub
+Sub macro5()
+
+' WORKING
+
+With Worksheets(2).Range("i2:i9")
+     Set c = .Find("", LookIn:=xlValues)
+     If Not c Is Nothing Then
+        firstAddress = c.Address
+        Do
+            MsgBox c.Row
+            Set c = .FindNext(c)
+        If c Is Nothing Then
+            GoTo DoneFinding
+        End If
+        Loop While c.Address <> firstAddress
+      End If
+DoneFinding:
+End With
+
+End Sub
+Sub macro6()
+
+Dim find_cell As Range
+Dim find_range As Range
+
+Set find_range = Worksheets(2).Range("i2:i9").Find("", LookIn:=xlValues)
+
+For Each find_cell In find_range
+  MsgBox find_cell.Row
+Next
+
+End Sub
+```
+
+## **VBscript**
+
+*In process*
+
+```vbnet
+Option Explicit
+
+Dim excel_obj, excel_wb
+
+set excel_obj = createobject("Excel.Application")
+
+excel_obj.visible = False
+
+set excel_wb = excel_obj.workbooks.open("c:\Users\smats\Documents\OFFICE\EXCEL\dev.xlsm")
+
+excel_obj.run "Module1.macro1"
+
+excel_wb.close
+
+wscript.echo "done"
+
+excel_obj.Quit
+
+wscript.quit
 ```
