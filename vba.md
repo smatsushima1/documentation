@@ -13,7 +13,8 @@ title: VBA
 6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
 7. [Folder Generator](#folder-generator)
 8. [Send Emails Based on Conditionals](#send-email-based-on-conditionals)
-9. [VBscript](#vbscript)
+9. [UserForm Basics](#userform-basics)
+10. [VBscript](#vbscript)
 
 ---
 
@@ -917,6 +918,48 @@ Set find_range = Worksheets(2).Range("i2:i9").Find("", LookIn:=xlValues)
 For Each find_cell In find_range
   MsgBox find_cell.Row
 Next
+
+End Sub
+```
+
+## **UserForm Basics**
+
+*UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
+
+- First generate the UserForm in Excel by going to **DEVELOPER > Visual Basic > Insert > UserForm**
+- Name this UserForm anything in the `(Name)` field in the properties box on the left
+- Shape the UserForm to meet your needs, add images, and texts
+- To call the UserForm and have it pop-up at the center of the excel screen, use the following submodule:
+
+```vbnet
+Sub generateUserForm()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'text_box is the name of the UserForm, change it as applicable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+With text_box
+  .StartUpPosition = 0
+  .Left = Application.Left + (0.5 * Application.Width) - (0.5 * .Width)
+  .Top = Application.Top + (0.5 * Application.Height) - (0.5 * .Height)
+  .Show
+End With
+
+End Sub
+```
+
+- To insert a CommandButton, click CommandButton in the Toolbox window
+    - If you can't find this, go to **View > Toolbox**
+- To activate it, right-click the button and click **View Code**
+
+```vbnet
+Private Sub ok_button_Click()
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'text_box is the name of the UserForm, change it as applicable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+text_box.Hide
 
 End Sub
 ```
