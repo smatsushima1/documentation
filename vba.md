@@ -926,6 +926,8 @@ End Sub
 
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
 
+### **Generating the UserForm**
+
 - First generate the UserForm in Excel by going to **DEVELOPER > Visual Basic > Insert > UserForm**
 - Name this UserForm anything in the `(Name)` field in the properties box on the left
 - Shape the UserForm to meet your needs, add images, and texts
@@ -952,7 +954,7 @@ End Sub
 
 - Certain settings may need to be modified upon initialization (creation) of the UserForm
 - To do so, right-click the user form, select **View Code**, then select **Initialize** from the right drop-down
-- The following code pre-populates each text and combo box with values
+- The following code pre-populates each text and combo box with values, and sets the background color to red in order to motivate the user to modify the textbox
 
 ```vbnet
 Private Sub UserForm_Initialize()
@@ -961,7 +963,8 @@ Private Sub UserForm_Initialize()
 ' STEP 1 - Populate text and combo boxes
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-With text_box
+With userform_example
+
   .contract.Value = Right(year(Now()), 2) & "PXXXX"
   .first_name.Value = "John"
   .last_name.Value = "Doe"
@@ -969,54 +972,219 @@ With text_box
   .customer_poc.Value = "Jane Doe; jane.doe@navy.mil"
   .contractor.Value = "Big Company LLC"
   .contractor_poc.Value = "John Smith; john.smith@bigcompany.com"
+
+  With .option_years
+    .BackColor = RGB(255, 102, 102)
+    For i = 0 To 12
+      .AddItem i
+    Next i
+  End With
+
+  With .start_month
+    .BackColor = RGB(255, 102, 102)
+    For i = 1 To 12
+      .AddItem i
+    Next i
+  End With
+
+  With .start_day
+    .BackColor = RGB(255, 102, 102)
+    For i = 1 To 31
+      .AddItem i
+    Next i
+  End With
+
+  With .start_year
+    .BackColor = RGB(255, 102, 102)
+    For i = year(Now()) - 10 To year(Now()) + 3
+      .AddItem i
+    Next i
+  End With
+
+  With .included
+    .BackColor = RGB(255, 102, 102)
+    .AddItem "YES"
+    .AddItem "NO"
+  End With
+
+  With .days_customer
+    .BackColor = RGB(255, 102, 102)
+    .AddItem "N/A"
+    For i = 1 To 60
+      .AddItem i
+    Next i
+  End With
+
+  With .days_exercise
+    .BackColor = RGB(255, 102, 102)
+    .AddItem "N/A"
+    For i = 1 To 30
+      .AddItem i
+    Next i
+  End With
+  
 End With
 
-With text_box.option_years
-  For i = 0 To 12
-    .AddItem i
-  Next i
-  .Value = 4
+End Sub
+```
+
+### **Modifying Text Box Changes**
+
+- The following code will modify the textbox as it gets changed
+- Each textbox that requires changing will need to have its own module
+
+```vbnet
+Private Sub contract_Change()
+
+With userform_example
+  If .contract.Value = Right(year(Now()), 2) & "PXXXX" Or Trim(.contract.Value) = vbNullString Then
+    .contract.BackColor = RGB(255, 102, 102)
+  Else
+    .contract.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
-With text_box.start_month
-  For i = 1 To 12
-    .AddItem i
-  Next i
-  .Value = month(Now())
+End Sub
+Private Sub first_name_Change()
+
+With userform_example
+  If Trim(.first_name.Value) = vbNullString Then
+    .first_name.BackColor = RGB(255, 102, 102)
+  Else
+    .first_name.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
-With text_box.start_day
-  For i = 1 To 31
-    .AddItem i
-  Next i
-  .Value = day(Now())
+End Sub
+Private Sub last_name_Change()
+
+With userform_example
+  If Trim(.last_name.Value) = vbNullString Then
+    .last_name.BackColor = RGB(255, 102, 102)
+ Else
+    .last_name.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
-With text_box.start_year
-  For i = year(Now()) - 10 To year(Now()) + 3
-    .AddItem i
-  Next i
-  .Value = year(Now())
+End Sub
+Private Sub customer_Change()
+
+With userform_example
+  If Trim(.customer.Value) = vbNullString Then
+    .customer.BackColor = RGB(255, 102, 102)
+  Else
+    .customer.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
-With text_box.included
-  .AddItem "YES"
-  .AddItem "NO"
-  .Value = "NO"
+End Sub
+Private Sub customer_poc_Change()
+
+With userform_example
+  If Trim(.customer_poc.Value) = vbNullString Then
+    .customer_poc.BackColor = RGB(255, 102, 102)
+  Else
+   .customer_poc.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
-With text_box.days_customer
-  For i = 1 To 60
-    .AddItem i
-  Next i
-  .Value = 60
+End Sub
+Private Sub contractor_Change()
+
+With userform_example
+  If Trim(.contractor.Value) = vbNullString Then
+    .contractor.BackColor = RGB(255, 102, 102)
+ Else
+    .contractor.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
-With text_box.days_exercise
-  For i = 1 To 30
-    .AddItem i
-  Next i
-  .Value = 30
+End Sub
+Private Sub contractor_poc_Change()
+
+With userform_example
+  If Trim(.contractor_poc.Value) = vbNullString Then
+    .contractor_poc.BackColor = RGB(255, 102, 102)
+  Else
+   .contract_poc.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub option_years_Change()
+
+With userform_example
+  If Trim(.option_years.Value) = vbNullString Then
+    .option_years.BackColor = RGB(255, 102, 102)
+  Else
+    .option_years.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub start_month_Change()
+
+With userform_example
+  If Trim(.start_month.Value) = vbNullString Then
+    .start_month.BackColor = RGB(255, 102, 102)
+  Else
+    .start_month.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub start_day_Change()
+
+With userform_example
+  If Trim(.start_day.Value) = vbNullString Then
+    .start_day.BackColor = RGB(255, 102, 102)
+  Else
+    .start_day.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub start_year_Change()
+
+With userform_example
+  If Trim(.start_year.Value) = vbNullString Then
+    .start_year.BackColor = RGB(255, 102, 102)
+  Else
+    .start_year.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub included_Change()
+
+With userform_example
+  If Trim(.included.Value) = vbNullString Then
+    .included.BackColor = RGB(255, 102, 102)
+  Else
+    .included.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub days_customer_Change()
+
+With userform_example
+  If Trim(.days_customer.Value) = vbNullString Then
+    .days_customer.BackColor = RGB(255, 102, 102)
+  Else
+    .days_customer.BackColor = RGB(102, 255, 102)
+  End If
+End With
+
+End Sub
+Private Sub days_exercise_Change()
+
+With userform_example
+  If Trim(.days_exercise.Value) = vbNullString Then
+    .days_exercise.BackColor = RGB(255, 102, 102)
+  Else
+    .days_exercise.BackColor = RGB(102, 255, 102)
+  End If
 End With
 
 End Sub
@@ -1027,9 +1195,10 @@ End Sub
 - To insert a CommandButton, click CommandButton in the Toolbox window
     - If you can't find this, go to **View > Toolbox**
 - To activate it, right-click the button and click **View Code**
+- Error checks are incorporated to make sure no null strings exist
 
 ```vbnet
-Private Sub ok_button_Click()
+Private Sub continue_button_Click()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' STEP 2 - OK button
@@ -1061,51 +1230,94 @@ Dim ws As Worksheet
 Set ws = Workbooks("userform_dev.xlsm").Worksheets(1)
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 1) Error check for no inputs - not required if default values assigned
+' 1) Error check for no inputs
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-If text_box.contract.Value = vbNullString Then
-  MsgBox "Missing CONTRACT"
-  Exit Sub
-End If
-
-If text_box.option_years.Value = vbNullString Then
-  MsgBox "Missing OPTION YEARS"
-  Exit Sub
-End If
-
-If text_box.start_month.Value = vbNullString Then
-  MsgBox "Missing START MONTH"
-  Exit Sub
-End If
-
-If text_box.start_day.Value = vbNullString Then
-  MsgBox "Missing START DAY"
-  Exit Sub
-End If
-
-If text_box.start_year.Value = vbNullString Then
-  MsgBox "Missing START YEAR"
-  Exit Sub
-End If
-
-If text_box.included.Value = vbNullString Then
-  MsgBox "Missing -8 INCLUDED?"
-  Exit Sub
-End If
+With userform_example
+  If .contract.Value = vbNullString Then
+    MsgBox "Missing CONTRACT"
+    .contract.SetFocus
+    Exit Sub
+  End If
+  If .first_name.Value = vbNullString Then
+    MsgBox "Missing FIRST NAME"
+    .first_name.SetFocus
+    Exit Sub
+  End If
+  If .last_name.Value = vbNullString Then
+    MsgBox "Missing LAST NAME"
+    .last_name.SetFocus
+   Exit Sub
+  End If
+  If .customer.Value = vbNullString Then
+    MsgBox "Missing CUSTOMER"
+    .customer.SetFocus
+   Exit Sub
+  End If
+  If .customer_poc.Value = vbNullString Then
+    MsgBox "Missing CUSTOMER POC"
+   .customer_poc.SetFocus
+    Exit Sub
+  End If
+  If .contractor.Value = vbNullString Then
+    MsgBox "Missing CONTRACTOR"
+    .contractor.SetFocus
+   Exit Sub
+  End If
+  If .contractor_poc.Value = vbNullString Then
+    MsgBox "Missing CONTRACTOR POC"
+   .contractor_poc.SetFocus
+    Exit Sub
+  End If
+  If .option_years.Value = vbNullString Then
+    MsgBox "Missing OPTION YEARS"
+    .option_years.SetFocus
+    Exit Sub
+  End If
+  If .start_month.Value = vbNullString Then
+    MsgBox "Missing START MONTH"
+    .start_month.SetFocus
+    Exit Sub
+  End If
+  If .start_day.Value = vbNullString Then
+    MsgBox "Missing START DAY"
+    .start_day.SetFocus
+    Exit Sub
+  End If
+  If .start_year.Value = vbNullString Then
+    MsgBox "Missing START YEAR"
+    .start_year.SetFocus
+    Exit Sub
+  End If
+  If .included.Value = vbNullString Then
+    MsgBox "Missing -8 INCLUDED?"
+    .included.SetFocus
+    Exit Sub
+  End If
+  If .days_customer.Value = vbNullString Then
+    MsgBox "Missing DAYS TO NOTIFY CUSTOMER"
+    .days_customer.SetFocus
+    Exit Sub
+  End If
+  If .days_exercise.Value = vbNullString Then
+    MsgBox "Missing DAYS TO EXERCISE OPTION"
+    .days_exercise.SetFocus
+    Exit Sub
+  End If
+End With
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 2) Save input values as variables, add 1 to option_years_val if -8 is included
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-With text_box
+With userform_example
   contract_val = .contract.Value
   first_name_val = .first_name.Value
   last_name_val = .last_name.Value
   customer_val = .customer.Value
   customer_poc_val = .customer_poc.Value
   contractor_val = .contractor.Value
-  contractor_poc_val = .contractor_poc.Value
+  'ontractor_poc_val = .contractor_poc.Value
   option_years_val = .option_years.Value
   start_month_val = .start_month.Value
   start_day_val = .start_day.Value
@@ -1199,7 +1411,7 @@ Next i
 ' remember_guide pops-up, reminding user to input values
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Unload text_box
+Unload userform_example
 
 remember_guide.Show
 
