@@ -965,6 +965,7 @@ With add_data_guide.option_years
   For i = 1 To 12
     .AddItem i
   Next i
+  .Value = 4
 End With
 
 With add_data_guide.start_month
@@ -972,6 +973,7 @@ With add_data_guide.start_month
   For i = 1 To 12
     .AddItem i
   Next i
+  .Value = month(Now())
 End With
 
 With add_data_guide.start_day
@@ -979,6 +981,7 @@ With add_data_guide.start_day
   For i = 1 To 31
     .AddItem i
   Next i
+  .Value = day(Now())
 End With
 
 With add_data_guide.start_year
@@ -993,6 +996,7 @@ With add_data_guide.included
   .Clear
   .AddItem "YES"
   .AddItem "NO"
+  .Value = "NO"
 End With
 
 End Sub
