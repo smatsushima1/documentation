@@ -948,7 +948,7 @@ End With
 End Sub
 ```
 
-### Modify UserForm Intialization
+### **Modify UserForm Intialization**
 
 - Certain settings may need to be modified upon initialization (creation) of the UserForm
 - To do so, right-click the user form, select **View Code**, then select **Initialize** from the right drop-down
@@ -963,12 +963,12 @@ Private Sub UserForm_Initialize()
 
 With text_box
   .contract.Value = Right(year(Now()), 2) & "PXXXX"
-'  .first_name.Value = "John"
-'  .last_name.Value = "Doe"
-'  .customer.Value = "COMMAND"
-'  .customer_poc.Value = "Jane Doe; jane.doe@navy.mil"
-'  .contractor.Value = "Big Company LLC"
-'  .contractor_poc.Value = "John Smith; john.smith@bigcompany.com"
+  .first_name.Value = "John"
+  .last_name.Value = "Doe"
+  .customer.Value = "COMMAND"
+  .customer_poc.Value = "Jane Doe; jane.doe@navy.mil"
+  .contractor.Value = "Big Company LLC"
+  .contractor_poc.Value = "John Smith; john.smith@bigcompany.com"
 End With
 
 With text_box.option_years
@@ -1022,7 +1022,7 @@ End With
 End Sub
 ```
 
-### CommandButton Modification
+### **CommandButton Modification**
 
 - To insert a CommandButton, click CommandButton in the Toolbox window
     - If you can't find this, go to **View > Toolbox**
@@ -1161,23 +1161,23 @@ For i = 0 To option_years_val
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
   If i = 0 Then
-    ws.Cells(new_row + i, 2).Value = "Base"
+    ws.Cells(new_row + i, 9).Value = "Base"
   ElseIf i <> option_years_val Then
-    ws.Cells(new_row + i, 2).Value = "Option " & i
+    ws.Cells(new_row + i, 9).Value = "Option " & i
   Else
-    ws.Cells(new_row + i, 2).Value = "-8"
+    ws.Cells(new_row + i, 9).Value = "-8"
   End If
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 7) Populate START DATE and END DATE
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  ws.Cells(new_row + i, 3).Value = DateAdd("yyyy", i, start_date)
+  ws.Cells(new_row + i, 10).Value = DateAdd("yyyy", i, start_date)
   
   If included_val = "YES" And i = option_years_val Then
-    ws.Cells(new_row + i, 4).Value = included_date
+    ws.Cells(new_row + i, 11).Value = included_date
   Else
-    ws.Cells(new_row + i, 4).Value = DateAdd("yyyy", i, end_date)
+    ws.Cells(new_row + i, 11).Value = DateAdd("yyyy", i, end_date)
   End If
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1185,11 +1185,11 @@ For i = 0 To option_years_val
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   
   If i = 0 Then
-    ws.Cells(new_row + i, 6).Value = vbNullString
-    ws.Cells(new_row + i, 7).Value = vbNullString
+    ws.Cells(new_row + i, 13).Value = vbNullString
+    ws.Cells(new_row + i, 14).Value = vbNullString
   Else
-    ws.Cells(new_row + i, 6).Value = days_customer_val
-    ws.Cells(new_row + i, 7).Value = days_exercise_val
+    ws.Cells(new_row + i, 13).Value = days_customer_val
+    ws.Cells(new_row + i, 14).Value = days_exercise_val
   End If
 
 Next i
@@ -1203,7 +1203,7 @@ Unload text_box
 
 remember_guide.Show
 
-ws.Cells(new_row, 6).Select
+ws.Cells(new_row, 8).Select
 
 End Sub
 ```
