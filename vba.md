@@ -948,58 +948,87 @@ End With
 End Sub
 ```
 
-- To insert a CommandButton, click CommandButton in the Toolbox window
-    - If you can't find this, go to **View > Toolbox**
-- To activate it, right-click the button and click **View Code**
-- Before doing so, you may wish to apply settings to the UserForm upon initializing it
+### Modify UserForm Intialization
+
+- Certain settings may need to be modified upon initialization (creation) of the UserForm
+- To do so, right-click the user form, select **View Code**, then select **Initialize** from the right drop-down
+- The following code pre-populates each text and combo box with values
 
 ```vbnet
 Private Sub UserForm_Initialize()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - Populate combo boxes
+' STEP 1 - Populate text and combo boxes
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-With add_data_guide.option_years
-  .Clear
-  For i = 1 To 12
+With text_box
+  .contract.Value = Right(year(Now()), 2) & "PXXXX"
+'  .first_name.Value = "John"
+'  .last_name.Value = "Doe"
+'  .customer.Value = "COMMAND"
+'  .customer_poc.Value = "Jane Doe; jane.doe@navy.mil"
+'  .contractor.Value = "Big Company LLC"
+'  .contractor_poc.Value = "John Smith; john.smith@bigcompany.com"
+End With
+
+With text_box.option_years
+  For i = 0 To 12
     .AddItem i
   Next i
   .Value = 4
 End With
 
-With add_data_guide.start_month
-  .Clear
+With text_box.start_month
   For i = 1 To 12
     .AddItem i
   Next i
   .Value = month(Now())
 End With
 
-With add_data_guide.start_day
-  .Clear
+With text_box.start_day
   For i = 1 To 31
     .AddItem i
   Next i
   .Value = day(Now())
 End With
 
-With add_data_guide.start_year
-  .Clear
+With text_box.start_year
   For i = year(Now()) - 10 To year(Now()) + 3
     .AddItem i
   Next i
   .Value = year(Now())
 End With
 
-With add_data_guide.included
-  .Clear
+With text_box.included
   .AddItem "YES"
   .AddItem "NO"
   .Value = "NO"
 End With
 
+With text_box.days_customer
+  For i = 1 To 60
+    .AddItem i
+  Next i
+  .Value = 60
+End With
+
+With text_box.days_exercise
+  For i = 1 To 30
+    .AddItem i
+  Next i
+  .Value = 30
+End With
+
 End Sub
+```
+
+### CommandButton Modification
+
+- To insert a CommandButton, click CommandButton in the Toolbox window
+    - If you can't find this, go to **View > Toolbox**
+- To activate it, right-click the button and click **View Code**
+
+```vbnet
 Private Sub ok_button_Click()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1013,51 +1042,54 @@ Dim contract_val, _
     customer_poc_val, _
     contractor_val, _
     contractor_poc_val, _
-    label_val _
+    included_val _
     As String
 Dim option_years_val, _
     start_month_val, _
     start_day_val, _
     start_year_val, _
-    last_row _
+    days_customer_val, _
+    days_exercise_val, _
+    new_row _
     As Long
 Dim start_date, _
-    end_date _
+    end_date, _
+    included_date _
     As Date
 Dim ws As Worksheet
 
 Set ws = Workbooks("userform_dev.xlsm").Worksheets(1)
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 1) Error check for no inputs
+' 1) Error check for no inputs - not required if default values assigned
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-If add_data_guide.contract.Value = vbNullString Then
+If text_box.contract.Value = vbNullString Then
   MsgBox "Missing CONTRACT"
   Exit Sub
 End If
 
-If add_data_guide.option_years.Value = vbNullString Then
+If text_box.option_years.Value = vbNullString Then
   MsgBox "Missing OPTION YEARS"
   Exit Sub
 End If
 
-If add_data_guide.start_month.Value = vbNullString Then
+If text_box.start_month.Value = vbNullString Then
   MsgBox "Missing START MONTH"
   Exit Sub
 End If
 
-If add_data_guide.start_day.Value = vbNullString Then
+If text_box.start_day.Value = vbNullString Then
   MsgBox "Missing START DAY"
   Exit Sub
 End If
 
-If add_data_guide.start_year.Value = vbNullString Then
+If text_box.start_year.Value = vbNullString Then
   MsgBox "Missing START YEAR"
   Exit Sub
 End If
 
-If add_data_guide.included.Value = vbNullString Then
+If text_box.included.Value = vbNullString Then
   MsgBox "Missing -8 INCLUDED?"
   Exit Sub
 End If
@@ -1066,7 +1098,7 @@ End If
 ' 2) Save input values as variables, add 1 to option_years_val if -8 is included
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-With add_data_guide
+With text_box
   contract_val = .contract.Value
   first_name_val = .first_name.Value
   last_name_val = .last_name.Value
@@ -1079,6 +1111,8 @@ With add_data_guide
   start_day_val = .start_day.Value
   start_year_val = .start_year.Value
   included_val = .included.Value
+  days_customer_val = .days_customer.Value
+  days_exercise_val = .days_exercise.Value
 End With
 
 If included_val = "YES" Then
@@ -1089,8 +1123,8 @@ End If
 ' 3) Find last row
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
-last_row = last_row + 1
+new_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
+new_row = new_row + 1
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 4) Create start and end dates from inputs, as well as -8 included dates
@@ -1114,50 +1148,62 @@ End If
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 For i = 0 To option_years_val
-  ws.Cells(last_row + i, 1).Value = contract_val
-  ws.Cells(last_row + i, 2).Value = first_name_val
-  ws.Cells(last_row + i, 3).Value = last_name_val
-  ws.Cells(last_row + i, 4).Value = customer_val
-  ws.Cells(last_row + i, 5).Value = customer_poc_val
-  ws.Cells(last_row + i, 6).Value = contractor_val
-  ws.Cells(last_row + i, 7).Value = contractor_poc_val
+  ws.Cells(new_row + i, 1).Value = contract_val
+  ws.Cells(new_row + i, 2).Value = first_name_val
+  ws.Cells(new_row + i, 3).Value = last_name_val
+  ws.Cells(new_row + i, 4).Value = customer_val
+  ws.Cells(new_row + i, 5).Value = customer_poc_val
+  ws.Cells(new_row + i, 6).Value = contractor_val
+  ws.Cells(new_row + i, 7).Value = contractor_poc_val
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 6) Populate YEAR
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
   If i = 0 Then
-    ws.Cells(last_row + i, 2).Value = "Base"
+    ws.Cells(new_row + i, 2).Value = "Base"
   ElseIf i <> option_years_val Then
-    ws.Cells(last_row + i, 2).Value = "Option " & i
+    ws.Cells(new_row + i, 2).Value = "Option " & i
   Else
-    ws.Cells(last_row + i, 2).Value = "-8"
+    ws.Cells(new_row + i, 2).Value = "-8"
   End If
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 7) Populate START DATE and END DATE
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  ws.Cells(last_row + i, 3).Value = DateAdd("yyyy", i, start_date)
+  ws.Cells(new_row + i, 3).Value = DateAdd("yyyy", i, start_date)
   
   If included_val = "YES" And i = option_years_val Then
-    ws.Cells(last_row + i, 4).Value = included_date
+    ws.Cells(new_row + i, 4).Value = included_date
   Else
-    ws.Cells(last_row + i, 4).Value = DateAdd("yyyy", i, end_date)
+    ws.Cells(new_row + i, 4).Value = DateAdd("yyyy", i, end_date)
+  End If
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' 8) Populate DAYS TO NOTIFY CUSTOMER and DAYS TO EXERCISE OPTION
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  
+  If i = 0 Then
+    ws.Cells(new_row + i, 6).Value = vbNullString
+    ws.Cells(new_row + i, 7).Value = vbNullString
+  Else
+    ws.Cells(new_row + i, 6).Value = days_customer_val
+    ws.Cells(new_row + i, 7).Value = days_exercise_val
   End If
 
 Next i
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 8) Unloading removes the UserForm from memory, as opposed to just hiding it;
+' 9) Unloading removes the UserForm from memory, as opposed to just hiding it;
 ' remember_guide pops-up, reminding user to input values
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Unload add_data_guide
+Unload text_box
 
 remember_guide.Show
 
-ws.Cells(last_row, 6).Select
+ws.Cells(new_row, 6).Select
 
 End Sub
 ```
