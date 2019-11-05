@@ -959,56 +959,61 @@ End Sub
 ```vbnet
 Private Sub UserForm_Initialize()
 
+Dim red as Long
+
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' STEP 1 - Populate text and combo boxes
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+red = RGB(255, 153, 153)
+
 With userform_example
 
-  .contract.Value = Right(year(Now()), 2) & "PXXXX"
-  .first_name.Value = "John"
-  .last_name.Value = "Doe"
-  .customer.Value = "COMMAND"
-  .customer_poc.Value = "Jane Doe; jane.doe@navy.mil"
-  .contractor.Value = "Big Company LLC"
-  .contractor_poc.Value = "John Smith; john.smith@bigcompany.com"
+  .contract.BackColor = red
+  .description.BackColor = red
+  .first_name.BackColor = red
+  .last_name.BackColor = red
+  .customer.BackColor = red
+  .customer_poc.BackColor = red
+  .contractor.BackColor = red
+  .contractor_poc.BackColor = red
 
   With .option_years
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     For i = 0 To 12
       .AddItem i
     Next i
   End With
 
   With .start_month
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     For i = 1 To 12
       .AddItem i
     Next i
   End With
 
   With .start_day
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     For i = 1 To 31
       .AddItem i
     Next i
   End With
 
   With .start_year
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     For i = year(Now()) - 10 To year(Now()) + 3
       .AddItem i
     Next i
   End With
 
   With .included
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     .AddItem "YES"
     .AddItem "NO"
   End With
 
   With .days_customer
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     .AddItem "N/A"
     For i = 1 To 60
       .AddItem i
@@ -1016,7 +1021,7 @@ With userform_example
   End With
 
   With .days_exercise
-    .BackColor = RGB(255, 102, 102)
+    .BackColor = red
     .AddItem "N/A"
     For i = 1 To 30
       .AddItem i
@@ -1037,10 +1042,10 @@ End Sub
 Private Sub contract_Change()
 
 With userform_example
-  If .contract.Value = Right(year(Now()), 2) & "PXXXX" Or Trim(.contract.Value) = vbNullString Then
-    .contract.BackColor = RGB(255, 102, 102)
+  If Trim(.contract.Value) = vbNullString Then
+    .contract.BackColor = RGB(255, 153, 153)
   Else
-    .contract.BackColor = RGB(102, 255, 102)
+    .contract.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1049,20 +1054,22 @@ Private Sub first_name_Change()
 
 With userform_example
   If Trim(.first_name.Value) = vbNullString Then
-    .first_name.BackColor = RGB(255, 102, 102)
+    .first_name.BackColor = RGB(255, 153, 153)
   Else
-    .first_name.BackColor = RGB(102, 255, 102)
+    .first_name.BackColor = RGB(153, 255, 153)
   End If
 End With
 
 End Sub
 Private Sub last_name_Change()
 
+Private Sub last_name_Change()
+
 With userform_example
   If Trim(.last_name.Value) = vbNullString Then
-    .last_name.BackColor = RGB(255, 102, 102)
+    .last_name.BackColor = RGB(255, 153, 153)
  Else
-    .last_name.BackColor = RGB(102, 255, 102)
+    .last_name.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1071,9 +1078,9 @@ Private Sub customer_Change()
 
 With userform_example
   If Trim(.customer.Value) = vbNullString Then
-    .customer.BackColor = RGB(255, 102, 102)
+    .customer.BackColor = RGB(255, 153, 153)
   Else
-    .customer.BackColor = RGB(102, 255, 102)
+    .customer.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1082,9 +1089,9 @@ Private Sub customer_poc_Change()
 
 With userform_example
   If Trim(.customer_poc.Value) = vbNullString Then
-    .customer_poc.BackColor = RGB(255, 102, 102)
+    .customer_poc.BackColor = RGB(255, 153, 153)
   Else
-   .customer_poc.BackColor = RGB(102, 255, 102)
+   .customer_poc.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1093,9 +1100,9 @@ Private Sub contractor_Change()
 
 With userform_example
   If Trim(.contractor.Value) = vbNullString Then
-    .contractor.BackColor = RGB(255, 102, 102)
+    .contractor.BackColor = RGB(255, 153, 153)
  Else
-    .contractor.BackColor = RGB(102, 255, 102)
+    .contractor.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1104,9 +1111,9 @@ Private Sub contractor_poc_Change()
 
 With userform_example
   If Trim(.contractor_poc.Value) = vbNullString Then
-    .contractor_poc.BackColor = RGB(255, 102, 102)
+    .contractor_poc.BackColor = RGB(255, 153, 153)
   Else
-   .contract_poc.BackColor = RGB(102, 255, 102)
+   .contract_poc.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1115,9 +1122,9 @@ Private Sub option_years_Change()
 
 With userform_example
   If Trim(.option_years.Value) = vbNullString Then
-    .option_years.BackColor = RGB(255, 102, 102)
+    .option_years.BackColor = RGB(255, 153, 153)
   Else
-    .option_years.BackColor = RGB(102, 255, 102)
+    .option_years.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1126,9 +1133,9 @@ Private Sub start_month_Change()
 
 With userform_example
   If Trim(.start_month.Value) = vbNullString Then
-    .start_month.BackColor = RGB(255, 102, 102)
+    .start_month.BackColor = RGB(255, 153, 153)
   Else
-    .start_month.BackColor = RGB(102, 255, 102)
+    .start_month.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1137,9 +1144,9 @@ Private Sub start_day_Change()
 
 With userform_example
   If Trim(.start_day.Value) = vbNullString Then
-    .start_day.BackColor = RGB(255, 102, 102)
+    .start_day.BackColor = RGB(255, 153, 153)
   Else
-    .start_day.BackColor = RGB(102, 255, 102)
+    .start_day.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1148,9 +1155,9 @@ Private Sub start_year_Change()
 
 With userform_example
   If Trim(.start_year.Value) = vbNullString Then
-    .start_year.BackColor = RGB(255, 102, 102)
+    .start_year.BackColor = RGB(255, 153, 153)
   Else
-    .start_year.BackColor = RGB(102, 255, 102)
+    .start_year.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1159,9 +1166,9 @@ Private Sub included_Change()
 
 With userform_example
   If Trim(.included.Value) = vbNullString Then
-    .included.BackColor = RGB(255, 102, 102)
+    .included.BackColor = RGB(255, 153, 153)
   Else
-    .included.BackColor = RGB(102, 255, 102)
+    .included.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1170,9 +1177,9 @@ Private Sub days_customer_Change()
 
 With userform_example
   If Trim(.days_customer.Value) = vbNullString Then
-    .days_customer.BackColor = RGB(255, 102, 102)
+    .days_customer.BackColor = RGB(255, 153, 153)
   Else
-    .days_customer.BackColor = RGB(102, 255, 102)
+    .days_customer.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1181,9 +1188,9 @@ Private Sub days_exercise_Change()
 
 With userform_example
   If Trim(.days_exercise.Value) = vbNullString Then
-    .days_exercise.BackColor = RGB(255, 102, 102)
+    .days_exercise.BackColor = RGB(255, 153, 153)
   Else
-    .days_exercise.BackColor = RGB(102, 255, 102)
+    .days_exercise.BackColor = RGB(153, 255, 153)
   End If
 End With
 
@@ -1205,6 +1212,7 @@ Private Sub continue_button_Click()
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim contract_val, _
+    description_val, _
     first_name_val, _
     last_name_val, _
     customer_val, _
@@ -1237,6 +1245,11 @@ With userform_example
   If .contract.Value = vbNullString Then
     MsgBox "Missing CONTRACT"
     .contract.SetFocus
+    Exit Sub
+  End If
+  If .description.Value = vbNullString Then
+    MsgBox "Missing DESCRIPTION"
+    .description.SetFocus
     Exit Sub
   End If
   If .first_name.Value = vbNullString Then
@@ -1312,12 +1325,13 @@ End With
 
 With userform_example
   contract_val = .contract.Value
+  description_val = .description.Value
   first_name_val = .first_name.Value
   last_name_val = .last_name.Value
   customer_val = .customer.Value
   customer_poc_val = .customer_poc.Value
   contractor_val = .contractor.Value
-  'ontractor_poc_val = .contractor_poc.Value
+  contractor_poc_val = .contractor_poc.Value
   option_years_val = .option_years.Value
   start_month_val = .start_month.Value
   start_day_val = .start_day.Value
@@ -1361,12 +1375,13 @@ End If
 
 For i = 0 To option_years_val
   ws.Cells(new_row + i, 1).Value = contract_val
-  ws.Cells(new_row + i, 2).Value = first_name_val
-  ws.Cells(new_row + i, 3).Value = last_name_val
-  ws.Cells(new_row + i, 4).Value = customer_val
-  ws.Cells(new_row + i, 5).Value = customer_poc_val
-  ws.Cells(new_row + i, 6).Value = contractor_val
-  ws.Cells(new_row + i, 7).Value = contractor_poc_val
+  ws.Cells(new_row + i, 2).Value = description_val
+  ws.Cells(new_row + i, 3).Value = first_name_val
+  ws.Cells(new_row + i, 4).Value = last_name_val
+  ws.Cells(new_row + i, 5).Value = customer_val
+  ws.Cells(new_row + i, 6).Value = customer_poc_val
+  ws.Cells(new_row + i, 7).Value = contractor_val
+  ws.Cells(new_row + i, 8).Value = contractor_poc_val
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 6) Populate YEAR
@@ -1374,10 +1389,10 @@ For i = 0 To option_years_val
 
   If i = 0 Then
     ws.Cells(new_row + i, 9).Value = "Base"
-  ElseIf i <> option_years_val Then
-    ws.Cells(new_row + i, 9).Value = "Option " & i
-  Else
+  ElseIf (i = option_years_val) And (included_val = "YES") Then
     ws.Cells(new_row + i, 9).Value = "-8"
+  Else
+    ws.Cells(new_row + i, 9).Value = "Option " & i
   End If
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1386,7 +1401,7 @@ For i = 0 To option_years_val
 
   ws.Cells(new_row + i, 10).Value = DateAdd("yyyy", i, start_date)
   
-  If included_val = "YES" And i = option_years_val Then
+  If i = option_years_val And included_val = "YES" Then
     ws.Cells(new_row + i, 11).Value = included_date
   Else
     ws.Cells(new_row + i, 11).Value = DateAdd("yyyy", i, end_date)
@@ -1413,7 +1428,12 @@ Next i
 
 Unload userform_example
 
-remember_guide.Show
+With remember_guide
+  .StartUpPosition = 0
+  .Left = Application.Left + (0.5 * Application.Width) - (0.5 * .Width)
+  .Top = Application.Top + (0.5 * Application.Height) - (0.5 * .Height)
+  .Show
+End With
 
 ws.Cells(new_row, 8).Select
 
