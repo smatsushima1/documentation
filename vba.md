@@ -5,26 +5,40 @@ title: VBA
 
 # **Table of Contents**
 
-1. [Basic Line Chart](#basic-line-chart)
-2. [Chart With Multiple Axes](#chart-with-multiple-axes)
-3. [Adding Multiple Check Boxes and Links](#adding-multiple-check-boxes-and-links)
-4. [Reset Button to Uncheck or Check All Boxes](#reset-button-to-uncheck-or-check-all-boxes)
-5. [Apply Filter to Table](#apply-filter-to-table)
-6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
-7. [Folder Generator](#folder-generator)
-8. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
-9. [UserForm Basics](#userform-basics)
-10. [VBscript](#vbscript-in-powershell)
+1. [Charts](#charts)
+    - [Basic Line Chart](#basic-line-chart)
+    - [Chart With Multiple Axes](#chart-with-multiple-axes)
+2. [Checkboxes](#checkboxes)
+    - [Adding Multiple Check Boxes and Links](#adding-multiple-check-boxes-and-links)
+    - [Reset Button to Uncheck or Check All Boxes](#reset-button-to-uncheck-or-check-all-boxes)
+3. [Filters](#filters)
+    - [Apply Filter to Table](#apply-filter-to-table)
+    - [Loop Through All Columns and Reset All](#loop-through-all-columns-and-reset-all)
+    - [Find Column Name in Table and Apply Filter](#find-column-name-in-table-and-apply-filter)
+4. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
+    - [generateWIP](#generatewip)
+    - [resetVariables](#resetvariables)
+    - [selectWIP](#selectwip)
+    - [copyWIP](#copywip)
+    - [applyTemplate](#applytemplate)
+    - [closeGenerator](#closegenerator)
+5. [Folder Generator](#folder-generator)
+6. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
+7. [UserForm Basics](#userform-basics)
+    - [Generating the UserForm](#generating-the-userform)
+    - [Modify UserForm Initialization](#modify-userform-initialization)
+    - [Modifying Text Box Changes](#modifying-text-box-changes)
+    - [CommandButton Modification](#commandbutton-modification)
+8. [Print Columns to Fit Page](#print-columnns-to-fit-page)
+9. [VBscript](#vbscript-in-powershell)
 
 ---
 
-## **Basic Line Chart**
+## **Charts**
+
+### **Basic Line Chart**
 
 ```vbnet
-Option Explicit
-
-Sub generateChart1()
-
 Dim max_row As Range
 Dim source_data_range As String
 Dim chart1 As ChartObject
@@ -73,19 +87,13 @@ With chart1.Chart
   .ChartArea.Select
 
 End With
-
-End Sub
 ```
 
 ---
 
-## **Chart with Multiple Axes**
+### **Chart with Multiple Axes**
 
 ```vbnet
-Option Explicit
-
-Sub generateChart2()
-
 Dim max_row As Range
 Dim source_data_range As String
 Dim source_data_range2 As String
@@ -141,19 +149,15 @@ With chart2.Chart
   .ChartArea.Select
 
 End With
-
-End Sub
 ```
 
 ---
 
-## **Adding Multiple Check Boxes and Links**
+## **Checkboxes**
+
+### **Adding Multiple Check Boxes and Links**
 
 ```vbnet
-Option Explicit
-
-Sub checkBoxes()
-
 Dim sheet_num As Worksheet
 Dim sheet_num_range As Range
 Dim col_offset As Integer
@@ -179,8 +183,6 @@ For Each cell In sheet_num_range
     .LinkedCell = .TopLeftCell.Offset(0, col_offset).Address
   End With
 Next
-
-End Sub
 ```
 
 ---
@@ -188,30 +190,20 @@ End Sub
 ## **Reset Button to Uncheck or Check All Boxes**
 
 ```vbnet
-Option Explicit
-
-Sub resetButton()
-
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' adjust sheet number accordingly
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Worksheets(1).CheckBoxes.Value = False
-
-End Sub
 ```
 
 ---
 
-## **Apply Filter to Table**
+## **Filters**
+
+### **Apply Filters to Table**
 
 ```vbnet
-Option Explicit
-
-Sub filter()
-
-Dim table As ListObject
-
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' adjust sheet number accordingly
 ' tables are their chronological List Object, or just put their names in quotes
@@ -219,11 +211,47 @@ Dim table As ListObject
 ' Criteria1 = filter
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+Dim table As ListObject
+
 Set table = Worksheets(1).ListObjects(1)
 
 table.Range.AutoFilter Field:=1, Criteria1:="="
+```
 
-End Sub
+### **Loop Through All Columns and Reset All**
+
+```vbnet
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Adjust table name as applicable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim col As Long
+
+col = Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
+
+For i = 1 To col
+  Workbooks("dev2.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
+    Field:=i
+Next i
+```
+
+### **Find Column Name in Table and Apply Filter**
+
+```vbnet
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Adjust col_name as applicable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim col As Long
+Dim col_name as String
+
+col_name = "Column5"
+col = Workbooks("dev.xlsm").Worksheets(1).Rows(1).Find(what:=name).Column
+
+MsgBox col
+
+Workbooks("dev2.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
+  Field:=col, Criteria1:="1"
 ```
 
 ---
@@ -937,7 +965,7 @@ End Sub
 Sub generateUserForm()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'text_box is the name of the UserForm, change it as applicable
+' text_box is the name of the UserForm, change it as applicable
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 With text_box
@@ -1439,6 +1467,42 @@ ws.Cells(new_row, 8).Select
 
 End Sub
 ```
+
+---
+
+## **Print Columns to Fit Page**
+
+```vbnet
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' - Application.PrintCommunication must be set to False in order to have the
+' columns fit to the page
+' - for some reason, this must be set back to True when applying headers and
+' footers
+' - &D is date
+' - &F is file name
+' - &P is page number
+' - &N is total number of pages
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Application.PrintCommunication = False
+With Worksheets(1).PageSetup
+  .FitToPagesWide = 1
+  .FitToPagesTall = False
+  .ScaleWithDocHeaderFooter = True
+  .AlignMarginsHeaderFooter = True
+End With
+Application.PrintCommunication = True
+
+With Worksheets(1).PageSetup
+  .LeftHeader = "&""Times New Roman,Regular""&D"
+  .CenterHeader = "&""Times New Roman,Bold""&18&F - NOTIFICATIONS REPORT"
+  .RightHeader = "&""Times New Roman,Regular""&P of &N"
+End With
+
+Worksheets(1).columns("A:O").PrintPreview
+```
+
+---
 
 ## **VBscript in Powershell**
 
