@@ -10,7 +10,7 @@ title: VBA
     - [Chart With Multiple Axes](#chart-with-multiple-axes)
 2. [Checkboxes](#checkboxes)
     - [Adding Multiple Check Boxes and Links](#adding-multiple-check-boxes-and-links)
-    - [Reset Button to Uncheck or Check All Boxes](#reset-button-to-uncheck-or-check-all-boxes)
+    - [Uncheck or Check All Boxes](#uncheck-or-check-all-boxes)
 3. [Filters](#filters)
     - [Apply Filter to Table](#apply-filter-to-table)
     - [Loop Through All Columns and Reset All](#loop-through-all-columns-and-reset-all)
@@ -165,14 +165,14 @@ Dim cell As Range
 Dim ch_box As CheckBox
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' adjust below dimensions accordingly:
+' Adjust below dimensions accordingly:
 ' sheet_num = specific sheet number, not sheet name, where checkboxes are desired
 ' sheet_num_range = range within the sheet number to insert the checkboxes
 ' col_offset = column where linked cell will be in reference to checkbox cell
  '             (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Set sheet_num = Sheet1
+Set sheet_num = Workbooks("dev.xlsm").Worksheets(1)
 Set sheet_num_range = sheet_num.Range("A1:A10")
 col_offset = 1
 
@@ -191,10 +191,10 @@ Next
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' adjust sheet number accordingly
+' False will uncheck all boxes, True will check all boxes
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Worksheets(1).CheckBoxes.Value = False
+Workbooks("dev.xlsm").Worksheets(1).CheckBoxes.Value = False
 ```
 
 ---
@@ -205,15 +205,15 @@ Worksheets(1).CheckBoxes.Value = False
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' adjust sheet number accordingly
-' tables are their chronological List Object, or just put their names in quotes
+' Adjust sheet number accordingly
+' Tables are their index number, or just put their name in quotes
 ' Field = column number
 ' Criteria1 = filter
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim table As ListObject
 
-Set table = Worksheets(1).ListObjects(1)
+Set table = Workbooks("dev.xlsm").Worksheets(1).ListObjects(1)
 
 table.Range.AutoFilter Field:=1, Criteria1:="="
 ```
@@ -227,10 +227,10 @@ table.Range.AutoFilter Field:=1, Criteria1:="="
 
 Dim col As Long
 
-col = Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
+col = Workbooks("dev.xlsm").Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
 
 For i = 1 To col
-  Workbooks("dev2.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
+  Workbooks("dev.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
     Field:=i
 Next i
 ```
@@ -268,7 +268,7 @@ Workbooks("dev2.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'Public variables must be saved outside of functions to be used throughout
+' Public variables must be saved outside of functions to be used throughout
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Public error_code, _
@@ -332,7 +332,7 @@ End Sub
 Sub resetVariables()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 1 - RESET VARIABLES
+' STEP 1 - RESET VARIABLES
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 error_code = vbNullString
@@ -357,8 +357,8 @@ End Sub
 Sub selectWIP()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 2 - SELECT MAIN WIP FILE AND CHECK IF TEAM WIP IS OPEN
-'- select WIP
+' STEP 2 - SELECT MAIN WIP FILE AND CHECK IF TEAM WIP IS OPEN
+' - select WIP
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim team_wip_path As String
@@ -378,7 +378,7 @@ With Application.FileDialog(msoFileDialogFilePicker)
 End With
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'- check if team WIP is already open; close macro if it is
+' - check if team WIP is already open; close macro if it is
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 team_wip_name = "240.3 Weekly WIP Status.xlsx"
@@ -412,12 +412,12 @@ End Sub
 Sub copyWIP()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 3 - COPY DATA FROM MAIN WIP
-'- open a read-only version of the file
-'- create an array based on the last names from the team_name tables
-'- apply filters with the array
-'- copy as values to the WIP template
-'- close file without saving
+' STEP 3 - COPY DATA FROM MAIN WIP
+' - open a read-only version of the file
+' - create an array based on the last names from the team_name tables
+' - apply filters with the array
+' - copy as values to the WIP template
+' - close file without saving
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim team_row_num, row_num As Long
@@ -468,12 +468,12 @@ End Sub
 Sub applyTemplate()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 4 - APPLY TEMPLATE TO WIP
-'- open team's WIP spreadsheet
-'- count last sheet number in all sheets
-'- copy the template to the page after the last page
-'- save this copied worksheet as the last sheet + 1
-'- with this worksheet, apply all formatting to it
+' STEP 4 - APPLY TEMPLATE TO WIP
+' - open team's WIP spreadsheet
+' - count last sheet number in all sheets
+' - copy the template to the page after the last page
+' - save this copied worksheet as the last sheet + 1
+' - with this worksheet, apply all formatting to it
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim last_sheet, row_num As Long
@@ -529,7 +529,7 @@ End Sub
 Sub closeGenerator()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 5 - CLOSE WIP GENERATOR
+' STEP 5 - CLOSE WIP GENERATOR
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 MsgBox Prompt:="Finished!", Title:="Success!"
@@ -547,7 +547,7 @@ End Sub
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'- Public variables must be saved outside of functions to be used throughout
+' - Public variables must be saved outside of functions to be used throughout
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Public error_code, _
@@ -580,19 +580,19 @@ Sub generateRequirement()
 Application.ScreenUpdating = False
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 1 - RESET VARIABLES
+' STEP 1 - RESET VARIABLES
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 resetVariables
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
+' STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 saveInput
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
+' STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 createFolder
@@ -605,19 +605,19 @@ If error_code = 1 Then
 End If
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
+' STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 createSubfolders
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
+' STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 populateForms
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'FINISHED
+' FINISHED
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 MsgBox "E-file requirement successfully generated!", Title:="Success!"
@@ -630,8 +630,8 @@ End Sub
 Sub resetVariables()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 1 - RESET VARIABLES
-'- reset all variables before running all other steps
+' STEP 1 - RESET VARIABLES
+' - reset all variables before running all other steps
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 error_code = vbNullString
@@ -661,8 +661,8 @@ End Sub
 Sub saveInput()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
-'- first reset all public variables, then reassign them
+' STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
+' - first reset all public variables, then reassign them
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 file_name = "macro_dev"
@@ -685,8 +685,8 @@ End Sub
 Sub createFolder()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
-'- if folder is selected (Show = -1), then save path as folder_path; else, exit
+' STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
+' - if folder is selected (Show = -1), then save path as folder_path; else, exit
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim message, folder_path As String
@@ -706,8 +706,8 @@ With Application.FileDialog(msoFileDialogFolderPicker)
 End With
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'- Concatenate pr, initials, and description with folder_path
-'- if folder already exists, exit so as not to overwrite files
+' - Concatenate pr, initials, and description with folder_path
+' - if folder already exists, exit so as not to overwrite files
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 directory_name = folder_path & "\" & pr & ", " & initials & ", " & description
@@ -724,9 +724,9 @@ End Sub
 Sub createSubfolders()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
-'- if SAP, then just create "WORKING" folder
-'- if Large, then create subfolders
+' STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
+' - if SAP, then just create "WORKING" folder
+' - if Large, then create subfolders
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim working As String
@@ -767,7 +767,7 @@ End Sub
 Sub populateForms()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
+' STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim forms_path As String
