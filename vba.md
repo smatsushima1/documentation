@@ -5,32 +5,45 @@ title: VBA
 
 # **Table of Contents**
 
-1. [Charts](#charts)
+1. [Quick Reference Table](#quick-reference-table)
+2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
     - [Chart With Multiple Axes](#chart-with-multiple-axes)
-2. [Checkboxes](#checkboxes)
+3. [Checkboxes](#checkboxes)
     - [Adding Multiple Check Boxes and Links](#adding-multiple-check-boxes-and-links)
     - [Uncheck or Check All Boxes](#uncheck-or-check-all-boxes)
-3. [Filters](#filters)
-    - [Apply Filter to Table](#apply-filter-to-table)
+4. [Filters](#filters)
     - [Loop Through All Columns and Reset All](#loop-through-all-columns-and-reset-all)
     - [Find Column Name in Table and Apply Filter](#find-column-name-in-table-and-apply-filter)
-4. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
+5. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
     - [generateWIP](#generatewip)
     - [resetVariables](#resetvariables)
     - [selectWIP](#selectwip)
     - [copyWIP](#copywip)
     - [applyTemplate](#applytemplate)
     - [closeGenerator](#closegenerator)
-5. [Folder Generator](#folder-generator)
-6. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
-7. [UserForm Basics](#userform-basics)
+6. [Folder Generator](#folder-generator)
+7. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
+8. [UserForm Basics](#userform-basics)
     - [Generating the UserForm](#generating-the-userform)
     - [Modify UserForm Initialization](#modify-userform-initialization)
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
-8. [Print Columns to Fit Page](#print-columnns-to-fit-page)
-9. [VBscript](#vbscript-in-powershell)
+9. [Print Columns to Fit Page](#print-columnns-to-fit-page)
+10. [VBscript](#vbscript-in-powershell)
+
+---
+
+## **Quick Reference Table**
+
+FUNCTION | CODE
+--- | ---
+Name of current workbook | `Dim wb as String` <br/> `wb = ThisWorkbook.Name`
+Number of rows used | `Workbooks(wb).Worksheets(1).Cells(Rows.Count, 1).End(xlUp).Row`
+Number of columns used | `Workbooks(wb).Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column`
+Filter table <br/> *Field = column index* | `Workbooks(wb).Worksheets(1).ListObjects("table_name").Range.AutoFilter _` <br/> `Field:=1, _` <br/> `Criteria1:="="`
+Reset all values in filter | `Workbooks(wb).Worksheets(1).ListObjects("table_name").Range.AutoFilter _` <br/> `Field:=1`
+Filter regular filter | `Workbooks(wb).Worksheets(1).Range("A:A").AutoFilter _` <br/> `Field:=1, _` <br/> `Criteria1:="="`
 
 ---
 
@@ -200,23 +213,6 @@ Workbooks("dev.xlsm").Worksheets(1).CheckBoxes.Value = False
 ---
 
 ## **Filters**
-
-### **Apply Filters to Table**
-
-```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Adjust sheet number accordingly
-' Tables are their index number, or just put their name in quotes
-' Field = column number
-' Criteria1 = filter
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Dim table As ListObject
-
-Set table = Workbooks("dev.xlsm").Worksheets(1).ListObjects(1)
-
-table.Range.AutoFilter Field:=1, Criteria1:="="
-```
 
 ### **Loop Through All Columns and Reset All**
 
