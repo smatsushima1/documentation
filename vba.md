@@ -5,7 +5,7 @@ title: VBA
 
 # **Table of Contents**
 
-1. [Quick Reference](#quick-reference)
+1. [Quick Reference Table](#quick-reference-table)
 2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
     - [Chart With Multiple Axes](#chart-with-multiple-axes)
@@ -29,65 +29,24 @@ title: VBA
     - [Modify UserForm Initialization](#modify-userform-initialization)
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
-9. [Print Columns to Fit Page](#print-columnns-to-fit-page)
+9. [Print Columns to Fit Page](#print-columns-to-fit-page)
 10. [VBscript](#vbscript-in-powershell)
 
 ---
 
-## **Quick Reference**
+## **Quick Reference Table**
 
-```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Name of current workbook
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+FUNCTION | CODE
+--- | ---
+Name of current workbook | `Dim wb as String` <br/> `wb = ThisWorkbook.Name`
+Worksheet as Dim | `Dim ws as Worksheet` <br/> `Set ws = ThisWorkbook.Worksheets(1)`
+Number of rows used | `ws.Cells(Rows.Count, 1).End(xlUp).Row`
+Number of columns used | `ws.Cells(1, Columns.Count).End(xlToLeft).Column`
+Filter table <br/> *Field = column index* | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="`
+Reset all values in filter | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1`
+Filter regular filter | `ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="`
+Module code to run on <br/> workbook opening | `Private Sub Auto_Open()` <br/> `End Sub`
 
-Dim wb as String
-
-wb = ThisWorkbook.Name
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Worksheet as Dim
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Dim ws as Worksheet
-
-Set ws = Workbooks(wb).Worksheets(1)
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Number of rows used
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Workbooks(wb).Worksheets(1).Cells(Rows.Count, 1).End(xlUp).Row
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Number of columns used
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Workbooks(wb).Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Filter data table
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Workbooks(wb).Worksheets(1).ListObjects("table_name").Range.AutoFilter _
-  Field:=1, _
-  Criteria1:="="
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Reset all values in filter
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Workbooks(wb).Worksheets(1).ListObjects("table_name").Range.AutoFilter _
-  Field:=1
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Filter regular filter
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Workbooks(wb).Worksheets(1).Range("A:A").AutoFilter _
-  Field:=1, _
-  Criteria1:="="
-```
 ---
 
 ## **Charts**
@@ -243,7 +202,7 @@ Next
 
 ---
 
-## **Reset Button to Uncheck or Check All Boxes**
+## **Uncheck or Check All Boxes**
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1017,7 +976,7 @@ End With
 End Sub
 ```
 
-### **Modify UserForm Intialization**
+### **Modify UserForm Initialization**
 
 - Certain settings may need to be modified upon initialization (creation) of the UserForm
 - To do so, right-click the user form, select **View Code**, then select **Initialize** from the right drop-down
