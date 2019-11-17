@@ -5,7 +5,7 @@ title: VBA
 
 # **Table of Contents**
 
-1. [Quick Reference Table](#quick-reference-table)
+1. [Quick Reference](#quick-reference)
 2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
     - [Chart With Multiple Axes](#chart-with-multiple-axes)
@@ -34,18 +34,60 @@ title: VBA
 
 ---
 
-## **Quick Reference Table**
+## **Quick Reference**
 
-FUNCTION | CODE
---- | ---
-Name of current workbook | `Dim wb as String` <br/> `wb = ThisWorkbook.Name`
-Worksheet as Dim | `Dim ws as Worksheet` <br/> `Set ws = Workbooks(wb).Worksheets(1)`
-Number of rows used | `ws.Cells(Rows.Count, 1).End(xlUp).Row`
-Number of columns used | `ws.Cells(1, Columns.Count).End(xlToLeft).Column`
-Filter table <br/> *Field = column index* | `ws.ListObjects("table_name").Range.AutoFilter _` <br/> `Field:=1, _` <br/> `Criteria1:="="`
-Reset all values in filter | `ws.ListObjects("table_name").Range.AutoFilter _` <br/> `Field:=1`
-Filter regular filter | `ws.Range("A:A").AutoFilter _` <br/> `Field:=1, _` <br/> `Criteria1:="="`
+```vbnet
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Name of current workbook
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+Dim wb as String
+
+wb = ThisWorkbook.Name
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Worksheet as Dim
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim ws as Worksheet
+
+Set ws = Workbooks(wb).Worksheets(1)
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Number of rows used
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Workbooks(wb).Worksheets(1).Cells(Rows.Count, 1).End(xlUp).Row
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Number of columns used
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Workbooks(wb).Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Filter data table
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Workbooks(wb).Worksheets(1).ListObjects("table_name").Range.AutoFilter _
+  Field:=1, _
+  Criteria1:="="
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Reset all values in filter
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Workbooks(wb).Worksheets(1).ListObjects("table_name").Range.AutoFilter _
+  Field:=1
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Filter regular filter
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Workbooks(wb).Worksheets(1).Range("A:A").AutoFilter _
+  Field:=1, _
+  Criteria1:="="
+```
 ---
 
 ## **Charts**
