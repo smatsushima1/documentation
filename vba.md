@@ -169,7 +169,7 @@ Dim ch_box As CheckBox
 ' sheet_num = specific sheet number, not sheet name, where checkboxes are desired
 ' sheet_num_range = range within the sheet number to insert the checkboxes
 ' col_offset = column where linked cell will be in reference to checkbox cell
- '             (ie 1 is right 1, -1 is left 1)
+'              (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Set sheet_num = Workbooks("dev.xlsm").Worksheets(1)
