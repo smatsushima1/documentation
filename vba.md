@@ -30,7 +30,7 @@ title: VBA
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
 9. [Print Columns to Fit Page](#print-columns-to-fit-page)
-10. [VBscript](#vbscript-in-powershell)
+10. [VBscript in Powershell](#vbscript-in-powershell)
 
 ---
 
@@ -173,7 +173,7 @@ End With
 ### **Adding Multiple Check Boxes and Links**
 
 ```vbnet
-Dim sheet_num As Worksheet
+Dim ws As Worksheet
 Dim sheet_num_range As Range
 Dim col_offset As Integer
 Dim cell As Range
@@ -187,12 +187,12 @@ Dim ch_box As CheckBox
 '              (ie 1 is right 1, -1 is left 1)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Set sheet_num = Workbooks("dev.xlsm").Worksheets(1)
-Set sheet_num_range = sheet_num.Range("A1:A10")
+Set ws = ThisWorkbook.Worksheets(1)
+Set sheet_num_range = ws.Range("A1:A10")
 col_offset = 1
 
 For Each cell In sheet_num_range
-  Set ch_box = sheet_num.checkBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
+  Set ch_box = ws.checkBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
   With ch_box
     .Caption = ""
     .LinkedCell = .TopLeftCell.Offset(0, col_offset).Address
@@ -209,7 +209,7 @@ Next
 ' False will uncheck all boxes, True will check all boxes
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Workbooks("dev.xlsm").Worksheets(1).CheckBoxes.Value = False
+ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 ```
 
 ---
@@ -224,12 +224,13 @@ Workbooks("dev.xlsm").Worksheets(1).CheckBoxes.Value = False
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim col As Long
+Dim ws as Worksheet
 
-col = Workbooks("dev.xlsm").Worksheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
+Set ws = ThisWorkbook.Worksheets(1)
+col = ws.Cells(1, Columns.Count).End(xlToLeft).Column
 
 For i = 1 To col
-  Workbooks("dev.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
-    Field:=i
+  ws.ListObjects("Table1").Range.AutoFilter Field:=i
 Next i
 ```
 
@@ -240,16 +241,15 @@ Next i
 ' Adjust col_name as applicable
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-Dim col As Long
+Dim ws as Worksheet
 Dim col_name as String
+Dim col As Long
 
+Set ws = ThisWorkbook.Worksheets(1)
 col_name = "Column5"
-col = Workbooks("dev.xlsm").Worksheets(1).Rows(1).Find(what:=name).Column
+col = ws.Rows(1).Find(what:=col_name).Column
 
-MsgBox col
-
-Workbooks("dev2.xlsm").Worksheets(1).ListObjects("Table1").Range.AutoFilter _
-  Field:=col, Criteria1:="1"
+ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ```
 
 ---
@@ -539,9 +539,16 @@ Workbooks("WIP Generator.xlsm").Close SaveChanges:=False
 End Sub
 ```
 
+---
+
 ## **Folder Generator**
 
-*In Process*
+*This will take text inputted into text content controls and apply them to other documents*
+
+### **Generating the Sub Procedure**
+
+- One sub will run all the vba code; this way, error-handling is much easier managed
+- Public variables are defined here to be used throughout all other subs
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -625,6 +632,14 @@ resetVariables
 Application.ScreenUpdating = True
 
 End Sub
+```
+
+### **Resetting Variables**
+
+- This sub is utilized so that all global variables can't be re-used in future sub calls in case errors prevent the code from finishing
+- Global variables are to be re-defined after utilizing the main sub
+
+```
 Sub resetVariables()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -656,6 +671,14 @@ large_folder5 = vbNullString
 large_folder6 = vbNullString
 
 End Sub
+```
+
+### **Saving Input**
+
+- This will redefine each global variable
+- Logically done directly after resetting everything
+
+```
 Sub saveInput()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -680,6 +703,14 @@ With Documents(file_name)
 End With
 
 End Sub
+```
+
+### **Creating the Initial Folder**
+
+- First select where the folder wishes to be, then save the folder path as a variable
+- Rename the folder the correct name
+
+```
 Sub createFolder()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -719,6 +750,13 @@ Else
 End If
 
 End Sub
+```
+
+### **Create the Subfolders**
+
+- Create all subfolders and working folders underneath
+
+```
 Sub createSubfolders()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -762,6 +800,14 @@ Else
 End If
 
 End Sub
+```
+
+### **Populating Forms**
+
+- This is the final step
+- Insert as many other forms starting with the `With` code, and renaming it anyway you want
+
+```
 Sub populateForms()
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -783,12 +829,9 @@ If requirement_type = "SAP" Then
 End If
 
 End Sub
-Private Sub GENERATE_Click()
-
-generateRequirement
-
-End Sub
 ```
+
+---
 
 ## **Send Emails Based on Conditionals**
 
@@ -948,6 +991,8 @@ Next
 End Sub
 ```
 
+---
+
 ## **UserForm Basics**
 
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
@@ -960,8 +1005,6 @@ End Sub
 - To call the UserForm and have it pop-up at the center of the excel screen, use the following submodule:
 
 ```vbnet
-Sub generateUserForm()
-
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' text_box is the name of the UserForm, change it as applicable
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -972,8 +1015,6 @@ With text_box
   .Top = Application.Top + (0.5 * Application.Height) - (0.5 * .Height)
   .Show
 End With
-
-End Sub
 ```
 
 ### **Modify UserForm Initialization**
@@ -1261,7 +1302,7 @@ Dim start_date, _
     As Date
 Dim ws As Worksheet
 
-Set ws = Workbooks("userform_dev.xlsm").Worksheets(1)
+Set ws = ThisWorkbook.Worksheets(1)
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 1) Error check for no inputs
@@ -1471,6 +1512,8 @@ End Sub
 ## **Print Columns to Fit Page**
 
 ```vbnet
+Dim ws as Worksheet
+
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' - Application.PrintCommunication must be set to False in order to have the
 ' columns fit to the page
@@ -1482,8 +1525,10 @@ End Sub
 ' - &N is total number of pages
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+Set ws = ThisWorkbook.Worksheets(1)
+
 Application.PrintCommunication = False
-With Worksheets(1).PageSetup
+With ws.PageSetup
   .FitToPagesWide = 1
   .FitToPagesTall = False
   .ScaleWithDocHeaderFooter = True
@@ -1491,13 +1536,13 @@ With Worksheets(1).PageSetup
 End With
 Application.PrintCommunication = True
 
-With Worksheets(1).PageSetup
+With ws.PageSetup
   .LeftHeader = "&""Times New Roman,Regular""&D"
   .CenterHeader = "&""Times New Roman,Bold""&18&F - NOTIFICATIONS REPORT"
   .RightHeader = "&""Times New Roman,Regular""&P of &N"
 End With
 
-Worksheets(1).columns("A:O").PrintPreview
+ws.columns("A:O").PrintPreview
 ```
 
 ---
