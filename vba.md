@@ -30,7 +30,8 @@ title: VBA
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
 9. [Print Columns to Fit Page](#print-columns-to-fit-page)
-10. [VBscript in Powershell](#vbscript-in-powershell)
+10. [Find Unique Values in Range](#find-unique-values-in-range)
+11. [VBscript in Powershell](#vbscript-in-powershell)
 
 ---
 
@@ -1543,6 +1544,64 @@ With ws.PageSetup
 End With
 
 ws.columns("A:O").PrintPreview
+```
+
+---
+
+## **Find Unique Values in Range**
+
+- scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
+- one of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
+
+```vbnet
+Dim d As Object
+Dim ws, ws3 As Worksheet
+Dim last_row As Long
+Dim val, values As Variant
+Dim find_range As Range
+
+Set d = CreateObject("Scripting.Dictionary")
+Set ws = ThisWorkbook.Worksheets(1)
+Set ws3 = ThisWorkbook.Worksheets(3)
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 1 - CREATE INITIAL ARRAY
+' - first create an array of all values in the first column of the table
+' - dupes will be present
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+With ws
+  values = .ListObjects("Table1").ListColumns(1).DataBodyRange
+  values = Application.Transpose(values)
+End With
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 2 - ASSIGN UNIQUE ITEM TO EACH VALUE
+' - the scripting dictionary object will create items for each unique item
+' - the value for each item will be itself
+' - dupes will be removed
+' - new array is simply d
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+For Each val In values
+  d.Item(val) = val
+Next val
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 3 - LOOP THROUGH AND AUTO-UPDATE OTHER TABLE
+' - for each value that is in the new array d, check to see if its in the table
+' - if not, then add the value to the table
+' - "Nothing" is used since the value will not be a null string or empty string
+' - "xlWhole" must be used since we want to search all contents of the cell
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+For Each val In d
+  Set find_range = ws3.Columns(1).Find(what:=val, LookAt:=xlWhole)
+  If find_range Is Nothing Then
+    last_row = ws3.Cells(Rows.Count, 1).End(xlUp).Row
+    ws3.Cells(last_row + 1, 1).value = val
+  End If
+Next val
 ```
 
 ---
