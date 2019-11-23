@@ -1650,7 +1650,7 @@ End Sub
 
 ### **Navigate to the Associated Folder**
 
-```
+```vbnet
 Private Sub button_go_to_Click()
 
 Dim ws3 As Worksheet
@@ -1704,7 +1704,7 @@ End Sub
 
 ### **Add Folder Location**
 
-```
+```vbnet
 Private Sub button_add_folder_Click()
 
 Dim ws3 As Worksheet
@@ -1780,7 +1780,7 @@ End Sub
 
 ### **Exit UserForm**
 
-```
+```vbnet
 Private Sub button_exit_Click()
 
 Unload go_to_folder
