@@ -15,23 +15,29 @@ title: VBA
 4. [Filters](#filters)
     - [Loop Through All Columns and Reset All](#loop-through-all-columns-and-reset-all)
     - [Find Column Name in Table and Apply Filter](#find-column-name-in-table-and-apply-filter)
-5. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
+5. [Find](#find)
+    - [Fix to Find First Occurence on Row 1](#fix-to-find-first-occurence-on-row-1)
+6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
     - [generateWIP](#generatewip)
     - [resetVariables](#resetvariables)
     - [selectWIP](#selectwip)
     - [copyWIP](#copywip)
     - [applyTemplate](#applytemplate)
     - [closeGenerator](#closegenerator)
-6. [Folder Generator](#folder-generator)
-7. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
-8. [UserForm Basics](#userform-basics)
+7. [Folder Generator](#folder-generator)
+8. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
+9. [UserForm Basics](#userform-basics)
     - [Generating the UserForm](#generating-the-userform)
     - [Modify UserForm Initialization](#modify-userform-initialization)
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
-9. [Print Columns to Fit Page](#print-columns-to-fit-page)
-10. [Find Unique Values in Range](#find-unique-values-in-range)
-11. [VBscript in Powershell](#vbscript-in-powershell)
+10. [Print Columns to Fit Page](#print-columns-to-fit-page)
+11. [Find Unique Values and Navigate to Location](#find-unique-values-and-navigate-to-location)
+    - [Identify Unique Values in an Array](#identify-unique-values-in-an-array)
+    - [Navigate to the Associated Folder](#navigate-to-the-associated-folder)
+    - [Add Folder Location](#add-folder-location)
+    - [Exit UserForm](#exit-userForm)
+12. [VBscript in Powershell](#vbscript-in-powershell)
 
 ---
 
@@ -251,6 +257,27 @@ col_name = "Column5"
 col = ws.Rows(1).Find(what:=col_name).Column
 
 ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
+```
+
+---
+
+## **Find**
+
+### **Fix to Find First Occurence on Row 1**
+
+- For whatever reason, `Find` won't find the first occorence of something if it occurs on row 1
+- To fix this, search for it with the last row used in the column under the `After` variable
+- This will reset the position to start searching for everything at the beginning of the data set
+
+```vbnet
+Dim ws As Worksheet
+Dim last_row As Long
+
+Set ws = ThisWorkbook.Worksheets(1)
+
+last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
 ```
 
 ---
@@ -1548,12 +1575,17 @@ ws.columns("A:O").PrintPreview
 
 ---
 
-## **Find Unique Values in Range**
+## **Find Unique Values and Navigate to Location**
 
-- scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
-- one of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
+### **Identify Unique Values in an Array**
+
+- Scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
+- One of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
 
 ```vbnet
+Option Explicit
+Private Sub UserForm_Initialize()
+
 Dim d As Object
 Dim ws, ws3 As Worksheet
 Dim last_row As Long
@@ -1578,7 +1610,6 @@ End With
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' STEP 2 - ASSIGN UNIQUE ITEM TO EACH VALUE
 ' - the scripting dictionary object will create items for each unique item
-' - the value for each item will be itself
 ' - dupes will be removed
 ' - new array is simply d
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1602,6 +1633,159 @@ For Each val In d
     ws3.Cells(last_row + 1, 1).value = val
   End If
 Next val
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 4 - POPULATE LIST BOX
+' - for each value in d, add it to the list box
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+For Each val In d
+  go_to_folder.contracts.AddItem val
+Next val
+
+go_to_folder.contracts.ListIndex = 0
+
+End Sub
+```
+
+### **Navigate to the Associated Folder**
+
+```
+Private Sub button_go_to_Click()
+
+Dim ws3 As Worksheet
+Dim val_contracts, folder As String
+Dim find_row As Long
+
+Set ws3 = ThisWorkbook.Worksheets(3)
+
+val_contracts = go_to_folder.contracts.value
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 1 - SAVE ROW VALUE AND FOLDER COLUMN VALUE
+' - whatever is captured in the folder column, we want to capture it
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+With ws3.Columns(1)
+  find_row = .Find(what:=val_contracts, LookAt:=xlWhole).Row
+  folder = .Cells(find_row, 2).value
+End With
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 2 - GO TO FOLDER OR RAISE WARNING
+' - if the folder value is empty, then instruct to add a folder for the contract
+' - if folder is there, then first check if system can access it (Dir folder)
+' - if there is an error, it will raise a msgbox then exit the sub
+' - if no errors, the system will go to folder
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+If folder = vbNullString Then
+  MsgBox "No folders have been added for this contract." & vbCrLf & _
+    vbCrLf & _
+    "Use the ADD FOLDER button to add a folder location to this contrat.", _
+    Title:="Folder Needs To Be Added"
+Else
+  On Error GoTo error_message
+  Dir folder
+  Call Shell("explorer.exe" & " " & folder, vbNormalFocus)
+End If
+
+Done:
+  Exit Sub
+
+error_message:
+  MsgBox "Sorry, folder can't be accessed on your system." & vbCrLf & vbCrLf & _
+    "You may need to add another folder for this contract.", _
+    Title:="Can't Access Folder"
+  Exit Sub
+
+End Sub
+```
+
+### **Add Folder Location**
+
+```
+Private Sub button_add_folder_Click()
+
+Dim ws3 As Worksheet
+Dim val_contracts, folder, folder_path As String
+Dim find_row As Long
+
+Set ws3 = ThisWorkbook.Worksheets(3)
+
+val_contracts = go_to_folder.contracts.value
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 1 - SAVE ROW VALUE AND FOLDER COLUMN VALUE
+' - whatever is captured in the folder column, we want to capture it
+' - identical to button_go_to sub procedure
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+With ws3.Columns(1)
+  find_row = .Find(what:=val_contracts, LookAt:=xlWhole).Row
+  folder = .Cells(find_row, 2).value
+End With
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 2 - SELECT FOLDER LOCATION
+' - if the folder value is empty, then add folder to folder column
+' - if not empty and value is already there, raise warning to proceed
+'   - if user doesn't want to continue, then exit sub
+' - save folder path as the value in the folder column
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+If folder = vbNullString Then
+  With Application.FileDialog(msoFileDialogFolderPicker)
+    .Title = "Select Folder"
+    If .Show = -1 Then
+      folder_path = .SelectedItems(1)
+    Else
+      MsgBox "No folder selected."
+      Exit Sub
+    End If
+  End With
+ElseIf folder <> vbNullString Then
+  If MsgBox("Current location will be replaced with new location." & _
+    vbCrLf & vbCrLf & "Proceed?", _
+    Buttons:=vbYesNo, _
+    Title:="Overwrite data?") = vbYes Then
+    With Application.FileDialog(msoFileDialogFolderPicker)
+      .Title = "Select Folder"
+      If .Show = -1 Then
+        folder_path = .SelectedItems(1)
+      Else
+        MsgBox "No folder selected."
+        Exit Sub
+      End If
+    End With
+  Else
+    Exit Sub
+  End If
+End If
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' STEP 3 - SAVE FOLDER PATH
+' - save folder_path as the value in the folder column
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+ws3.Cells(find_row, 2).value = folder_path
+
+MsgBox "Folder added successfully." & _
+  vbCrLf & vbCrLf & _
+  "You can now navigate to contract: " & val_contracts, _
+  Title:="Success!"
+
+End Sub
+```
+
+### **Exit UserForm**
+
+```
+Private Sub button_exit_Click()
+
+Unload go_to_folder
+
+End Sub
 ```
 
 ---
