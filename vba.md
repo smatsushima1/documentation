@@ -1635,8 +1635,8 @@ For Each val In d
 Next val
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 4 - POPULATE LIST BOX
-' - for each value in d, add it to the list box
+' STEP 4 - POPULATE COMBO BOX
+' - for each value in d, add it to the combo box
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 For Each val In d
