@@ -212,7 +212,7 @@ Next
 
 ---
 
-## **Uncheck or Check All Boxes**
+### **Uncheck or Check All Boxes**
 
 ```vbnet
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -268,25 +268,26 @@ ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' - First loop through each pivot table (names are in the array) and clear all
 '   filters
-' - Next, only search for the field previously specified and make it the only
-'   visible field in the table; else make all others invisilble
+' - Next, only search for criteria specified within the field variable and make
+'   it the only visible field in the table; else make all others invisilble
 ' - Lastly, autofit the columns since pivot tables don't do that for some reason
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Dim ws as Worksheet
 Dim i, j as long
-Dim field as String
+Dim field, criteria as String
 
 Set ws = Thisworkbook.Worksheets(1)
 
-field = "FY18"
+field = "FY"
+criteria = "FY18"
 
 For Each i In Array("count", "sum_awarded", "sum_savings", "average_savings")
   With ws
-    With .PivotTables(i).PivotFields("FY")
+    With .PivotTables(i).PivotFields(field)
       .ClearAllFilters
       For j = 1 To .PivotItems.count
-        If .PivotItems(j).Name = field Then
+        If .PivotItems(j).Name = criteria Then
           .PivotItems(j).Visible = True
         Else
           .PivotItems(j).Visible = False
@@ -1842,10 +1843,12 @@ Dim monday_date As String
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 backup_path = ThisWorkbook.path
-backup_path = backup_path & "\BACKUP TO POST-AWARD WIPS"
+backup_path = backup_path & "\BACKUP FOLDER"
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 2) Calculate the day Monday would be for the current week
+' - Date must be saved as a string since dates have "/" and those are read as
+'   folder separators in the file path
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 monday = Weekday(Date, vbMonday)
@@ -1861,7 +1864,7 @@ End If
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 4) Create the new file name to include the path location, replace the
-'    extension with the date, "Backup", and extension
+'    extension with the date, "Backup", and add back in the extension
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 file_name = ThisWorkbook.Name
