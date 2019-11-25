@@ -269,7 +269,7 @@ ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ' - First loop through each pivot table (names are in the array) and clear all
 '   filters
 ' - Next, only search for criteria specified within the field variable and make
-'   it the only visible field in the table; else make all others invisilble
+'   it the only visible criteria in the table; else make all others invisilble
 ' - Lastly, autofit the columns since pivot tables don't do that for some reason
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
