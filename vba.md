@@ -15,6 +15,7 @@ title: VBA
 4. [Filters](#filters)
     - [Loop Through All Columns and Reset All](#loop-through-all-columns-and-reset-all)
     - [Find Column Name in Table and Apply Filter](#find-column-name-in-table-and-apply-filter)
+    - [Pivot Table Filters](#pivot-table-filters)
 5. [Find](#find)
     - [Fix to Find First Occurence on Row 1](#fix-to-find-first-occurence-on-row-1)
 6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
@@ -37,7 +38,8 @@ title: VBA
     - [Navigate to the Associated Folder](#navigate-to-the-associated-folder)
     - [Add Folder Location](#add-folder-location)
     - [Exit UserForm](#exit-userForm)
-12. [VBscript in Powershell](#vbscript-in-powershell)
+12. [Auto-Save Workbook](#auto-save-workbook)
+13. [VBscript in Powershell](#vbscript-in-powershell)
 
 ---
 
@@ -49,6 +51,7 @@ Name of current workbook | `Dim wb as String` <br/> `wb = ThisWorkbook.Name`
 Worksheet as Dim | `Dim ws as Worksheet` <br/> `Set ws = ThisWorkbook.Worksheets(1)`
 Number of rows used | `ws.Cells(Rows.Count, 1).End(xlUp).Row`
 Number of columns used | `ws.Cells(1, Columns.Count).End(xlToLeft).Column`
+Number of columns used <br/> Alt. | `ws.Rows(1).Find(What:=vbNullString, SearchOrder:=xlByColumns, _` <br/> `SearchDirection:=xlNext).Column`
 Filter table <br/> *Field = column index* | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="`
 Reset all values in filter | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1`
 Filter regular filter | `ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="`
@@ -259,6 +262,40 @@ col = ws.Rows(1).Find(what:=col_name).Column
 ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ```
 
+### **Pivot Table Filters**
+
+```vbnet
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' - First loop through each pivot table (names are in the array) and clear all
+'   filters
+' - Next, only search for the field previously specified and make it the only
+'   visible field in the table; else make all others invisilble
+' - Lastly, autofit the columns since pivot tables don't do that for some reason
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim ws as Worksheet
+Dim i, j as long
+Dim field as String
+
+Set ws = Thisworkbook.Worksheets(1)
+
+field = "FY18"
+
+For Each i In Array("count", "sum_awarded", "sum_savings", "average_savings")
+  With ws
+    With .PivotTables(i).PivotFields("FY")
+      .ClearAllFilters
+      For j = 1 To .PivotItems.count
+        If .PivotItems(j).Name = field Then
+          .PivotItems(j).Visible = True
+        Else
+          .PivotItems(j).Visible = False
+        End If
+      Next j
+    End With
+    .Columns("A:B").EntireColumn.AutoFit
+  End With
+Next i
 ---
 
 ## **Find**
@@ -1786,6 +1823,56 @@ Private Sub button_exit_Click()
 Unload go_to_folder
 
 End Sub
+```
+
+---
+
+## **Auto-Save Workbook**
+
+- Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
+
+```vbnet
+Dim backup_path, file_name As String
+Dim monday As Long
+Dim monday_date As String
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' 1) Create the location to store all backup files
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+backup_path = ThisWorkbook.path
+backup_path = backup_path & "\BACKUP TO POST-AWARD WIPS"
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' 2) Calculate the day Monday would be for the current week
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+monday = Weekday(Date, vbMonday)
+monday_date = Format(Date - monday + 1, "mm-dd-yyyy")
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' 3) Check to see if the folder is created; if not created, then create it
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+If Len(Dir(backup_path, vbDirectory)) = 0 Then
+  MkDir backup_path
+End If
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' 4) Create the new file name to include the path location, replace the
+'    extension with the date, "Backup", and extension
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+file_name = ThisWorkbook.Name
+file_name = Replace(file_name, ".xlsm", " - " & monday_date)
+file_name = file_name & " Backup.xlsm"
+file_name = backup_path & "\" & file_name
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' 5) Finally, save the copy
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+ThisWorkbook.SaveCopyAs file_name
 ```
 
 ---
