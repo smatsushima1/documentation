@@ -41,7 +41,7 @@ title: VBA
     - [Add Folder Location](#add-folder-location)
     - [Exit UserForm](#exit-userForm)
 13. [Auto-Save Workbook](#auto-save-workbook)
-14. [VBscript in Powershell](#vbscript-in-powershell)
+14. [VBscript in the Shell](#vbscript-in-the-shell)
 
 ---
 
