@@ -32,14 +32,16 @@ title: VBA
     - [Modify UserForm Initialization](#modify-userform-initialization)
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
-10. [Print Columns to Fit Page](#print-columns-to-fit-page)
-11. [Find Unique Values and Navigate to Location](#find-unique-values-and-navigate-to-location)
+    - [Auto-Updating List Box and Auto-Closing](#auto-updating-list-box-and-auto-closing)
+10. [Auto-Updating Button Position](#auto-updating-button-position)
+11. [Print Columns to Fit Page](#print-columns-to-fit-page)
+12. [Find Unique Values and Navigate to Location](#find-unique-values-and-navigate-to-location)
     - [Identify Unique Values in an Array](#identify-unique-values-in-an-array)
     - [Navigate to the Associated Folder](#navigate-to-the-associated-folder)
     - [Add Folder Location](#add-folder-location)
     - [Exit UserForm](#exit-userForm)
-12. [Auto-Save Workbook](#auto-save-workbook)
-13. [VBscript in Powershell](#vbscript-in-powershell)
+13. [Auto-Save Workbook](#auto-save-workbook)
+14. [VBscript in Powershell](#vbscript-in-powershell)
 
 ---
 
@@ -960,6 +962,9 @@ End If
 'End If
 
 End Sub
+```
+
+```vbnet
 Sub macro1()
 
 ' WORKING
@@ -985,6 +990,9 @@ If Not find_range Is Nothing Then
 End If
 
 End Sub
+```
+
+```vbnet
 Sub macro2()
 
 ' WORKING
@@ -1004,6 +1012,9 @@ Print #file_num, append_text
 Close #file_num
 
 End Sub
+```
+
+```vbnet
 Sub macro3()
 
 ' WORKING
@@ -1015,6 +1026,9 @@ Else
 End If
 
 End Sub
+```
+
+```vbnet
 Sub macro4()
 
 Dim table_column As Long
@@ -1024,6 +1038,9 @@ table_column = Worksheets(2).ListObjects("post_award_wip").DataBodyRange.Rows.Co
 MsgBox table_column
 
 End Sub
+```
+
+```vbnet
 Sub macro5()
 
 ' WORKING
@@ -1044,6 +1061,9 @@ DoneFinding:
 End With
 
 End Sub
+```
+
+```vbnet
 Sub macro6()
 
 Dim find_cell As Range
@@ -1574,6 +1594,56 @@ ws.Cells(new_row, 8).Select
 End Sub
 ```
 
+### Auto-Updating List Box and Auto-Closing
+
+- Using the Scripting Dictionaries from [below](#find-unique-values-and-navigate-to-location), you can auto-populate a List Box based on unique values in a column
+- Selecting anything in the List Box will perform any actions, then close it
+- This assumes a userform named `user_form` and List Box named `list_box`
+- The below code is basic out of simplicity, but `values` is an array
+
+```vbnet
+Dim val, values as Variant
+
+For each val in values
+  user_form.list_box.AddItem val
+next val
+```
+
+- Next select the List Box in the drop-down and select the `Change` property
+- `Msgbox list_box.Value` can be anything, this just shows the value to the user, then closes the user_form
+
+```vbnet
+Private Sub list_box_Change()
+
+MsgBox list_box.Value
+
+Unload user_form
+
+End Sub
+```
+
+---
+
+## **Auto-Updating Button Position**
+
+- Save this macro in the module with all other code, then run it under the specified worksheet during the `SelectionChange`: `Private Sub Worksheet_SelectionChange(ByVal Target As Range)`
+- Modify the `.Left` address as necessary depending on what column you want it in, but it will always be on the row of your cell
+
+```vbnet
+Sub cellAddress()
+
+Dim ws As Worksheet
+
+Set ws = ThisWorkbook.Worksheets(1)
+
+With ws.Shapes("button_go_to")
+  .Left = ws.Range("A1")
+  .Top = ActiveCell.Top
+End With
+
+End Sub
+```
+
 ---
 
 ## **Print Columns to Fit Page**
@@ -1852,7 +1922,7 @@ backup_path = backup_path & "\BACKUP FOLDER"
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 monday = Weekday(Date, vbMonday)
-monday_date = Format(Date - monday + 1, "mm-dd-yyyy")
+monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' 3) Check to see if the folder is created; if not created, then create it
@@ -1881,9 +1951,13 @@ ThisWorkbook.SaveCopyAs file_name
 
 ---
 
-## **VBscript in Powershell**
+## **VBscript in the Shell**
 
-*In process*
+- The following will run VBA code in a workbook through the shell
+- Call in Powershell or the Command Prompt with either `cscript` or `wscript`
+    - `cscript` will run output in the console
+    - `wscript` will run output in a pop-up window
+- despite the above, `wscript` can only be used in the vbscript since there is no `cscript` function in VB scripting
 
 ```vbnet
 Option Explicit
