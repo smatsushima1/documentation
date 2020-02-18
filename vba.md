@@ -1610,7 +1610,7 @@ next val
 ```
 
 - Next select the List Box in the drop-down and select the `Change` property
-- `Msgbox list_box.Value` can be anything, this just shows the value to the user, then closes the user_form
+- `Msgbox list_box.Value` can be anything, this just shows the value to the user, then closes the user form
 
 ```vbnet
 Private Sub list_box_Change()
