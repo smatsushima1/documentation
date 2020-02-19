@@ -1987,6 +1987,7 @@ wscript.quit
 
 ### Printing to Console
 
+- In order to print to console, use `cscript` to call the script, not `wscript`
 - First method
 
 ```vbnet
