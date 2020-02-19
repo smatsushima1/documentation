@@ -41,7 +41,10 @@ title: VBA
     - [Add Folder Location](#add-folder-location)
     - [Exit UserForm](#exit-userForm)
 13. [Auto-Save Workbook](#auto-save-workbook)
-14. [VBscript in the Shell](#vbscript-in-the-shell)
+14. [VBscript](#vbscript)
+    - [Running a Macro](#running-a-macro)
+    - [Printing to Console](#printing-to-console)
+    - [Passing Arguments](#passing-arguments)
 
 ---
 
@@ -57,7 +60,8 @@ Number of columns used <br/> Alt. | `ws.Rows(1).Find(What:=vbNullString, SearchO
 Filter table <br/> *Field = column index* | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="`
 Reset all values in filter | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1`
 Filter regular filter | `ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="`
-Module code to run on <br/> workbook opening | `Private Sub Auto_Open()` <br/> `End Sub`
+Module code to run on <br/> workbook opening | `Private Sub Auto_Open()`
+Check for network connection | `If Dir("I:\", vbDirectory) = vbNullString Then` <br/> `MsgBox "No connection"` <br/> `End If`
 
 ---
 
@@ -1951,13 +1955,13 @@ ThisWorkbook.SaveCopyAs file_name
 
 ---
 
-## **VBscript in the Shell**
+## **VBscript**
 
-- The following will run VBA code in a workbook through the shell
-- Call in Powershell or the Command Prompt with either `cscript` or `wscript`
+- Call scripts with either `cscript` or `wscript`
     - `cscript` will run output in the console
     - `wscript` will run output in a pop-up window
-- despite the above, `wscript` can only be used in the vbscript since there is no `cscript` function in VB scripting
+
+### **Running a Macro**
 
 ```vbnet
 Option Explicit
@@ -1980,3 +1984,47 @@ excel_obj.Quit
 
 wscript.quit
 ```
+
+### Printing to Console
+
+- First method
+
+```vbnet
+wscript.echo _
+vbcrlf & _
+"################################################################################" & vbcrlf & _
+"DATE: " & Now & vbcrlf & _
+"TESTING" & vbcrlf & _
+"################################################################################"
+```
+
+- Second method, ends code after `stdout.writeline`
+
+```vbnet
+Dim fso, stdout, stderr
+
+set fso = CreateObject("Scripting.FilesystemObject")
+set stdout = fso.GetStandardStream(1)
+set stderr = fso.GetStandardStream(2)
+
+stdout.writeline "derp"
+```
+
+### Passing Arguments
+
+- This includes error checking to see if all parameters were inputted
+
+```vbnet
+Dim arg, arg_1, arg_2
+
+set arg = wscript.arguments
+
+if wscript.arguments.count < 2 then
+  wscript.echo "VBscript cancelled - please input parameters"
+  wscript.quit
+else
+  arg_1 = arg(0)
+  arg_2 = arg(1)
+end if
+```
+
