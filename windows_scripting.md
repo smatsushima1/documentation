@@ -1,9 +1,11 @@
 ---
 layout: default
-title: Powershell
+title: Windows Scripting
 ---
 
-## .ps1 Profile
+## Powershell
+
+### .ps1 Profile
 
 ```
 ################################################################################
@@ -31,4 +33,18 @@ set-alias l 'ls'
 set-alias .. 'cd..'
 set-alias np 'notepad'
 set-alias v 'C:\Program Files (x86)\Vim\vim81\vim.exe'
+```
+
+## Windows Command Prompt
+
+- Save all files with `.bat`
+
+### Running VBscript
+
+- `@echo off` means it won't output the commands through the console, which happens automatically for some odd reason
+
+```
+@echo off
+
+cscript dev.vbs //nologo >> log.txt
 ```
