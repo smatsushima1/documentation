@@ -5,43 +5,43 @@ title: .vimrc
 
 ```
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" to install Vim 8.0 from github:
+"to install Vim 8.0 from github:
 "
-" git clone https://github.com/vim/vim.git
-" cd vim
-" configure
-" (install dependencies as needed, usually 'yum install -y ncurses-devel')
-" make
-" make install
+"git clone https://github.com/vim/vim.git
+"cd vim
+"configure
+"(install dependencies as needed, usually 'yum install -y ncurses-devel')
+"make
+"make install
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vundle
+"vundle
 "
-" https://github.com/VundleVim/Vundle.vim
+"https://github.com/VundleVim/Vundle.vim
 "
-" Install:
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"Install:
+"git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "
-" To add plugins:
-" - type plugin name after 'call vundle#begin()' but before 'call vundle#end()
-" - exit out, then re-edit .vimrc again
-" - type ':BundleInstall' to see if package was added
+"To add plugins:
+"- type plugin name after 'call vundle#begin()' but before 'call vundle#end()
+"- exit out, then re-edit .vimrc again
+"- type ':BundleInstall' to see if package was added
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible                  " let vim not act like vi
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()               " plugins must follow this, not before
-
-Plugin 'VundleVim/Vundle.vim'     " let Vundle manage Vundle, required
-Plugin 'vim-airline/vim-airline'  " status bar on bottom of vim
-Plugin 'jalvesaq/Nvim-R'          " work with R from vim
-
-call vundle#end()
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()               " plugins must follow this, not before
+"
+"Plugin 'VundleVim/Vundle.vim'     " let Vundle manage Vundle, required
+"Plugin 'vim-airline/vim-airline'  " status bar on bottom of vim
+"Plugin 'jalvesaq/Nvim-R'          " work with R from vim
+"
+"call vundle#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" modifications
+"modifications
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syntax enable                  " allows text highlighting
@@ -49,9 +49,9 @@ filetype plugin on             " allows some vim features to work
 filetype indent on             " automatically indent based on file syntax
 
 set expandtab                  " sets tabs to spaces in insert mode
-set tabstop=4                  " sets tabs to 4 spaces
-set shiftwidth=4               " sets shifts to 4 spaces
-set softtabstop=4              " tabs get deleted as tabs, not spaces
+set tabstop=2                  " sets tabs to 4 spaces
+set shiftwidth=2               " sets shifts to 4 spaces
+set softtabstop=2              " tabs get deleted as tabs, not spaces
 
 set number                     " shows number of lines on left
 set cursorline                 " shows line where cursor is on
@@ -79,58 +79,65 @@ set foldcolumn=4               " shows folds in columns
 set viminfo='500               " remembers 500 vim commands
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" remappings
+"remappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" c-space = esc
-nmap <nul> <esc>
-imap <nul> <esc>
-vmap <nul> <esc>
-
-" hjkl moves with each character, not line, in normal mode
+"hjkl moves with each character, not line, in normal mode
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
 
-" hjkl moves with each character, not line, in visual mode
+"hjkl moves with each character, not line, in visual mode
 vnoremap j gj
 vnoremap k gk
 vnoremap <Down> gj
 vnoremap <Up> gk
 
-" ctrl-h,j,k,l moves like arrow keys in insert mode
+"ctrl-h,j,k,l moves like arrow keys in insert mode
 inoremap <c-h> <left>
 inoremap <c-j> <down>
 inoremap <c-k> <up>
 inoremap <c-l> <right>
 
-" ZA = save and quit-all
+"ZA = save and quit-all
 nnoremap ZA :wqa<CR>
 
-" ZS = save-all
+"ZS = save-all
 nnoremap ZS :wa<CR>
 
-" ZX = quit without save-all
+"ZX = quit without save-all
 nnoremap ZX :qa<CR>
 
-" space acts like space in normal mode
+"space acts like space in normal mode
 nnoremap <space> i<space><right><esc>
 
-" backspace acts like backspace in normal mode
+"backspace acts like backspace in normal mode
 nnoremap <bs> i<bs><right><esc>
 
-" enter acts like enter in normal mode
+"enter acts like enter in normal mode
 nnoremap <enter> i<enter><esc>
 
-" move <c-_> to <c-l>
+"move <c-_> to <c-l>
 nmap <c-_> <C-l>
 
-" <c-h> = 0
+"<c-h> = 0
 nnoremap <c-h> 0
 vnoremap <c-h> 0
 
-" <c-l> = $
+"<c-l> = $
 nnoremap <c-l> $
 vnoremap <c-l> $
+
+"gA to run python off of current file
+"gB to run python off of current selection
+nnoremap gA :!python3 %:p<cr>
+vnoremap gB :'<,'>:w !python3<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"custom commands
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"run python3 for the current file
+"command P3 :!python3 %:p
 ```

@@ -5,7 +5,7 @@ title: VBA
 
 # **Table of Contents**
 
-1. [Quick Reference Table](#quick-reference-table)
+1. [Common Variables](#common-variables)
 2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
     - [Chart With Multiple Axes](#chart-with-multiple-axes)
@@ -48,27 +48,60 @@ title: VBA
 
 ---
 
-## **Quick Reference Table**
+## **Common Variables**
 
-FUNCTION | CODE
---- | ---
-Name of current workbook | `Dim wb as String` <br/> `wb = ThisWorkbook.Name`
-Worksheet as Dim | `Dim ws as Worksheet` <br/> `Set ws = ThisWorkbook.Worksheets(1)`
-Number of rows used | `ws.Cells(Rows.Count, 1).End(xlUp).Row`
-Number of columns used | `ws.Cells(1, Columns.Count).End(xlToLeft).Column`
-Number of columns used <br/> Alt. | `ws.Rows(1).Find(What:=vbNullString, SearchOrder:=xlByColumns, _` <br/> `SearchDirection:=xlNext).Column`
-Filter table <br/> *Field = column index* | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="`
-Reset all values in filter | `ws.ListObjects("TABLE").Range.AutoFilter Field:=1`
-Filter regular filter | `ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="`
-Module code to run on <br/> workbook opening | `Private Sub Auto_Open()`
-Check for network connection | `If Dir("I:\", vbDirectory) = vbNullString Then` <br/> `MsgBox "No connection"` <br/> `End If`
+Workbook Info
+```vbnet
+'workbook name
+ThisWorkbook.Name
 
+'worksheet as an object
+Dim ws as Worksheet
+Set ws = ThisWorkbook.Worksheets(1)
+```
+
+First and last rows and columns
+```vbnet
+'last row
+ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+'last column
+ws.Cells(1, Columns.Count).End(xlToLeft).Column
+
+'columns used alternate
+ws.Rows(1).Find(What:=vbNullString, _
+                SearchOrder:=xlByColumns, _
+                SearchDirection:=xlNext).Column
+```
+
+Filters
+```vbnet
+'data tables
+'Field is the column index
+ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="
+
+'auto-filters
+ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="
+
+'reset all values in a data table
+ws.ListObjects("TABLE").Range.AutoFilter Field:=1
+```
+
+Miscellaneous
+```vbnet
+'module subroutine to automatically run on workbook opening
+Private Sub Auto_Open()
+End Sub
+
+'check for network connection
+If Dir("I:\", vbDirectory) = vbNullString Then
+  MsgBox "No connection"
+End If
+```
 ---
 
 ## **Charts**
-
 ### **Basic Line Chart**
-
 ```vbnet
 Dim max_row As Range
 Dim source_data_range As String
@@ -119,11 +152,8 @@ With chart1.Chart
 
 End With
 ```
-
 ---
-
 ### **Chart with Multiple Axes**
-
 ```vbnet
 Dim max_row As Range
 Dim source_data_range As String
@@ -181,13 +211,10 @@ With chart2.Chart
 
 End With
 ```
-
 ---
 
 ## **Checkboxes**
-
 ### **Adding Multiple Check Boxes and Links**
-
 ```vbnet
 Dim ws As Worksheet
 Dim sheet_num_range As Range
@@ -195,13 +222,11 @@ Dim col_offset As Integer
 Dim cell As Range
 Dim ch_box As CheckBox
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Adjust below dimensions accordingly:
-' sheet_num = specific sheet number, not sheet name, where checkboxes are desired
-' sheet_num_range = range within the sheet number to insert the checkboxes
-' col_offset = column where linked cell will be in reference to checkbox cell
-'              (ie 1 is right 1, -1 is left 1)
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'Adjust below dimensions accordingly:
+'sheet_num = specific sheet number, not sheet name, where checkboxes are desired
+'sheet_num_range = range within the sheet number to insert the checkboxes
+'col_offset = column where linked cell will be in reference to checkbox cell
+'             (ie 1 is right 1, -1 is left 1)
 
 Set ws = ThisWorkbook.Worksheets(1)
 Set sheet_num_range = ws.Range("A1:A10")
@@ -215,30 +240,16 @@ For Each cell In sheet_num_range
   End With
 Next
 ```
-
----
-
 ### **Uncheck or Check All Boxes**
-
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' False will uncheck all boxes, True will check all boxes
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'False will uncheck all boxes, True will check all boxes
 ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 ```
 
 ---
-
 ## **Filters**
-
 ### **Loop Through All Columns and Reset All**
-
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Adjust table name as applicable
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
 Dim col As Long
 Dim ws as Worksheet
 
@@ -251,12 +262,7 @@ Next i
 ```
 
 ### **Find Column Name in Table and Apply Filter**
-
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Adjust col_name as applicable
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
 Dim ws as Worksheet
 Dim col_name as String
 Dim col As Long
@@ -269,16 +275,7 @@ ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ```
 
 ### **Pivot Table Filters**
-
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' - First loop through each pivot table (names are in the array) and clear all
-'   filters
-' - Next, only search for criteria specified within the field variable and make
-'   it the only visible criteria in the table; else make all others invisilble
-' - Lastly, autofit the columns since pivot tables don't do that for some reason
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
 Dim ws as Worksheet
 Dim i, j as long
 Dim field, criteria as String
@@ -288,6 +285,11 @@ Set ws = Thisworkbook.Worksheets(1)
 field = "FY"
 criteria = "FY18"
 
+'first loop through each pivot table (names are in the array) and clear all filters
+'next, only search for criteria specified within the field variable and make
+'  it the only visible criteria in the table
+'else make all others invisilble
+'lastly, autofit the columns since pivot tables don't do that for some reason
 For Each i In Array("count", "sum_awarded", "sum_savings", "average_savings")
   With ws
     With .PivotTables(i).PivotFields(field)
@@ -303,17 +305,14 @@ For Each i In Array("count", "sum_awarded", "sum_savings", "average_savings")
     .Columns("A:B").EntireColumn.AutoFit
   End With
 Next i
----
 ```
+---
 
 ## **Find**
-
 ### **Fix to Find First Occurence on Row 1**
-
 - For whatever reason, `Find` won't find the first occorence of something if it occurs on row 1
 - To fix this, search for it with the last row used in the column under the `After` variable
 - This will reset the position to start searching for everything at the beginning of the data set
-
 ```vbnet
 Dim ws As Worksheet
 Dim last_row As Long
@@ -324,11 +323,9 @@ last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
 
 Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
 ```
-
 ---
 
 ## **Copy Contents From One Worksheet to Another**
-
 *The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
 
 ### **generateWIP**
@@ -338,10 +335,7 @@ Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
 - Error handling is handled after the macro finishes; `error_code` and `error_message` are saved as public variables so they can be used for other errors, not just in the specific code block
 
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Public variables must be saved outside of functions to be used throughout
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'public variables must be saved outside of functions to be used throughout
 Public error_code, _
        error_message, _
        main_wip_name, _
@@ -354,16 +348,10 @@ Sub generateWIP()
 
 Application.ScreenUpdating = False
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - RESET VARIABLES
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 1 - reset variables
 resetVariables
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - SELECT MAIN WIP FILE AND CHECK IF TEAM WIP IS OPEN
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 2 - select main wip file and check if team wip is open
 selectWIP
 
 If error_code = 1 Then
@@ -372,40 +360,25 @@ If error_code = 1 Then
   Exit Sub
 End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 3 - COPY DATA FROM MAIN WIP
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 3 - copy data from main wip
 copyWIP
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 4 - APPLY TEMPLATE TO WIP
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 4 - apply template to wip
 applyTemplate
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 5 - CLOSE WIP GENERATOR
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 5 - close wip generator
 closeGenerator
 
 End Sub
 ```
-
 ---
 
 ### **resetVariables**
-
 - This resets all public variables so the code can run from a clean slate
-
 ```vbnet
 Sub resetVariables()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - RESET VARIABLES
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 1 - reset variables
 error_code = vbNullString
 error_message = vbNullString
 main_wip_name = vbNullString
@@ -413,24 +386,18 @@ team_wip_name = vbNullString
 
 End Sub
 ```
-
 ---
 
 ### **selectWIP**
-
 - The user selects the  file from the specified folder and this gets saved as a variable
 - Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
     - `error_code` and `error_message` are handled outside this in `generateWIP` macro
 - The macro running this must be in the same folder as the team's WIP; the path of this file is used for the path of the team's WIP
 - Also checks to see if one of the principle files to be opened is already opened; if it is, another error ensues
-
 ```vbnet
 Sub selectWIP()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - SELECT MAIN WIP FILE AND CHECK IF TEAM WIP IS OPEN
-' - select WIP
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 2 - select main wip file and check if team wip is open
 
 Dim team_wip_path As String
 Dim team_wip_wb As Workbook
@@ -448,9 +415,7 @@ With Application.FileDialog(msoFileDialogFilePicker)
   End If
 End With
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' - check if team WIP is already open; close macro if it is
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'check if team WIP is already open; close macro if it is
 
 team_wip_name = "240.3 Weekly WIP Status.xlsx"
 
@@ -471,25 +436,21 @@ End Sub
 ---
 
 ### **copyWIP**
-
 - First, open a read-only version of the user-specified file in the previous step
 - An array is created from the values of of the second column in a table
     - `Application.Transpose` must be used in order to turn the initial 2D array into a 1D array
 - Filters are then applied to a specfic worksheet, using the transposed array as filter criteria
 - All data that is above the last line of data is copied onto a template file
     - `main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row` finds the last used row
-
 ```vbnet
 Sub copyWIP()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 3 - COPY DATA FROM MAIN WIP
-' - open a read-only version of the file
-' - create an array based on the last names from the team_name tables
-' - apply filters with the array
-' - copy as values to the WIP template
-' - close file without saving
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 3 - copy data from main wip
+'open a read-only version of the file
+'create an array based on the last names from the team_name tables
+'apply filters with the array
+'copy as values to the WIP template
+'close file without saving
 
 Dim team_row_num, row_num As Long
 Dim team_names_array As Variant
@@ -522,11 +483,9 @@ main_wip_wb.Close SaveChanges:=False
 
 End Sub
 ```
-
 ---
 
 ### **applyTemplate**
-
 - Once the data is copied, it is then transferred to another worksheet
     - `team_wip_wb.Worksheets(Worksheets.Count).Index` captures the last sheet number; pasting after this makes it now this number plus one
 - Among many things, this reformats the data:
@@ -534,18 +493,15 @@ End Sub
     - Once copied, is pasted over so only the values remain
     - Filters are applied, as well as an auto-fit, changing of column widths for certain columns, and hiding columns
     - Headers are turned black with bold white font, and all borders are marked
-
 ```vbnet
 Sub applyTemplate()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 4 - APPLY TEMPLATE TO WIP
-' - open team's WIP spreadsheet
-' - count last sheet number in all sheets
-' - copy the template to the page after the last page
-' - save this copied worksheet as the last sheet + 1
-' - with this worksheet, apply all formatting to it
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 4 - apply template to wip
+'open team's WIP spreadsheet
+'count last sheet number in all sheets
+'copy the template to the page after the last page
+'save this copied worksheet as the last sheet + 1
+'with this worksheet, apply all formatting to it
 
 Dim last_sheet, row_num As Long
 Dim team_wip_wb As Workbook
@@ -588,20 +544,15 @@ End With
 
 End Sub
 ```
-
 ---
 
 ### **closeGenerator**
-
 - Lastly, this turns `Application.ScreenUpdating = True` so macros can run "normally" again
 - The file from which the macro runs is closed so only the main file remains
-
 ```vbnet
 Sub closeGenerator()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 5 - CLOSE WIP GENERATOR
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 5 - close wip generator
 
 MsgBox Prompt:="Finished!", Title:="Success!"
 
@@ -611,22 +562,15 @@ Workbooks("WIP Generator.xlsm").Close SaveChanges:=False
 
 End Sub
 ```
-
 ---
 
 ## **Folder Generator**
-
 *This will take text inputted into text content controls and apply them to other documents*
-
-### **Generating the Sub Procedure**
-
+### **Generating the Subroutine**
 - One sub will run all the vba code; this way, error-handling is much easier managed
 - Public variables are defined here to be used throughout all other subs
-
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' - Public variables must be saved outside of functions to be used throughout
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'public variables must be saved outside of functions to be used throughout
 
 Public error_code, _
        error_message, _
@@ -657,22 +601,13 @@ Sub generateRequirement()
 
 Application.ScreenUpdating = False
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - RESET VARIABLES
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 1 - reset variables
 resetVariables
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 2 - save input as public variables
 saveInput
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 3 - create initial folder in specified location
 createFolder
 
 If error_code = 1 Then
@@ -682,21 +617,13 @@ If error_code = 1 Then
   Exit Sub
 End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 4 - create subfolders within main folder
 createSubfolders
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'step 5 - populate forms with data and save in subfolders
 populateForms
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' FINISHED
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'finished
 
 MsgBox "E-file requirement successfully generated!", Title:="Success!"
 
@@ -708,17 +635,13 @@ End Sub
 ```
 
 ### **Resetting Variables**
-
 - This sub is utilized so that all global variables can't be re-used in future sub calls in case errors prevent the code from finishing
 - Global variables are to be re-defined after utilizing the main sub
-
 ```
 Sub resetVariables()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - RESET VARIABLES
-' - reset all variables before running all other steps
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 1 - reset variables
+'reset all variables before running all other steps
 
 error_code = vbNullString
 error_message = vbNullString
@@ -747,17 +670,13 @@ End Sub
 ```
 
 ### **Saving Input**
-
 - This will redefine each global variable
 - Logically done directly after resetting everything
-
 ```
 Sub saveInput()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - SAVE INPUT AS PUBLIC VARIABLES
-' - first reset all public variables, then reassign them
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 2 - save input as public variables
+'first reset all public variables, then reassign them
 
 file_name = "macro_dev"
 
@@ -779,22 +698,18 @@ End Sub
 ```
 
 ### **Creating the Initial Folder**
-
 - First select where the folder wishes to be, then save the folder path as a variable
 - Rename the folder the correct name
-
 ```
 Sub createFolder()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 3 - CREATE INITIAL FOLDER IN SPECIFIED LOCATION
-' - if folder is selected (Show = -1), then save path as folder_path; else, exit
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 3 - create initial folder in specified location
 
 Dim message, folder_path As String
 
 message = "Select the folder where your requirement will be saved"
 
+'if folder is selected (Show = -1), then save path as folder_path; else, exit
 With Application.FileDialog(msoFileDialogFolderPicker)
   MsgBox message & ".", Title:="Select Folder"
   .Title = message
@@ -807,13 +722,10 @@ With Application.FileDialog(msoFileDialogFolderPicker)
   End If
 End With
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' - Concatenate pr, initials, and description with folder_path
-' - if folder already exists, exit so as not to overwrite files
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'concatenate pr, initials, and description with folder_path
 directory_name = folder_path & "\" & pr & ", " & initials & ", " & description
 
+'if folder already exists, exit so as not to overwrite files
 If Dir(directory_name, vbDirectory) = "" Then
   MkDir directory_name
 Else
@@ -826,22 +738,18 @@ End Sub
 ```
 
 ### **Create the Subfolders**
-
 - Create all subfolders and working folders underneath
-
 ```
 Sub createSubfolders()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 4 - CREATE SUBFOLDERS WITHIN MAIN FOLDER
-' - if SAP, then just create "WORKING" folder
-' - if Large, then create subfolders
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 4 - create subfolders within main folder
 
 Dim working As String
 
 working = "\WORKING"
 
+'if SAP, then just create "WORKING" folder
+'if Large, then create subfolders
 If requirement_type = "SAP" Then
   sap_folder = directory_name & working
   MkDir sap_folder
@@ -876,16 +784,12 @@ End Sub
 ```
 
 ### **Populating Forms**
-
 - This is the final step
 - Insert as many other forms starting with the `With` code, and renaming it anyway you want
-
 ```
 Sub populateForms()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 5 - POPULATE FORMS WITH DATA AND SAVE IN SUBFOLDERS
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 5 - populate forms with data and save in subfolders
 
 Dim forms_path As String
 
@@ -903,13 +807,10 @@ End If
 
 End Sub
 ```
-
 ---
 
 ## **Send Emails Based on Conditionals**
-
 *In process*
-
 ```vbnet
 Option Explicit
 Sub postAwardWIP()
@@ -1081,24 +982,17 @@ Next
 
 End Sub
 ```
-
 ---
 
 ## **UserForm Basics**
-
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
-
 ### **Generating the UserForm**
-
 - First generate the UserForm in Excel by going to **DEVELOPER > Visual Basic > Insert > UserForm**
 - Name this UserForm anything in the `(Name)` field in the properties box on the left
 - Shape the UserForm to meet your needs, add images, and texts
 - To call the UserForm and have it pop-up at the center of the excel screen, use the following submodule:
-
 ```vbnet
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' text_box is the name of the UserForm, change it as applicable
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'text_box is the name of the UserForm, change it as applicable
 
 With text_box
   .StartUpPosition = 0
@@ -1119,9 +1013,7 @@ Private Sub UserForm_Initialize()
 
 Dim red as Long
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - Populate text and combo boxes
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 1 - populate text and combo boxes
 
 red = RGB(255, 153, 153)
 
@@ -1192,10 +1084,8 @@ End Sub
 ```
 
 ### **Modifying Text Box Changes**
-
 - The following code will modify the textbox as it gets changed
 - Each textbox that requires changing will need to have its own module
-
 ```vbnet
 Private Sub contract_Change()
 
@@ -1356,18 +1246,14 @@ End Sub
 ```
 
 ### **CommandButton Modification**
-
 - To insert a CommandButton, click CommandButton in the Toolbox window
     - If you can't find this, go to **View > Toolbox**
 - To activate it, right-click the button and click **View Code**
 - Error checks are incorporated to make sure no null strings exist
-
 ```vbnet
 Private Sub continue_button_Click()
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - OK button
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 2 - ok button
 
 Dim contract_val, _
     description_val, _
@@ -1395,9 +1281,7 @@ Dim ws As Worksheet
 
 Set ws = ThisWorkbook.Worksheets(1)
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 1) Error check for no inputs
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'1) error check for no inputs
 
 With userform_example
   If .contract.Value = vbNullString Then
@@ -1477,9 +1361,7 @@ With userform_example
   End If
 End With
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 2) Save input values as variables, add 1 to option_years_val if -8 is included
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'2) save input values as variables, add 1 to option_years_val if -8 is included
 
 With userform_example
   contract_val = .contract.Value
@@ -1503,16 +1385,12 @@ If included_val = "YES" Then
   option_years_val = option_years_val + 1
 End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 3) Find last row
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'3) find last row
 
 new_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
 new_row = new_row + 1
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 4) Create start and end dates from inputs, as well as -8 included dates
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'4) create start and end dates from inputs, as well as -8 included dates
 
 start_date = DateValue(start_month_val & "/" & start_day_val & "/" & start_year_val)
 
@@ -1525,11 +1403,9 @@ If included_val = "YES" Then
   included_date = DateAdd("m", 6, included_date)
 End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 5) Begin populating sheet
-' Populate: CONTRACT, FIRST NAME, LAST NAME, CUSTOMER, CUSTOMER POC, CONTRACTOR,
-' CONTRACTOR POC
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'5) Begin populating sheet
+'Populate: CONTRACT, FIRST NAME, LAST NAME, CUSTOMER, CUSTOMER POC, CONTRACTOR,
+'CONTRACTOR POC
 
 For i = 0 To option_years_val
   ws.Cells(new_row + i, 1).Value = contract_val
@@ -1541,9 +1417,7 @@ For i = 0 To option_years_val
   ws.Cells(new_row + i, 7).Value = contractor_val
   ws.Cells(new_row + i, 8).Value = contractor_poc_val
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 6) Populate YEAR
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'6) populate YEAR
 
   If i = 0 Then
     ws.Cells(new_row + i, 9).Value = "Base"
@@ -1553,9 +1427,7 @@ For i = 0 To option_years_val
     ws.Cells(new_row + i, 9).Value = "Option " & i
   End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 7) Populate START DATE and END DATE
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'7) populate START DATE and END DATE
 
   ws.Cells(new_row + i, 10).Value = DateAdd("yyyy", i, start_date)
   
@@ -1565,9 +1437,7 @@ For i = 0 To option_years_val
     ws.Cells(new_row + i, 11).Value = DateAdd("yyyy", i, end_date)
   End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 8) Populate DAYS TO NOTIFY CUSTOMER and DAYS TO EXERCISE OPTION
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'8) populate DAYS TO NOTIFY CUSTOMER and DAYS TO EXERCISE OPTION
   
   If i = 0 Then
     ws.Cells(new_row + i, 13).Value = vbNullString
@@ -1579,10 +1449,8 @@ For i = 0 To option_years_val
 
 Next i
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 9) Unloading removes the UserForm from memory, as opposed to just hiding it;
-' remember_guide pops-up, reminding user to input values
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'9) unloading removes the UserForm from memory, as opposed to just hiding it;
+'remember_guide pops-up, reminding user to input values
 
 Unload userform_example
 
@@ -1625,14 +1493,11 @@ Unload user_form
 
 End Sub
 ```
-
 ---
 
 ## **Auto-Updating Button Position**
-
 - Save this macro in the module with all other code, then run it under the specified worksheet during the `SelectionChange`: `Private Sub Worksheet_SelectionChange(ByVal Target As Range)`
 - Modify the `.Left` address as necessary depending on what column you want it in, but it will always be on the row of your cell
-
 ```vbnet
 Sub cellAddress()
 
@@ -1647,24 +1512,20 @@ End With
 
 End Sub
 ```
-
 ---
 
 ## **Print Columns to Fit Page**
-
 ```vbnet
 Dim ws as Worksheet
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' - Application.PrintCommunication must be set to False in order to have the
-' columns fit to the page
-' - for some reason, this must be set back to True when applying headers and
-' footers
-' - &D is date
-' - &F is file name
-' - &P is page number
-' - &N is total number of pages
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'Application.PrintCommunication must be set to False in order to have the
+'  columns fit to the page
+'for some reason, this must be set back to True when applying headers and
+'  footers
+'&D is date
+'&F is file name
+'&P is page number
+'&N is total number of pages
 
 Set ws = ThisWorkbook.Worksheets(1)
 
@@ -1685,16 +1546,12 @@ End With
 
 ws.columns("A:O").PrintPreview
 ```
-
 ---
 
 ## **Find Unique Values and Navigate to Location**
-
 ### **Identify Unique Values in an Array**
-
 - Scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
 - One of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
-
 ```vbnet
 Option Explicit
 Private Sub UserForm_Initialize()
@@ -1709,35 +1566,29 @@ Set d = CreateObject("Scripting.Dictionary")
 Set ws = ThisWorkbook.Worksheets(1)
 Set ws3 = ThisWorkbook.Worksheets(3)
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - CREATE INITIAL ARRAY
-' - first create an array of all values in the first column of the table
-' - dupes will be present
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 1 - create initial array
+'first create an array of all values in the first column of the table
+'dupes will be present
 
 With ws
   values = .ListObjects("Table1").ListColumns(1).DataBodyRange
   values = Application.Transpose(values)
 End With
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - ASSIGN UNIQUE ITEM TO EACH VALUE
-' - the scripting dictionary object will create items for each unique item
-' - dupes will be removed
-' - new array is simply d
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'STEP 2 - ASSIGN UNIQUE ITEM TO EACH VALUE
+'the scripting dictionary object will create items for each unique item
+'dupes will be removed
+'new array is simply d
 
 For Each val In values
   d.Item(val) = val
 Next val
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 3 - LOOP THROUGH AND AUTO-UPDATE OTHER TABLE
-' - for each value that is in the new array d, check to see if its in the table
-' - if not, then add the value to the table
-' - "Nothing" is used since the value will not be a null string or empty string
-' - "xlWhole" must be used since we want to search all contents of the cell
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 3 - loop through and auto-update other table
+'for each value that is in the new array d, check to see if its in the table
+'if not, then add the value to the table
+'"Nothing" is used since the value will not be a null string or empty string
+'"xlWhole" must be used since we want to search all contents of the cell
 
 For Each val In d
   Set find_range = ws3.Columns(1).Find(what:=val, LookAt:=xlWhole)
@@ -1747,10 +1598,8 @@ For Each val In d
   End If
 Next val
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 4 - POPULATE COMBO BOX
-' - for each value in d, add it to the combo box
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 4 - populate combo box
+'for each value in d, add it to the combo box
 
 For Each val In d
   go_to_folder.contracts.AddItem val
@@ -1762,7 +1611,6 @@ End Sub
 ```
 
 ### **Navigate to the Associated Folder**
-
 ```vbnet
 Private Sub button_go_to_Click()
 
@@ -1774,23 +1622,19 @@ Set ws3 = ThisWorkbook.Worksheets(3)
 
 val_contracts = go_to_folder.contracts.value
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - SAVE ROW VALUE AND FOLDER COLUMN VALUE
-' - whatever is captured in the folder column, we want to capture it
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 1 - save row value and folder column value
+'whatever is captured in the folder column, we want to capture it
 
 With ws3.Columns(1)
   find_row = .Find(what:=val_contracts, LookAt:=xlWhole).Row
   folder = .Cells(find_row, 2).value
 End With
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - GO TO FOLDER OR RAISE WARNING
-' - if the folder value is empty, then instruct to add a folder for the contract
-' - if folder is there, then first check if system can access it (Dir folder)
-' - if there is an error, it will raise a msgbox then exit the sub
-' - if no errors, the system will go to folder
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 2 - go to folder or raise warning
+'if the folder value is empty, then instruct to add a folder for the contract
+'if folder is there, then first check if system can access it (Dir folder)
+'if there is an error, it will raise a msgbox then exit the sub
+'if no errors, the system will go to folder
 
 If folder = vbNullString Then
   MsgBox "No folders have been added for this contract." & vbCrLf & _
@@ -1816,7 +1660,6 @@ End Sub
 ```
 
 ### **Add Folder Location**
-
 ```vbnet
 Private Sub button_add_folder_Click()
 
@@ -1828,24 +1671,20 @@ Set ws3 = ThisWorkbook.Worksheets(3)
 
 val_contracts = go_to_folder.contracts.value
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 1 - SAVE ROW VALUE AND FOLDER COLUMN VALUE
-' - whatever is captured in the folder column, we want to capture it
-' - identical to button_go_to sub procedure
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 1 - save row value and folder column value
+'whatever is captured in the folder column, we want to capture it
+'identical to button_go_to sub procedure
 
 With ws3.Columns(1)
   find_row = .Find(what:=val_contracts, LookAt:=xlWhole).Row
   folder = .Cells(find_row, 2).value
 End With
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 2 - SELECT FOLDER LOCATION
-' - if the folder value is empty, then add folder to folder column
-' - if not empty and value is already there, raise warning to proceed
-'   - if user doesn't want to continue, then exit sub
-' - save folder path as the value in the folder column
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 2 - select folder location
+'if the folder value is empty, then add folder to folder column
+'if not empty and value is already there, raise warning to proceed
+'if user doesn't want to continue, then exit sub
+'save folder path as the value in the folder column
     
 If folder = vbNullString Then
   With Application.FileDialog(msoFileDialogFolderPicker)
@@ -1876,10 +1715,8 @@ ElseIf folder <> vbNullString Then
   End If
 End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' STEP 3 - SAVE FOLDER PATH
-' - save folder_path as the value in the folder column
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'step 3 - save folder path
+'save folder_path as the value in the folder column
 
 ws3.Cells(find_row, 2).value = folder_path
 
@@ -1892,7 +1729,6 @@ End Sub
 ```
 
 ### **Exit UserForm**
-
 ```vbnet
 Private Sub button_exit_Click()
 
@@ -1900,69 +1736,51 @@ Unload go_to_folder
 
 End Sub
 ```
-
 ---
 
 ## **Auto-Save Workbook**
-
 - Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
-
 ```vbnet
 Dim backup_path, file_name As String
 Dim monday As Long
 Dim monday_date As String
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 1) Create the location to store all backup files
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+'1) create the location to store all backup files
 backup_path = ThisWorkbook.path
 backup_path = backup_path & "\BACKUP FOLDER"
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 2) Calculate the day Monday would be for the current week
-' - Date must be saved as a string since dates have "/" and those are read as
-'   folder separators in the file path
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'2) calculate the day Monday would be for the current week
+'Date must be saved as a string since dates have "/" and those are read as
+'folder separators in the file path
 
 monday = Weekday(Date, vbMonday)
 monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 3) Check to see if the folder is created; if not created, then create it
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'3) check to see if the folder is created; if not created, then create it
 
 If Len(Dir(backup_path, vbDirectory)) = 0 Then
   MkDir backup_path
 End If
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 4) Create the new file name to include the path location, replace the
-'    extension with the date, "Backup", and add back in the extension
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'4) create the new file name to include the path location, replace the
+'   extension with the date, "Backup", and add back in the extension
 
 file_name = ThisWorkbook.Name
 file_name = Replace(file_name, ".xlsm", " - " & monday_date)
 file_name = file_name & " Backup.xlsm"
 file_name = backup_path & "\" & file_name
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-' 5) Finally, save the copy
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'5) finally, save the copy
 
 ThisWorkbook.SaveCopyAs file_name
 ```
-
 ---
 
 ## **VBscript**
-
 - Call scripts with either `cscript` or `wscript`
     - `cscript` will run output in the console
     - `wscript` will run output in a pop-up window
-
 ### **Running a Macro**
-
 ```vbnet
 Option Explicit
 
@@ -1986,10 +1804,8 @@ wscript.quit
 ```
 
 ### Printing to Console
-
 - In order to print to console, use `cscript` to call the script, not `wscript`
 - First method
-
 ```vbnet
 wscript.echo _
 vbcrlf & _
@@ -2000,7 +1816,6 @@ vbcrlf & _
 ```
 
 - Second method, ends code after `stdout.writeline`
-
 ```vbnet
 Dim fso, stdout, stderr
 
@@ -2012,9 +1827,7 @@ stdout.writeline "derp"
 ```
 
 ### Passing Arguments
-
 - This includes error checking to see if all parameters were inputted
-
 ```vbnet
 Dim arg, arg_1, arg_2
 
