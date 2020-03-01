@@ -47,7 +47,7 @@ PS1="\[\033[1;32m\]\w $ \[\033[0m\]"
 # aliases
 ################################################################################
 
-alias l="ls -Ahlv --group-directories-first"
+alias l="ls -Ahlv --group-directories-first --color=auto"
 alias ..="cd .."
 alias v="vim"
 
@@ -80,3 +80,9 @@ alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 #[[ $- != *i* ]] && return
 #[[ -z "$TMUX" ]] && exec tmux
 
+################################################################################
+# gitkey
+################################################################################
+
+#eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
+```

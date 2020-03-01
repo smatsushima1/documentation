@@ -53,7 +53,7 @@ PS1="\[\033[1;32m\]\w \[\033[m\]"
 # aliases
 ################################################################################
 
-alias l = "ls -Ahlv --group-directories-first"
+alias l = "ls -Ahlv --group-directories-first --color=auto"
 alias .. = "cd .."
 alias v = "vim"
 
@@ -89,6 +89,6 @@ alias gpp = "git pull && git push && git status"
 # gitkey
 ################################################################################
 
-eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
+#eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
 
 ```
