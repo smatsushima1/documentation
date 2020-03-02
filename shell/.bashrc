@@ -85,4 +85,3 @@ alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 ################################################################################
 
 #eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
-```
