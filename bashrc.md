@@ -5,23 +5,23 @@ title: ".bashrc"
 
 ```bash
 ################################################################################
-# source global definitions
+#source global definitions
 ################################################################################
 
-if [ -f /etc/bashrc ]
-    then . /etc/bashrc
-fi
+#if [ -f /etc/bashrc ]
+#    then . /etc/bashrc
+#fi
 
 ################################################################################
-# check window size after each command and adjust accordingly
+#check window size after each command and adjust accordingly
 ################################################################################
 
 shopt -s checkwinsize
 
 ################################################################################
-# enable auto-completion
+#enable auto-completion
 #
-# yum install -y auto-completion*
+#yum install -y auto-completion*
 ################################################################################
 
 if [ -f /usr/share/bash-completion/bash_completion ]
@@ -31,64 +31,76 @@ elif [ -f /etc/bash_completion ]
 fi
 
 ################################################################################
-# paths and environment variables
+#paths and environment variables
 ################################################################################
 
-export PATH="/home/user/anaconda3/bin:$PATH"
+#export PATH="/home/user/anaconda3/bin:$PATH"
 
 ################################################################################
-# expand history size
+#expand history size
 ################################################################################
 
 export HISTFILESIZE=10000
 export HISTSIZE=500
 
 ################################################################################
-# prompt modification
+#prompt modification
 ################################################################################
 
-PS1="\[\033[1;32m\]\w \[\033[m\]"
+PS1="\[\033[1;32m\]\w $ \[\033[0m\]"
 
 ################################################################################
-# aliases
+#aliases
 ################################################################################
 
-alias l = "ls -Ahlv --group-directories-first --color=auto"
-alias .. = "cd .."
-alias v = "vim"
-
-alias gagc = "git add --all && git commit -m"
-alias gpp = "git pull && git push && git status"
+alias l="ls -Ahlv --group-directories-first --color=auto"
+alias ..="cd .."
+alias v="vim"
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 
 ################################################################################
-# functions
+#functions
 #
-# list all functions: declare -f 
-# remove function: unset -f [FUNCTION]
+#list all functions: declare -f 
+#remove function: unset -f [FUNCTION]
 ################################################################################
 
-# automatically do ls -ahl after cd
-# cd ()
-# {
-#     if [ -n "$1" ];
-#         then builtin cd "$@" && ls -ahl
-#         else builtin cd ~ && ls -ahl
-#     fi
-# }
+#add all files, commit, and push
+gdone () {
+  echo
+  echo "###################### GIT STASH APPLY AND GIT ADD ######################"
+  git stash apply
+  git add -A
+  shopt -s lastpipe
+  echo
+  echo "############################## GIT COMMIT ##############################"
+  read -p "Enter commit message: " message
+  echo
+  git commit -m "$message"
+  echo
+  echo "############################## GIT PUSH ##############################"
+  git push
+  echo
+  echo "################### GIT STATUS AND GIT STASH CLEAR ###################"
+  git status
+  git stash clear
+}
 
 ################################################################################
-# start tmux automatically
+#start tmux automatically
 #
-# https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+#https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
 ################################################################################
 
 #[[ $- != *i* ]] && return
 #[[ -z "$TMUX" ]] && exec tmux
 
 ################################################################################
-# gitkey
+#gitkey
 ################################################################################
 
 #eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
-
 ```
