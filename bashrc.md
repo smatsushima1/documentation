@@ -71,6 +71,16 @@ alias gitkey='eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa'
 #add all files, commit, and push
 gdone () {
   echo
+  echo "####################### CHECK IF STASHES ARE APPLIED #####################"
+  if [ $(git stash list | wc -l) -eq 0 ] 
+  then
+    echo "Stash your changes first before proceeding!"
+    echo
+    return 1
+  else
+    echo "Stashes are applied - function will proceed..."
+  fi
+  echo
   echo "###################### GIT STASH APPLY AND GIT ADD ######################"
   git stash apply
   git add -A
@@ -87,6 +97,7 @@ gdone () {
   echo "################### GIT STATUS AND GIT STASH CLEAR ###################"
   git status
   git stash clear
+  echo
 }
 
 ################################################################################
@@ -103,4 +114,5 @@ gdone () {
 ################################################################################
 
 #eval "$(ssh-agent -s)" && ssh-add /home/user/.ssh/github_rsa
+
 ```
