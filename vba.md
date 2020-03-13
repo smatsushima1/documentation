@@ -214,7 +214,9 @@ End With
 ---
 
 ## **Checkboxes**
+
 ### **Adding Multiple Check Boxes and Links**
+
 ```vbnet
 Dim ws As Worksheet
 Dim sheet_num_range As Range
@@ -240,15 +242,20 @@ For Each cell In sheet_num_range
   End With
 Next
 ```
+
 ### **Uncheck or Check All Boxes**
+
 ```vbnet
 'False will uncheck all boxes, True will check all boxes
 ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 ```
 
 ---
+
 ## **Filters**
+
 ### **Loop Through All Columns and Reset All**
+
 ```vbnet
 Dim col As Long
 Dim ws as Worksheet
@@ -262,6 +269,7 @@ Next i
 ```
 
 ### **Find Column Name in Table and Apply Filter**
+
 ```vbnet
 Dim ws as Worksheet
 Dim col_name as String
@@ -275,6 +283,7 @@ ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ```
 
 ### **Pivot Table Filters**
+
 ```vbnet
 Dim ws as Worksheet
 Dim i, j as long
@@ -306,13 +315,17 @@ For Each i In Array("count", "sum_awarded", "sum_savings", "average_savings")
   End With
 Next i
 ```
+
 ---
 
 ## **Find**
+
 ### **Fix to Find First Occurence on Row 1**
+
 - For whatever reason, `Find` won't find the first occorence of something if it occurs on row 1
 - To fix this, search for it with the last row used in the column under the `After` variable
 - This will reset the position to start searching for everything at the beginning of the data set
+
 ```vbnet
 Dim ws As Worksheet
 Dim last_row As Long
@@ -323,12 +336,15 @@ last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
 
 Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
 ```
+
 ---
 
 ## **Copy Contents From One Worksheet to Another**
+
 *The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
 
 ### **generateWIP**
+
 - This sub runs all the other subs
 - First, I declare public variables to be used throughout the macro
 - `Application.ScreenUpdating = False` allows the macro to run without opening windows, speeding up the code; this must be turned to `True` before the macro ends
@@ -371,10 +387,13 @@ closeGenerator
 
 End Sub
 ```
+
 ---
 
 ### **resetVariables**
+
 - This resets all public variables so the code can run from a clean slate
+
 ```vbnet
 Sub resetVariables()
 
@@ -386,14 +405,17 @@ team_wip_name = vbNullString
 
 End Sub
 ```
+
 ---
 
 ### **selectWIP**
+
 - The user selects the  file from the specified folder and this gets saved as a variable
 - Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
     - `error_code` and `error_message` are handled outside this in `generateWIP` macro
 - The macro running this must be in the same folder as the team's WIP; the path of this file is used for the path of the team's WIP
 - Also checks to see if one of the principle files to be opened is already opened; if it is, another error ensues
+
 ```vbnet
 Sub selectWIP()
 
@@ -436,12 +458,14 @@ End Sub
 ---
 
 ### **copyWIP**
+
 - First, open a read-only version of the user-specified file in the previous step
 - An array is created from the values of of the second column in a table
     - `Application.Transpose` must be used in order to turn the initial 2D array into a 1D array
 - Filters are then applied to a specfic worksheet, using the transposed array as filter criteria
 - All data that is above the last line of data is copied onto a template file
     - `main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row` finds the last used row
+
 ```vbnet
 Sub copyWIP()
 
@@ -483,9 +507,11 @@ main_wip_wb.Close SaveChanges:=False
 
 End Sub
 ```
+
 ---
 
 ### **applyTemplate**
+
 - Once the data is copied, it is then transferred to another worksheet
     - `team_wip_wb.Worksheets(Worksheets.Count).Index` captures the last sheet number; pasting after this makes it now this number plus one
 - Among many things, this reformats the data:
@@ -493,6 +519,7 @@ End Sub
     - Once copied, is pasted over so only the values remain
     - Filters are applied, as well as an auto-fit, changing of column widths for certain columns, and hiding columns
     - Headers are turned black with bold white font, and all borders are marked
+
 ```vbnet
 Sub applyTemplate()
 
@@ -544,11 +571,14 @@ End With
 
 End Sub
 ```
+
 ---
 
 ### **closeGenerator**
+
 - Lastly, this turns `Application.ScreenUpdating = True` so macros can run "normally" again
 - The file from which the macro runs is closed so only the main file remains
+
 ```vbnet
 Sub closeGenerator()
 
@@ -562,13 +592,18 @@ Workbooks("WIP Generator.xlsm").Close SaveChanges:=False
 
 End Sub
 ```
+
 ---
 
 ## **Folder Generator**
+
 *This will take text inputted into text content controls and apply them to other documents*
+
 ### **Generating the Subroutine**
+
 - One sub will run all the vba code; this way, error-handling is much easier managed
 - Public variables are defined here to be used throughout all other subs
+
 ```vbnet
 'public variables must be saved outside of functions to be used throughout
 
@@ -635,9 +670,11 @@ End Sub
 ```
 
 ### **Resetting Variables**
+
 - This sub is utilized so that all global variables can't be re-used in future sub calls in case errors prevent the code from finishing
 - Global variables are to be re-defined after utilizing the main sub
-```
+
+```vbnet
 Sub resetVariables()
 
 'step 1 - reset variables
@@ -670,9 +707,11 @@ End Sub
 ```
 
 ### **Saving Input**
+
 - This will redefine each global variable
 - Logically done directly after resetting everything
-```
+
+```vbnet
 Sub saveInput()
 
 'step 2 - save input as public variables
@@ -698,9 +737,11 @@ End Sub
 ```
 
 ### **Creating the Initial Folder**
+
 - First select where the folder wishes to be, then save the folder path as a variable
 - Rename the folder the correct name
-```
+
+```vbnet
 Sub createFolder()
 
 'step 3 - create initial folder in specified location
@@ -738,8 +779,10 @@ End Sub
 ```
 
 ### **Create the Subfolders**
+
 - Create all subfolders and working folders underneath
-```
+
+```vbnet
 Sub createSubfolders()
 
 'step 4 - create subfolders within main folder
@@ -784,9 +827,11 @@ End Sub
 ```
 
 ### **Populating Forms**
+
 - This is the final step
 - Insert as many other forms starting with the `With` code, and renaming it anyway you want
-```
+
+```vbnet
 Sub populateForms()
 
 'step 5 - populate forms with data and save in subfolders
@@ -807,10 +852,13 @@ End If
 
 End Sub
 ```
+
 ---
 
 ## **Send Emails Based on Conditionals**
+
 *In process*
+
 ```vbnet
 Option Explicit
 Sub postAwardWIP()
@@ -982,15 +1030,20 @@ Next
 
 End Sub
 ```
+
 ---
 
 ## **UserForm Basics**
+
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
+
 ### **Generating the UserForm**
+
 - First generate the UserForm in Excel by going to **DEVELOPER > Visual Basic > Insert > UserForm**
 - Name this UserForm anything in the `(Name)` field in the properties box on the left
 - Shape the UserForm to meet your needs, add images, and texts
 - To call the UserForm and have it pop-up at the center of the excel screen, use the following submodule:
+
 ```vbnet
 'text_box is the name of the UserForm, change it as applicable
 
@@ -1084,8 +1137,10 @@ End Sub
 ```
 
 ### **Modifying Text Box Changes**
+
 - The following code will modify the textbox as it gets changed
 - Each textbox that requires changing will need to have its own module
+
 ```vbnet
 Private Sub contract_Change()
 
@@ -1246,10 +1301,12 @@ End Sub
 ```
 
 ### **CommandButton Modification**
+
 - To insert a CommandButton, click CommandButton in the Toolbox window
     - If you can't find this, go to **View > Toolbox**
 - To activate it, right-click the button and click **View Code**
 - Error checks are incorporated to make sure no null strings exist
+
 ```vbnet
 Private Sub continue_button_Click()
 
@@ -1496,8 +1553,10 @@ End Sub
 ---
 
 ## **Auto-Updating Button Position**
+
 - Save this macro in the module with all other code, then run it under the specified worksheet during the `SelectionChange`: `Private Sub Worksheet_SelectionChange(ByVal Target As Range)`
 - Modify the `.Left` address as necessary depending on what column you want it in, but it will always be on the row of your cell
+
 ```vbnet
 Sub cellAddress()
 
@@ -1512,9 +1571,11 @@ End With
 
 End Sub
 ```
+
 ---
 
 ## **Print Columns to Fit Page**
+
 ```vbnet
 Dim ws as Worksheet
 
@@ -1546,12 +1607,16 @@ End With
 
 ws.columns("A:O").PrintPreview
 ```
+
 ---
 
 ## **Find Unique Values and Navigate to Location**
+
 ### **Identify Unique Values in an Array**
+
 - Scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
 - One of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
+
 ```vbnet
 Option Explicit
 Private Sub UserForm_Initialize()
@@ -1611,6 +1676,7 @@ End Sub
 ```
 
 ### **Navigate to the Associated Folder**
+
 ```vbnet
 Private Sub button_go_to_Click()
 
@@ -1660,6 +1726,7 @@ End Sub
 ```
 
 ### **Add Folder Location**
+
 ```vbnet
 Private Sub button_add_folder_Click()
 
@@ -1729,6 +1796,7 @@ End Sub
 ```
 
 ### **Exit UserForm**
+
 ```vbnet
 Private Sub button_exit_Click()
 
@@ -1736,10 +1804,13 @@ Unload go_to_folder
 
 End Sub
 ```
+
 ---
 
 ## **Auto-Save Workbook**
+
 - Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
+
 ```vbnet
 Dim backup_path, file_name As String
 Dim monday As Long
@@ -1774,13 +1845,17 @@ file_name = backup_path & "\" & file_name
 
 ThisWorkbook.SaveCopyAs file_name
 ```
+
 ---
 
 ## **VBscript**
+
 - Call scripts with either `cscript` or `wscript`
     - `cscript` will run output in the console
     - `wscript` will run output in a pop-up window
+
 ### **Running a Macro**
+
 ```vbnet
 Option Explicit
 
@@ -1804,8 +1879,10 @@ wscript.quit
 ```
 
 ### Printing to Console
+
 - In order to print to console, use `cscript` to call the script, not `wscript`
 - First method
+
 ```vbnet
 wscript.echo _
 vbcrlf & _
@@ -1816,6 +1893,7 @@ vbcrlf & _
 ```
 
 - Second method, ends code after `stdout.writeline`
+
 ```vbnet
 Dim fso, stdout, stderr
 
@@ -1827,7 +1905,9 @@ stdout.writeline "derp"
 ```
 
 ### Passing Arguments
+
 - This includes error checking to see if all parameters were inputted
+
 ```vbnet
 Dim arg, arg_1, arg_2
 
