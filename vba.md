@@ -41,16 +41,18 @@ title: VBA
     - [Add Folder Location](#add-folder-location)
     - [Exit UserForm](#exit-userForm)
 13. [Auto-Save Workbook](#auto-save-workbook)
-14. [VBscript](#vbscript)
+14. [Generate Emails](#generate-emails)
+15. [VBscript](#vbscript)
     - [Running a Macro](#running-a-macro)
     - [Printing to Console](#printing-to-console)
     - [Passing Arguments](#passing-arguments)
 
 ---
 
-## **Common Variables**
+# **Common Variables**
 
-Workbook Info
+### Workbook Info
+
 ```vbnet
 'workbook name
 ThisWorkbook.Name
@@ -60,7 +62,8 @@ Dim ws as Worksheet
 Set ws = ThisWorkbook.Worksheets(1)
 ```
 
-First and last rows and columns
+### First and last rows and columns
+
 ```vbnet
 'last row
 ws.Cells(Rows.Count, 1).End(xlUp).Row
@@ -74,7 +77,8 @@ ws.Rows(1).Find(What:=vbNullString, _
                 SearchDirection:=xlNext).Column
 ```
 
-Filters
+### Filters
+
 ```vbnet
 'data tables
 'Field is the column index
@@ -87,7 +91,8 @@ ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="
 ws.ListObjects("TABLE").Range.AutoFilter Field:=1
 ```
 
-Miscellaneous
+### Miscellaneous
+
 ```vbnet
 'module subroutine to automatically run on workbook opening
 Private Sub Auto_Open()
@@ -98,10 +103,13 @@ If Dir("I:\", vbDirectory) = vbNullString Then
   MsgBox "No connection"
 End If
 ```
+
 ---
 
-## **Charts**
+# **Charts**
+
 ### **Basic Line Chart**
+
 ```vbnet
 Dim max_row As Range
 Dim source_data_range As String
@@ -152,8 +160,11 @@ With chart1.Chart
 
 End With
 ```
+
 ---
+
 ### **Chart with Multiple Axes**
+
 ```vbnet
 Dim max_row As Range
 Dim source_data_range As String
@@ -211,9 +222,10 @@ With chart2.Chart
 
 End With
 ```
+
 ---
 
-## **Checkboxes**
+# **Checkboxes**
 
 ### **Adding Multiple Check Boxes and Links**
 
@@ -252,7 +264,7 @@ ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 
 ---
 
-## **Filters**
+# **Filters**
 
 ### **Loop Through All Columns and Reset All**
 
@@ -318,7 +330,7 @@ Next i
 
 ---
 
-## **Find**
+# **Find**
 
 ### **Fix to Find First Occurence on Row 1**
 
@@ -339,7 +351,7 @@ Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
 
 ---
 
-## **Copy Contents From One Worksheet to Another**
+# **Copy Contents From One Worksheet to Another**
 
 *The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
 
@@ -595,7 +607,7 @@ End Sub
 
 ---
 
-## **Folder Generator**
+# **Folder Generator**
 
 *This will take text inputted into text content controls and apply them to other documents*
 
@@ -855,9 +867,9 @@ End Sub
 
 ---
 
-## **Send Emails Based on Conditionals**
+# **Send Emails Based on Conditionals**
 
-*In process*
+*In process, see [Update Data Table](#update-data-table) for more working example*
 
 ```vbnet
 Option Explicit
@@ -1033,7 +1045,7 @@ End Sub
 
 ---
 
-## **UserForm Basics**
+# **UserForm Basics**
 
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
 
@@ -1552,7 +1564,7 @@ End Sub
 ```
 ---
 
-## **Auto-Updating Button Position**
+# **Auto-Updating Button Position**
 
 - Save this macro in the module with all other code, then run it under the specified worksheet during the `SelectionChange`: `Private Sub Worksheet_SelectionChange(ByVal Target As Range)`
 - Modify the `.Left` address as necessary depending on what column you want it in, but it will always be on the row of your cell
@@ -1574,7 +1586,7 @@ End Sub
 
 ---
 
-## **Print Columns to Fit Page**
+# **Print Columns to Fit Page**
 
 ```vbnet
 Dim ws as Worksheet
@@ -1610,7 +1622,7 @@ ws.columns("A:O").PrintPreview
 
 ---
 
-## **Find Unique Values and Navigate to Location**
+# **Find Unique Values and Navigate to Location**
 
 ### **Identify Unique Values in an Array**
 
@@ -1807,7 +1819,7 @@ End Sub
 
 ---
 
-## **Auto-Save Workbook**
+# **Auto-Save Workbook**
 
 - Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
 
@@ -1848,7 +1860,212 @@ ThisWorkbook.SaveCopyAs file_name
 
 ---
 
-## **VBscript**
+# **Generate Emails**
+
+- The following code will create drafts of emails
+    - To counter this, use `.Send` instead of `.Save`
+
+### generateEmail
+
+```vbnet
+Sub generateEmail()
+
+'This will run the email draft creation on a row-by-row basis
+
+getVariables
+
+For i = f_row2 + 1 To l_row2
+  saveEmail (i)
+Next i
+
+MsgBox "Finished. Check your 'Drafts' folder in Outlook for saved emails."
+
+End Sub
+```
+
+### saveEmail
+
+```vbnet
+Private Sub saveEmail(row_num As Long)
+
+'This creates the email draft, to be ran on a row-by-row basis
+
+Dim c_stat, c_cont, c_desc, c_gpc, c_deob, c_canc, c_email _
+    As String
+Dim cnum_stat, cnum_cont, cnum_desc, cnum_gpc, cnum_deob, cnum_canc, _
+    cnum_email _
+    As Long
+Dim cell_stat, cell_cont, cell_desc, cell_gpc, cell_deob, cell_canc, _
+    cell_email _
+    As Range
+
+getVariables
+
+c_stat = "STATUS"
+c_cont = "CONTRACT"
+c_desc = "DESCRIPTION"
+c_gpc = "GPC/CBPO"
+c_deob = "DE-OB"
+c_canc = "CANC"
+c_email = "EMAIL FINAL"
+
+With ws2.Rows(f_row2)
+  cnum_stat = .Find(What:=c_stat, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_cont = .Find(What:=c_cont, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_desc = .Find(What:=c_desc, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_gpc = .Find(What:=c_gpc, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_deob = .Find(What:=c_deob, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_canc = .Find(What:=c_canc, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_email = .Find(What:=c_email, LookAt:=xlWhole, MatchCase:=True).Column
+End With
+
+With ws2
+  Set cell_stat = .Cells(row_num, cnum_stat)
+  Set cell_cont = .Cells(row_num, cnum_cont)
+  Set cell_desc = .Cells(row_num, cnum_desc)
+  Set cell_gpc = .Cells(row_num, cnum_gpc)
+  Set cell_deob = .Cells(row_num, cnum_deob)
+  Set cell_canc = .Cells(row_num, cnum_canc)
+  Set cell_email = .Cells(row_num, cnum_email)
+End With
+
+'Call must be used since we are trying to run a function
+Do While cell_stat = "Create 1594"
+  Call emailMain(contract:=cell_cont.Value, _
+                 gpc:=cell_gpc.Value, _
+                 deob:=CLng(cell_deob.Value), _
+                 canc:=cell_canc.Value, _
+                 email:=cell_email.Value)
+Exit Do
+Loop
+
+End Sub
+```
+
+### emailMain
+
+```vbnet
+Private Sub emailMain(contract, gpc As String, deob As Long, canc, email As String)
+
+'This populates the email
+
+Dim app As Object
+Dim mail As Object
+
+Set app = CreateObject("Outlook.Application")
+Set mail = app.CreateItem(olMailItem)
+
+'deob must not be 0 because it is a long, it can't be vbNullString
+With mail
+  .To = email
+  .Subject = "Notification of Contract Closeout for " & contract
+  If gpc <> vbNullString Then
+    .body = bodyUnpaid
+  ElseIf deob <> 0 Then
+    .body = bodyDeob(deob)
+  ElseIf canc <> vbNullString Then
+    .body = bodyCanc
+  Else
+    .body = bodyPaid
+  End If
+  .Save
+End With
+
+Set app = Nothing
+Set mail = Nothing
+
+End Sub
+```
+
+- The following functions populate the bodies of the email
+
+```vbnet
+Private Function bodyPaid() As String
+
+Dim txt As String
+
+txt = "Our records indicate that this contract has been paid in full and all deliveries/services have been satisfied."
+
+bodyPaid = bodyMain(txt)
+
+End Function
+```
+
+```vbnet
+Private Function bodyUnpaid() As String
+
+Dim txt As String
+
+txt = "We will assume that this contract has been paid in full due to the length of time that passed since it's awarding."
+
+bodyUnpaid = bodyMain(txt)
+
+End Function
+```
+
+```vbnet
+Private Function bodyDeob(deob As Long) As String
+
+Dim txt As String
+
+txt = "Our records indicate that this contract has funds available for de-obligation. Please see attached for the invoice record. Funds availble for de-obligation: " & FormatCurrency(deob)
+
+bodyDeob = bodyMain(txt)
+
+End Function
+```
+
+```vbnet
+Private Function bodyCanc()
+
+Dim txt As String
+
+txt = "Our records indicate that this contract has been cancelled."
+
+bodyCanc = bodyMain(txt)
+
+End Function
+```
+
+```vbnet
+Private Function bodyMain(message As String) As String
+
+bodyMain = "***THIS IS A NOTIFICATION EMAIL  NO RESPONSE IS REQUIRED AT THIS TIME***" & vbCrLf & vbCrLf
+bodyMain = bodyMain & "Good Afternoon," & vbCrLf & vbCrLf
+bodyMain = bodyMain & "My name is Spencer Matsushima and I am a contract specialist at NAVSUP FLC Norfolk. I'm attempting to close this contract and you have been included in this email because you were associated with this contract during its awarding." & vbCrLf & vbCrLf
+bodyMain = bodyMain & message & vbCrLf & vbCrLf
+bodyMain = bodyMain & "NO RESPONSE IS REQUIRD AT THIS TIME." & vbCrLf & vbCrLf
+bodyMain = bodyMain & "However, if there are any objections or if there are any discrepancies associated with this contract, please respond to this email within five (5) business days. Otherwise, this contract will be closed-out." & vbCrLf & vbCrLf
+bodyMain = bodyMain & "This contract is available upon request. Thank you for your time." & vbCrLf & vbCrLf
+bodyMain = bodyMain & sig
+
+End Function
+```
+
+```vbnet
+Private Function sig() As String
+
+sig = "________________________________________" & vbCrLf
+sig = sig & "Spencer Matsushima" & vbCrLf
+sig = sig & "________________________________________"
+
+End Function
+```
+
+---
+
+# **Update Data Table**
+
+- This code attempts to do what data tables do for data integrity by applying formualas and conditional formatting to all rows
+    - This may never see production: too many moving parts but very much workable
+
+```vbnet
+
+```
+
+---
+
+# **VBscript**
 
 - Call scripts with either `cscript` or `wscript`
     - `cscript` will run output in the console
