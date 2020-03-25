@@ -42,7 +42,8 @@ title: VBA
     - [Exit UserForm](#exit-userForm)
 13. [Auto-Save Workbook](#auto-save-workbook)
 14. [Generate Emails](#generate-emails)
-15. [VBscript](#vbscript)
+15. [Update Data Table](#update-data-table)
+16. [VBscript](#vbscript)
     - [Running a Macro](#running-a-macro)
     - [Printing to Console](#printing-to-console)
     - [Passing Arguments](#passing-arguments)
@@ -2060,7 +2061,648 @@ End Function
     - This may never see production: too many moving parts but very much workable
 
 ```vbnet
+Option Explicit
+Public ws As Worksheet
+Public c_contract, c_not, c_val, c_year, c_st_date, c_end_date, c_not_cus_by, _
+       c_cus_not, c_not_con_wi, c_not_con_by, c_con_not, c_ex_op_wi, _
+       c_ex_op_by, c_op_ex, c_chi, c_chi_sent, c_mil_fol_by, c_mil_sent, _
+       c_fol_by, c_fol_rec _
+       As String
+Public cnum_contract, cnum_not, cnum_val, cnum_year, cnum_st_date, _
+       cnum_end_date, cnum_not_cus_by, cnum_cus_not, cnum_not_con_wi, _
+       cnum_not_con_by, cnum_con_not, cnum_ex_op_wi, cnum_ex_op_by, cnum_op_ex, _
+       cnum_chi, cnum_chi_sent, cnum_mil_fol_by, cnum_mil_sent, cnum_fol_by, _
+       cnum_fol_rec, f_row, f_col, l_row, l_col _
+       As Long
+```
 
+### getVariables
+
+- Run before everything to use public variables
+
+```vbnet
+Sub getVariables()
+
+Set ws = ThisWorkbook.Worksheets(1)
+
+f_row = ws.Cells.Find(What:="*", _
+                   After:=Cells(Rows.count, Columns.count), _
+                   LookAt:=xlPart, _
+                   LookIn:=xlFormulas, _
+                   SearchOrder:=xlByRows, _
+                   SearchDirection:=xlNext, _
+                   MatchCase:=False).Row
+f_col = ws.Cells.Find(What:="*", _
+                   After:=Cells(Rows.count, Columns.count), _
+                   LookAt:=xlPart, _
+                   LookIn:=xlFormulas, _
+                   SearchOrder:=xlByRows, _
+                   SearchDirection:=xlNext, _
+                   MatchCase:=False).Column
+l_row = ws.Cells(Rows.count, f_col).End(xlUp).Row
+l_col = ws.Cells(f_row, Columns.count).End(xlToLeft).Column
+
+c_contract = "CONTRACT"
+c_not = "NOTIFICATION"
+c_val = "VALUE"
+c_year = "YEAR"
+c_st_date = "START DATE"
+c_end_date = "END DATE"
+c_not_cus_by = "NOTIFY CUSTOMER BY"
+c_cus_not = "CUSTOMER NOTIFIED"
+c_not_con_wi = "NOTIFY CONTRACTOR WITHIN (DAYS)"
+c_not_con_by = "NOTIFY CONTRACTOR BY"
+c_con_not = "CONTRACTOR NOTIFIED"
+c_ex_op_wi = "EXERCISE OPTION WITHIN (DAYS)"
+c_ex_op_by = "EXERCISE OPTION BY"
+c_op_ex = "OPTION EXERCISED"
+c_chi = "CHINFO"
+c_chi_sent = "CHINFO SENT"
+c_mil_fol_by = "MILESTONES FOR FOLLOW-ON BY"
+c_mil_sent = "MILESTONES SENT"
+c_fol_by = "FOLLOW-ON BY"
+c_fol_rec = "FOLLOW-ON RECEIVED"
+
+With ws.Rows(f_row)
+  cnum_contract = .Find(What:=c_contract, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_not = .Find(What:=c_not, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_val = .Find(What:=c_val, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_year = .Find(What:=c_year, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_st_date = .Find(What:=c_st_date, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_end_date = .Find(What:=c_end_date, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_not_cus_by = .Find(What:=c_not_cus_by, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_cus_not = .Find(What:=c_cus_not, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_not_con_wi = .Find(What:=c_not_con_wi, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_not_con_by = .Find(What:=c_not_con_by, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_con_not = .Find(What:=c_con_not, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_ex_op_wi = .Find(What:=c_ex_op_wi, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_ex_op_by = .Find(What:=c_ex_op_by, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_op_ex = .Find(What:=c_op_ex, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_chi = .Find(What:=c_chi, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_chi_sent = .Find(What:=c_chi_sent, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_mil_fol_by = .Find(What:=c_mil_fol_by, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_mil_sent = .Find(What:=c_mil_sent, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_fol_by = .Find(What:=c_fol_by, LookAt:=xlWhole, MatchCase:=True).Column
+  cnum_fol_rec = .Find(What:=c_fol_rec, LookAt:=xlWhole, MatchCase:=True).Column
+End With
+
+End Sub
+```
+
+### updateValues
+
+```vbnet
+Sub updateValues()
+
+Dim i As Long
+
+getVariables
+
+' updates the "notify by...", chinfo, and milestone columns
+' should be ran immediately after adding new data
+For i = f_row + 1 To l_row
+  updateByValues (i)
+  updateCHINFO (i)
+  updateMilestones (i)
+Next i
+
+End Sub
+```
+
+### applyNotifications
+
+```vbnet
+Sub applyNotifications()
+
+Dim i As Long
+
+getVariables
+
+' updates the notification column and applies formatting
+For i = f_row + 1 To l_row
+  updateNotifications (i)
+  applyFormatting (i)
+Next i
+
+End Sub
+```
+
+### applyNotificationsChange
+
+```vbnet
+Sub applyNotificationsChange(row_num As Long)
+
+'getVariables
+
+' only runs on row selected and implemented with a selection change
+updateNotifications (row_num)
+applyFormatting (row_num)
+applyBordersChange (row_num)
+
+End Sub
+```
+
+### updateValuesChange
+
+```vbnet
+Sub updateValuesChange(row_num As Long)
+
+updateByValues (row_num)
+'updateCHINFO (row_num)
+'updateMilestones (row_num)
+
+End Sub
+```
+
+### updateByValues
+
+```vbnet
+Private Sub updateByValues(row_num As Long)
+
+Dim cell_year, cell_st_date, cell_cus, cell_con_wi, cell_con, cell_ex_wi, cell_ex _
+    As Range
+
+getVariables
+
+' first set all values
+With ws
+  Set cell_year = .Cells(row_num, cnum_year)
+  Set cell_st_date = .Cells(row_num, cnum_st_date)
+  Set cell_cus = .Cells(row_num, cnum_not_cus_by)
+  Set cell_con_wi = .Cells(row_num, cnum_not_con_wi)
+  Set cell_con = .Cells(row_num, cnum_not_con_by)
+  Set cell_ex_wi = .Cells(row_num, cnum_ex_op_wi)
+  Set cell_ex = .Cells(row_num, cnum_ex_op_by)
+End With
+  
+' update non-base year periods for option contracts
+' if row is an ordering period, then update values with no dates
+If cell_year <> "Base" And InStr(cell_year, "Ordering") = 0 Then
+  cell_cus.Value = DateAdd("d", -120, cell_st_date)
+  cell_con.Value = DateAdd("d", -1 * cell_con_wi, cell_st_date)
+  cell_ex.Value = DateAdd("d", -1 * cell_ex_wi, cell_st_date)
+ElseIf InStr(cell_year, "Ordering") > 0 Then
+  cell_cus.Value = "NOT REQUIRED"
+  cell_con.Value = "NOT REQUIRED"
+  cell_ex.Value = "NOT REQUIRED"
+End If
+
+End Sub
+```
+
+### updateCHINFO
+
+```vbnet
+Private Sub updateCHINFO(row_num As Long)
+
+Dim wsf As WorksheetFunction
+Dim cell_contract, cell_chi, col_contract As Range
+Dim f_inst, count As Long
+
+' must sort the file before doing anything to prevent any possible dupes being counted
+getVariables
+'sortAscending
+
+With ws
+
+  ' first set the contract cell of the current row
+  ' calculate the entire usable range for the contract row
+  Set wsf = Application.WorksheetFunction
+  Set cell_contract = .Cells(row_num, cnum_contract)
+  Set cell_chi = .Cells(row_num, cnum_chi)
+  Set col_contract = .Range(.Cells(f_row, cnum_contract), .Cells(l_row, cnum_contract))
+
+  ' calculate the amount of total years for the contract on the current row
+  count = wsf.CountIf(col_contract, cell_contract)
+  
+  ' find the row number of the first instance of the contract on the current row
+  f_inst = col_contract.Find(What:=cell_contract, _
+                             LookAt:=xlWhole, _
+                             SearchOrder:=xlByRows, _
+                             SearchDirection:=xlNext, _
+                             MatchCase:=True).Row
+  
+  ' if the current row number is equal to the first instance of the contract, then
+  '   set the CHINFO value to the value of the contract in the first year
+  ' otherwise, add the current year's value to the previous CHINFO value
+  If cell_chi.Row = f_inst Then
+    cell_chi.Value = .Cells(row_num, cnum_val)
+  Else
+    cell_chi.Value = .Cells(row_num, cnum_val) + .Cells(row_num - 1, cnum_chi)
+  End If
+  
+End With
+
+End Sub
+```
+
+### updateMilestones
+
+```vbnet
+Private Sub updateMilestones(row_num As Long)
+
+Dim wsf As WorksheetFunction
+Dim cell_contract, cell_mil, col_contract, cell_year As Range
+Dim f_inst, count As Long
+
+' must sort the file before doing anything to prevent any possible dupes being counted
+getVariables
+'sortAscending
+
+With ws
+
+  ' first set the contract cell of the current row
+  ' calculate the entire usable range for the contract column
+  Set wsf = Application.WorksheetFunction
+  Set cell_contract = .Cells(row_num, cnum_contract)
+  Set col_contract = .Range(.Cells(f_row, cnum_contract), .Cells(l_row, cnum_contract))
+
+  ' calculate the amount of total years for the contract on the current row
+  count = wsf.CountIf(col_contract, cell_contract)
+  
+  ' find the row number of the first instance of the contract on the current row
+  f_inst = col_contract.Find(What:=cell_contract, _
+                             LookAt:=xlWhole, _
+                             SearchOrder:=xlByRows, _
+                             SearchDirection:=xlNext, _
+                             MatchCase:=True).Row
+  
+  ' first check to see if last row is a -8 using the rows calculated above
+  ' if the last row is a -8, then adjust milestone date to be third to last year
+  ' otherwise, make it the second to last year
+  ' the value will always be the second to last full option year
+  Set cell_year = .Cells(f_inst + count - 1, cnum_year)
+  If InStr(cell_year, "-8") > 0 Then
+    Set cell_mil = .Cells(f_inst + count - 3, cnum_mil_fol_by)
+  Else
+    Set cell_mil = .Cells(f_inst + count - 2, cnum_mil_fol_by)
+  End If
+  
+  ' this function shouldn't run on contracts less than three years in length
+  ' but if applicable, set the milestone follow on date to option exercise date
+  '   for the second to last option year
+  If count > 2 Then
+    If cell_mil = vbNullString Then
+      cell_mil.Value = .Cells(cell_mil.Row, cnum_ex_op_by)
+      If cell_mil.Value = "NOT REQUIRED" Then
+        cell_mil.Value = .Cells(cell_mil.Row + 1, cnum_st_date)
+      End If
+    End If
+  End If
+
+End With
+
+End Sub
+```
+
+### updateNotifications
+
+```vbnet
+Private Sub updateNotifications(row_num As Long)
+
+Dim cell_not, cell_year, cell_st_date, cell_cus_by, cell_cus, cell_con_by, _
+    cell_con, cell_ex_by, cell_ex, cell_chi, cell_chi_sent, cell_mil_by, _
+    cell_mil, cell_fol_by, cell_fol _
+    As Range
+Dim diff_st_date, diff_cus, diff_con, diff_ex, diff_mil, diff_fol _
+    As Long
+Dim m_cus_60, m_cus_30, m_con_60, m_con_30, m_ex_60, m_ex_30, m_chi, m_mil, _
+    m_fol _
+    As String
+    
+getVariables
+
+With ws
+  Set cell_year = .Cells(row_num, cnum_year)
+  Set cell_not = .Cells(row_num, cnum_not)
+  Set cell_st_date = .Cells(row_num, cnum_st_date)
+  Set cell_cus_by = .Cells(row_num, cnum_not_cus_by)
+  Set cell_cus = .Cells(row_num, cnum_cus_not)
+  Set cell_con_by = .Cells(row_num, cnum_not_con_by)
+  Set cell_con = .Cells(row_num, cnum_con_not)
+  Set cell_ex_by = .Cells(row_num, cnum_ex_op_by)
+  Set cell_ex = .Cells(row_num, cnum_op_ex)
+  Set cell_chi = .Cells(row_num, cnum_chi)
+  Set cell_chi_sent = .Cells(row_num, cnum_chi_sent)
+  Set cell_mil_by = .Cells(row_num, cnum_mil_fol_by)
+  Set cell_mil = .Cells(row_num, cnum_mil_sent)
+  Set cell_fol_by = .Cells(row_num, cnum_fol_by)
+  Set cell_fol = .Cells(row_num, cnum_fol_rec)
+End With
+
+diff_st_date = cell_st_date - Now
+diff_mil = cell_mil_by - Now
+diff_fol = cell_fol_by - Now
+
+m_cus_60 = "Notify Customer in 60 Days - " & cell_year
+m_cus_30 = "Notify Customer in 30 Days - " & cell_year
+m_con_60 = "Notify Contractor in 60 Days - " & cell_year
+m_con_30 = "Notify Contractor in 30 Days - " & cell_year
+m_ex_60 = "Exercise Option in 60 Days - " & cell_year
+m_ex_30 = "Exercise Option in 30 Days - " & cell_year
+m_chi = "Send CHINFO Notice - " & cell_year
+m_mil = "Send Milestones in 60 Days - " & cell_year
+m_fol = "Follow-On Due in 60 Days - " & cell_year
+
+' only perform notification updates on current option years
+Do While diff_st_date <= 365 And diff_st_date > 0
+
+  ' notification checks for option year
+  Do While InStr(cell_year, "Ordering") = 0
+
+    diff_cus = cell_cus_by - Now
+    diff_con = cell_con_by - Now
+    diff_ex = cell_ex_by - Now
+    
+    ' first check for customer, contractor, and exercise option notifications
+    ' these take precedence over all other notifications
+    ' customer
+    If diff_cus <= 60 And diff_cus > 30 And cell_cus = vbNullString Then
+      cell_not.Value = m_cus_60
+    ElseIf diff_cus <= 30 And diff_cus > 0 And cell_cus = vbNullString Then
+      cell_not.Value = m_cus_30
+  
+    ' contractor
+    ElseIf diff_con <= 60 And diff_con > 0 And cell_con = vbNullString Then
+      cell_not.Value = m_con_60
+    ElseIf diff_con <= 30 And diff_con > 0 And cell_con = vbNullString Then
+      cell_not.Value = m_con_30
+  
+    ' exercise option
+    ElseIf diff_ex <= 60 And diff_ex > 0 And cell_ex = vbNullString Then
+      cell_not.Value = m_ex_60
+    ElseIf diff_ex <= 30 And diff_ex > 0 And cell_ex = vbNullString Then
+      cell_not.Value = m_ex_30
+  
+    ' chinfo
+    ElseIf cell_chi >= 7000000 And cell_chi_sent = vbNullString Then
+      cell_not.Value = m_chi
+  
+    ' milestones
+    ElseIf diff_mil <= 60 And diff_mil > 0 And cell_mil = vbNullString Then
+      cell_not.Value = m_mil
+    
+    ' follow-on
+    ElseIf diff_fol <= 60 And diff_fol > 0 And cell_fol = vbNullString Then
+      cell_not.Value = m_fol
+      
+    Else
+      cell_not.Value = vbNullString
+      
+    End If
+  Exit Do
+  Loop
+  
+  ' notification checks for ordering periods
+  Do While InStr(cell_year, "Ordering") > 0
+  
+    ' chinfo
+    If cell_chi >= 7000000 And cell_chi_sent = vbNullString Then
+      cell_not.Value = m_chi
+    
+    ' milestones
+    ElseIf diff_mil <= 60 And diff_mil > 0 And cell_mil = vbNullString Then
+      cell_not.Value = m_mil
+    
+    ' follow-on
+    ElseIf diff_fol <= 60 And diff_fol > 0 And cell_fol = vbNullString Then
+      cell_not.Value = m_fol
+
+    Else
+      cell_not.Value = vbNullString
+      
+    End If
+    
+  Exit Do
+  Loop
+Exit Do
+Loop
+
+End Sub
+```
+
+### applyFormatting
+
+```vbnet
+Private Sub applyFormatting(row_num As Long)
+
+Dim cell_not, cell_year, cell_st_date, cell_ex_op, entire_row As Range
+Dim black, cyan, green, yellow, red, pink, gray As Long
+
+getVariables
+
+With ws
+  Set cell_not = .Cells(row_num, cnum_not)
+  Set cell_year = .Cells(row_num, cnum_year)
+  Set cell_st_date = .Cells(row_num, cnum_st_date)
+  Set cell_ex_op = .Cells(row_num, cnum_ex_op_by)
+  Set entire_row = .Range(.Cells(row_num, f_col), .Cells(row_num, l_col))
+End With
+
+' set colors
+cyan = RGB(0, 176, 240)
+green = RGB(146, 208, 80)
+yellow = RGB(255, 192, 0)
+red = RGB(255, 0, 0)
+pink = RGB(255, 155, 243)
+gray = RGB(208, 206, 206)
+
+' apply color formatting
+If cell_year = "Base" Then
+  entire_row.Interior.Color = cyan
+ElseIf cell_st_date < Now And cell_not = vbNullString Then
+  entire_row.Interior.Color = green
+ElseIf InStr(cell_not, "60") > 0 Then
+  entire_row.Interior.Color = yellow
+ElseIf InStr(cell_not, "30") > 0 Then
+  entire_row.Interior.Color = red
+ElseIf InStr(cell_not, "CHINFO") > 0 Then
+  entire_row.Interior.Color = pink
+ElseIf InStr(cell_not, "Milestones") > 0 Or InStr(cell_not, "Follow") > 0 Then
+  entire_row.Interior.Color = gray
+Else
+  entire_row.Interior.Pattern = xlNone
+End If
+
+End Sub
+```
+
+### columnNameCheck
+
+```vbnet
+Sub columnNameCheck()
+
+'WORKING
+' can't run getVariables first because users could change values
+' not sure if this can be implemented since changing the cell would run getVariables
+
+Dim ws As Worksheet
+Dim f_row As Long
+Dim col_contract As Range
+
+Set ws = ThisWorkbook.Worksheets(1)
+f_row = ws.Cells.Find(What:="*", _
+                   After:=Cells(Rows.count, Columns.count), _
+                   LookAt:=xlPart, _
+                   LookIn:=xlFormulas, _
+                   SearchOrder:=xlByRows, _
+                   SearchDirection:=xlNext, _
+                   MatchCase:=False).Row
+Set col_contract = ws.Cells(f_row, 1)
+
+If col_contract.Value <> "CONTRACT" Then
+  MsgBox Prompt:="WHOA BUCKO!" & vbCr & "Column names can't be changed!", _
+         Title:="HOLD IT!"
+  col_contract.Value = "CONTRACT"
+End If
+
+End Sub
+```
+
+### applyBordersChange
+
+```vbnet
+Sub applyBordersChange(row_num As Long)
+
+Dim entire_row As Range
+
+getVariables
+
+With ws
+  Set entire_row = .Range(.Cells(row_num, f_col), .Cells(row_num, l_col))
+End With
+
+' linetyle 1 = xlContinuous; check if it is there on the row
+If entire_row.Borders(xlEdgeBottom).LineStyle <> 1 Then
+  With entire_row
+    .Borders(xlEdgeLeft).LineStyle = xlContinuous
+    .Borders(xlEdgeRight).LineStyle = xlContinuous
+    .Borders(xlEdgeTop).LineStyle = xlContinuous
+    .Borders(xlEdgeBottom).LineStyle = xlContinuous
+    .Borders(xlInsideVertical).LineStyle = xlContinuous
+    .Borders(xlInsideHorizontal).LineStyle = xlContinuous
+  End With
+End If
+
+End Sub
+```
+
+### updateScrollArea
+
+```vbnet
+Sub updateScrollArea()
+
+getVariables
+
+ws.ScrollArea = "A1:" & "AB" & (l_row + 5)
+
+End Sub
+```
+
+### sortAscending
+
+```vbnet
+Sub sortAscending()
+
+Dim range_main As Range
+
+getVariables
+
+Set range_main = ws.Range(ws.Cells(f_row, f_col), ws.Cells(l_row, l_col))
+
+range_main.Sort Key1:=Range(ws.Cells(f_row, f_col).Address), Order1:=xlAscending, Header:=xlYes
+
+End Sub
+```
+
+### Auto-Updating by Change
+
+```vbnet
+Private Sub Worksheet_Change(ByVal Target As Range)
+
+'Dim ws As Worksheet
+'Dim f_row, l_row, row_num As Long
+Dim row_num As Long
+
+getVariables
+
+'Set ws = ThisWorkbook.Worksheets(1)
+
+'f_row = Cells.Find(What:="*", _
+'                   After:=Cells(Rows.count, Columns.count), _
+'                   LookAt:=xlPart, _
+'                   LookIn:=xlFormulas, _
+'                   SearchOrder:=xlByRows, _
+'                   SearchDirection:=xlNext, _
+'                   MatchCase:=False).Row
+
+'f_row = 2
+'l_row = ws.Cells(Rows.count, 1).End(xlUp).Row
+row_num = ActiveCell.Row
+
+'getVariables
+
+
+
+'apply notifications and update data
+'Do While row_num = f_row
+'  columnNameCheck
+'Exit Do
+'Loop
+
+Do While row_num > f_row And row_num <= l_row
+'  applyBordersChange (row_num)
+'  applyNotificationsChange (row_num)
+Exit Do
+Loop
+
+End Sub
+```
+
+### Auto-Updating by SelectionChange
+
+```vbnet
+Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+
+'Dim ws As Worksheet
+'Dim f_row, l_row, row_num As Long
+Dim row_num As Long
+
+getVariables
+
+'Set ws = ThisWorkbook.Worksheets(1)
+
+'f_row = Cells.Find(What:="*", _
+'                   After:=Cells(Rows.count, Columns.count), _
+'                   LookAt:=xlPart, _
+'                   LookIn:=xlFormulas, _
+'                   SearchOrder:=xlByRows, _
+'                   SearchDirection:=xlNext, _
+'                   MatchCase:=False).Row
+
+'f_row = 2
+'l_row = ws.Cells(Rows.count, 1).End(xlUp).Row
+row_num = ActiveCell.Row
+
+'must run columnNameCheck first to allow getVariables to run without errors
+Do While row_num = f_row
+  'MsgBox "1"
+  'columnNameCheck
+  'Apply
+Exit Do
+Loop
+
+Do While row_num > f_row And row_num <= l_row
+'  applyBordersChange (row_num)
+  applyNotificationsChange (row_num)
+  'updateScrollArea
+  'dev04 (row_num)
+Exit Do
+Loop
+
+repositionButtonTop
+
+End Sub
 ```
 
 ---
