@@ -43,7 +43,14 @@ title: VBA
 13. [Auto-Save Workbook](#auto-save-workbook)
 14. [Generate Emails](#generate-emails)
 15. [Update Data Table](#update-data-table)
-16. [VBscript](#vbscript)
+16. [Outlook with VBA](#outlook-with-vba)
+    - [Emails](#emails)
+        - [HTML with Body Messages](#html-with-body-messages])
+        - [Signatures as HTML](#signatures-as-html)
+        - [HTML Tables in Body Messages](#html-tables-in-body-messages)
+    - [Find Email and Username of Current User](#find-email-and-username-of-current-user)
+    - [Appointments](#appointments)
+17. [VBscript](#vbscript)
     - [Running a Macro](#running-a-macro)
     - [Printing to Console](#printing-to-console)
     - [Passing Arguments](#passing-arguments)
@@ -52,7 +59,7 @@ title: VBA
 
 # **Common Variables**
 
-### Workbook Info
+## Workbook Info
 
 ```vbnet
 'workbook name
@@ -63,7 +70,7 @@ Dim ws as Worksheet
 Set ws = ThisWorkbook.Worksheets(1)
 ```
 
-### First and last rows and columns
+## First and last rows and columns
 
 ```vbnet
 'last row
@@ -78,7 +85,7 @@ ws.Rows(1).Find(What:=vbNullString, _
                 SearchDirection:=xlNext).Column
 ```
 
-### Filters
+## Filters
 
 ```vbnet
 'data tables
@@ -92,7 +99,7 @@ ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="
 ws.ListObjects("TABLE").Range.AutoFilter Field:=1
 ```
 
-### Miscellaneous
+## Miscellaneous
 
 ```vbnet
 'module subroutine to automatically run on workbook opening
@@ -109,7 +116,7 @@ End If
 
 # **Charts**
 
-### **Basic Line Chart**
+## **Basic Line Chart**
 
 ```vbnet
 Dim max_row As Range
@@ -164,7 +171,7 @@ End With
 
 ---
 
-### **Chart with Multiple Axes**
+## **Chart with Multiple Axes**
 
 ```vbnet
 Dim max_row As Range
@@ -228,7 +235,7 @@ End With
 
 # **Checkboxes**
 
-### **Adding Multiple Check Boxes and Links**
+## **Adding Multiple Check Boxes and Links**
 
 ```vbnet
 Dim ws As Worksheet
@@ -256,7 +263,7 @@ For Each cell In sheet_num_range
 Next
 ```
 
-### **Uncheck or Check All Boxes**
+## **Uncheck or Check All Boxes**
 
 ```vbnet
 'False will uncheck all boxes, True will check all boxes
@@ -267,7 +274,7 @@ ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 
 # **Filters**
 
-### **Loop Through All Columns and Reset All**
+## **Loop Through All Columns and Reset All**
 
 ```vbnet
 Dim col As Long
@@ -281,7 +288,7 @@ For i = 1 To col
 Next i
 ```
 
-### **Find Column Name in Table and Apply Filter**
+## **Find Column Name in Table and Apply Filter**
 
 ```vbnet
 Dim ws as Worksheet
@@ -295,7 +302,7 @@ col = ws.Rows(1).Find(what:=col_name).Column
 ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ```
 
-### **Pivot Table Filters**
+## **Pivot Table Filters**
 
 ```vbnet
 Dim ws as Worksheet
@@ -333,7 +340,7 @@ Next i
 
 # **Find**
 
-### **Fix to Find First Occurence on Row 1**
+## **Fix to Find First Occurence on Row 1**
 
 - For whatever reason, `Find` won't find the first occorence of something if it occurs on row 1
 - To fix this, search for it with the last row used in the column under the `After` variable
@@ -356,7 +363,7 @@ Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
 
 *The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
 
-### **generateWIP**
+## **generateWIP**
 
 - This sub runs all the other subs
 - First, I declare public variables to be used throughout the macro
@@ -403,7 +410,7 @@ End Sub
 
 ---
 
-### **resetVariables**
+## **resetVariables**
 
 - This resets all public variables so the code can run from a clean slate
 
@@ -421,7 +428,7 @@ End Sub
 
 ---
 
-### **selectWIP**
+## **selectWIP**
 
 - The user selects the  file from the specified folder and this gets saved as a variable
 - Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
@@ -470,7 +477,7 @@ End Sub
 
 ---
 
-### **copyWIP**
+## **copyWIP**
 
 - First, open a read-only version of the user-specified file in the previous step
 - An array is created from the values of of the second column in a table
@@ -523,7 +530,7 @@ End Sub
 
 ---
 
-### **applyTemplate**
+## **applyTemplate**
 
 - Once the data is copied, it is then transferred to another worksheet
     - `team_wip_wb.Worksheets(Worksheets.Count).Index` captures the last sheet number; pasting after this makes it now this number plus one
@@ -587,7 +594,7 @@ End Sub
 
 ---
 
-### **closeGenerator**
+## **closeGenerator**
 
 - Lastly, this turns `Application.ScreenUpdating = True` so macros can run "normally" again
 - The file from which the macro runs is closed so only the main file remains
@@ -612,7 +619,7 @@ End Sub
 
 *This will take text inputted into text content controls and apply them to other documents*
 
-### **Generating the Subroutine**
+## **Generating the Subroutine**
 
 - One sub will run all the vba code; this way, error-handling is much easier managed
 - Public variables are defined here to be used throughout all other subs
@@ -682,7 +689,7 @@ Application.ScreenUpdating = True
 End Sub
 ```
 
-### **Resetting Variables**
+## **Resetting Variables**
 
 - This sub is utilized so that all global variables can't be re-used in future sub calls in case errors prevent the code from finishing
 - Global variables are to be re-defined after utilizing the main sub
@@ -719,7 +726,7 @@ large_folder6 = vbNullString
 End Sub
 ```
 
-### **Saving Input**
+## **Saving Input**
 
 - This will redefine each global variable
 - Logically done directly after resetting everything
@@ -749,7 +756,7 @@ End With
 End Sub
 ```
 
-### **Creating the Initial Folder**
+## **Creating the Initial Folder**
 
 - First select where the folder wishes to be, then save the folder path as a variable
 - Rename the folder the correct name
@@ -791,7 +798,7 @@ End If
 End Sub
 ```
 
-### **Create the Subfolders**
+## **Create the Subfolders**
 
 - Create all subfolders and working folders underneath
 
@@ -839,7 +846,7 @@ End If
 End Sub
 ```
 
-### **Populating Forms**
+## **Populating Forms**
 
 - This is the final step
 - Insert as many other forms starting with the `With` code, and renaming it anyway you want
@@ -1050,7 +1057,7 @@ End Sub
 
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
 
-### **Generating the UserForm**
+## **Generating the UserForm**
 
 - First generate the UserForm in Excel by going to **DEVELOPER > Visual Basic > Insert > UserForm**
 - Name this UserForm anything in the `(Name)` field in the properties box on the left
@@ -1068,7 +1075,7 @@ With text_box
 End With
 ```
 
-### **Modify UserForm Initialization**
+## **Modify UserForm Initialization**
 
 - Certain settings may need to be modified upon initialization (creation) of the UserForm
 - To do so, right-click the user form, select **View Code**, then select **Initialize** from the right drop-down
@@ -1149,7 +1156,7 @@ End With
 End Sub
 ```
 
-### **Modifying Text Box Changes**
+## **Modifying Text Box Changes**
 
 - The following code will modify the textbox as it gets changed
 - Each textbox that requires changing will need to have its own module
@@ -1313,7 +1320,7 @@ End With
 End Sub
 ```
 
-### **CommandButton Modification**
+## **CommandButton Modification**
 
 - To insert a CommandButton, click CommandButton in the Toolbox window
     - If you can't find this, go to **View > Toolbox**
@@ -1536,7 +1543,7 @@ ws.Cells(new_row, 8).Select
 End Sub
 ```
 
-### Auto-Updating List Box and Auto-Closing
+## Auto-Updating List Box and Auto-Closing
 
 - Using the Scripting Dictionaries from [below](#find-unique-values-and-navigate-to-location), you can auto-populate a List Box based on unique values in a column
 - Selecting anything in the List Box will perform any actions, then close it
@@ -1625,7 +1632,7 @@ ws.columns("A:O").PrintPreview
 
 # **Find Unique Values and Navigate to Location**
 
-### **Identify Unique Values in an Array**
+## **Identify Unique Values in an Array**
 
 - Scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
 - One of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
@@ -1688,7 +1695,7 @@ go_to_folder.contracts.ListIndex = 0
 End Sub
 ```
 
-### **Navigate to the Associated Folder**
+## **Navigate to the Associated Folder**
 
 ```vbnet
 Private Sub button_go_to_Click()
@@ -1738,7 +1745,7 @@ error_message:
 End Sub
 ```
 
-### **Add Folder Location**
+## **Add Folder Location**
 
 ```vbnet
 Private Sub button_add_folder_Click()
@@ -1808,7 +1815,7 @@ MsgBox "Folder added successfully." & _
 End Sub
 ```
 
-### **Exit UserForm**
+## **Exit UserForm**
 
 ```vbnet
 Private Sub button_exit_Click()
@@ -1866,7 +1873,7 @@ ThisWorkbook.SaveCopyAs file_name
 - The following code will create drafts of emails
     - To counter this, use `.Send` instead of `.Save`
 
-### generateEmail
+## generateEmail
 
 ```vbnet
 Sub generateEmail()
@@ -1884,7 +1891,7 @@ MsgBox "Finished. Check your 'Drafts' folder in Outlook for saved emails."
 End Sub
 ```
 
-### saveEmail
+## saveEmail
 
 ```vbnet
 Private Sub saveEmail(row_num As Long)
@@ -1943,7 +1950,7 @@ Loop
 End Sub
 ```
 
-### emailMain
+## emailMain
 
 ```vbnet
 Private Sub emailMain(contract, gpc As String, deob As Long, canc, email As String)
@@ -2707,13 +2714,184 @@ End Sub
 
 ---
 
+# **Outlook with VBA**
+
+## Emails
+
+```vbnet
+Dim ol, _
+    ol_mail As Object
+Dim e_to, _
+    e_sub, _
+    e_body As String
+
+Set ol = CreateObject("Outlook.Application")
+Set ol_mail = app.CreateItem(olMailItem)
+
+e_to = "email_address@gmail.com"
+e_sub = "Super Important Message"
+e_body = "This is the body of the email message."
+
+With ol_mail
+  .To = e_to
+  .subject = e_sub
+  .Body = e_body
+  .Display
+  '.Save
+  '.Send
+End With
+
+Set ol = Nothing
+Set ol_mail = Nothing
+```
+
+### HTML with Body Messages
+
+```vbnet
+Dim ol, _
+    ol_mail As Object
+Dim e_to, _
+    e_sub, _
+    e_body As String
+
+Set ol = CreateObject("Outlook.Application")
+Set ol_mail = app.CreateItem(olMailItem)
+
+e_to = "email_address@gmail.com"
+e_sub = "Super Important Message"
+e_body = body_func
+
+With ol_mail
+  .To = e_to
+  .subject = e_sub
+  .HTMLbody = e_body
+  .Display
+  '.Save
+  '.Send
+End With
+
+Set ol = Nothing
+Set ol_mail = Nothing
+```
+
+```vbnet
+Private Function body_func()
+
+body_func = "<font face='calibri'>Good Afternoon,<br><br>" & _
+            "This is a generic email message. Have a good day.</font>"
+
+End Function
+```
+
+### Signatures as HTML
+
+```vbnet
+Private Function bodySig()
+
+Dim sig_file, _
+    sig_path, _
+    sig As String
+Dim fso, _
+    tf, _
+    oSig As Object
+
+sig_file = "General.htm"
+sig_path = "C:\Users\User\AppData\Roaming\Microsoft\Signatures\" & sig_file
+
+Set fso = CreateObject("Scripting.FileSystemObject")
+Set tf = fso.OpenTextFile(sig_path)
+
+' Reads html
+sig = tf.ReadAll
+
+bodySig = sig
+
+End Function
+```
+
+### HTML Tables in Body Messages
+
+```vbnet
+Private Function bodyTable()
+
+Dim ts, _
+    ths, _
+    thsc, _
+    tds, _
+    tdsc As String
+
+' Table properties
+ts = "<table style='border:1px solid black;border-collapse:collapse;'>"
+ths = "<th style='border:1px solid black;padding:5px;'>"
+thsc = "</th><th style='border:1px solid black;padding:5px;'>"
+tds = "<td style='border:1px solid black;padding:5px;'>"
+tdsc = "</td><td style='border:1px solid black;padding:5px;'>"
+
+bodyTable = "<br>" & _
+             ts & _
+             "<tr>" & ths & "MONTH" & thsc & "DAY" & thsc & "YEAR" & "</th></tr>" & _
+             "<tr>" & tds & "July" & tdsc & "19" & tdsc & "2020" & "</td></tr>" & _
+             "<tr>" & tds & "June" & tdsc & "1" & tdsc & "2020" & "</td></tr></table>"
+
+End Function
+```
+
+## Find Email and Username of Current User
+
+```vbnet
+Dim ol as Object
+Dim ol_ns As Outlook.Namespace
+Dim ol_fol As Outlook.Folder
+
+Set ol = CreateObject("outlook.application")
+Set ol_ns = ol.GetNamespace("MAPI")
+Set ol_fol = olns.GetDefaultFolder(olFolderInbox)
+
+' email
+Debug.Print ol_fol.Parent.Name
+' email
+Debug.Print ol_ns.Accounts.Item(1).DisplayName
+' username
+Debug.Print Application.username
+```
+
+## Appointments
+
+```vbnet
+Dim ol As Object
+Dim ol_app As AppointmentItem
+Dim a_sub, _
+    a_body as String
+Dim a_date as Date
+
+Set ol = Outlook.Application
+Set ol_app = o_appl.CreateItem(olAppointmentItem)
+
+a_sub = "Doctor Appointment"
+a_body = "Getting physical, doing blood tests."
+a_date = "07/19/2020"
+
+With ol_app
+  .subject = subj
+  .body = body
+  .Start = st_date
+  .AllDayEvent = True
+  .Save
+End With
+
+Set ol = Nothing
+Set ol_app = Nothing
+```
+
+---
+
 # **VBscript**
 
 - Call scripts with either `cscript` or `wscript`
     - `cscript` will run output in the console
     - `wscript` will run output in a pop-up window
 
-### **Running a Macro**
+## **Running a Macro**
 
 ```vbnet
 Option Explicit
@@ -2737,7 +2915,7 @@ excel_obj.Quit
 wscript.quit
 ```
 
-### Printing to Console
+## Printing to Console
 
 - In order to print to console, use `cscript` to call the script, not `wscript`
 - First method
@@ -2763,7 +2941,7 @@ set stderr = fso.GetStandardStream(2)
 stdout.writeline "derp"
 ```
 
-### Passing Arguments
+## Passing Arguments
 
 - This includes error checking to see if all parameters were inputted
 
