@@ -6,6 +6,9 @@ title: VBA
 # **Table of Contents**
 
 1. [Common Variables](#common-variables)
+    - [Workbook Info](#workbook-info)
+    - [First and Last Rows and Columns](#first-and-last-rows-and-columns)
+    - [Miscellaneous](#miscellaneous)
 2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
     - [Chart With Multiple Axes](#chart-with-multiple-axes)
@@ -13,44 +16,45 @@ title: VBA
     - [Adding Multiple Check Boxes and Links](#adding-multiple-check-boxes-and-links)
     - [Uncheck or Check All Boxes](#uncheck-or-check-all-boxes)
 4. [Filters](#filters)
+    - [Common Usage](#common-usage)
     - [Loop Through All Columns and Reset All](#loop-through-all-columns-and-reset-all)
     - [Find Column Name in Table and Apply Filter](#find-column-name-in-table-and-apply-filter)
+    - [Sort Ascending for AutoFilters](#sort-ascending-for-autofilters)
     - [Pivot Table Filters](#pivot-table-filters)
-5. [Find](#find)
-    - [Fix to Find First Occurence on Row 1](#fix-to-find-first-occurence-on-row-1)
-6. [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
-    - [generateWIP](#generatewip)
-    - [resetVariables](#resetvariables)
-    - [selectWIP](#selectwip)
-    - [copyWIP](#copywip)
-    - [applyTemplate](#applytemplate)
-    - [closeGenerator](#closegenerator)
-7. [Folder Generator](#folder-generator)
-8. [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
-9. [UserForm Basics](#userform-basics)
+5. [Find Unique Values](#find-unique-values)
+6. [Auto-Save Workbook](#auto-save-workbook)
+7. [UserForm Basics](#userform-basics)
     - [Generating the UserForm](#generating-the-userform)
     - [Modify UserForm Initialization](#modify-userform-initialization)
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
     - [Auto-Updating List Box and Auto-Closing](#auto-updating-list-box-and-auto-closing)
-10. [Auto-Updating Button Position](#auto-updating-button-position)
-11. [Print Columns to Fit Page](#print-columns-to-fit-page)
-12. [Find Unique Values and Navigate to Location](#find-unique-values-and-navigate-to-location)
-    - [Identify Unique Values in an Array](#identify-unique-values-in-an-array)
-    - [Navigate to the Associated Folder](#navigate-to-the-associated-folder)
-    - [Add Folder Location](#add-folder-location)
-    - [Exit UserForm](#exit-userForm)
-13. [Auto-Save Workbook](#auto-save-workbook)
-14. [Generate Emails](#generate-emails)
-15. [Update Data Table](#update-data-table)
-16. [Outlook with VBA](#outlook-with-vba)
+8. [Projects](#projects)
+    - [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
+        - [generateWIP](#generatewip)
+        - [resetVariables](#resetvariables)
+        - [selectWIP](#selectwip)
+        - [copyWIP](#copywip)
+        - [applyTemplate](#applytemplate)
+        - [closeGenerator](#closegenerator)
+    - [Folder Generator](#folder-generator)
+    - [Find Unique Values and Navigate to Folder Location](#find-unique-values-and-navigate-to-folder-location)
+    - [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
+    - [Generate Emails](#generate-emails)
+9. [Update Data Table](#update-data-table)
+10. [Miscellaneous Functions](#miscellaneous-functions)
+    - [Fix to Find First Occurence on Row 1](#fix-to-find-first-occurence-on-row-1)
+    - [Append to Text File](#append-to-text-file)
+    - [Auto-Updating Button Position](#auto-updating-button-position)
+    - [Print Columns to Fit Page](#print-columns-to-fit-page)
+11. [Outlook with VBA](#outlook-with-vba)
     - [Emails](#emails)
         - [HTML with Body Messages](#html-with-body-messages])
         - [Signatures as HTML](#signatures-as-html)
         - [HTML Tables in Body Messages](#html-tables-in-body-messages)
     - [Find Email and Username of Current User](#find-email-and-username-of-current-user)
     - [Appointments](#appointments)
-17. [VBscript](#vbscript)
+12. [VBscript](#vbscript)
     - [Running a Macro](#running-a-macro)
     - [Printing to Console](#printing-to-console)
     - [Passing Arguments](#passing-arguments)
@@ -70,7 +74,7 @@ Dim ws as Worksheet
 Set ws = ThisWorkbook.Worksheets(1)
 ```
 
-## First and last rows and columns
+## First and Last Rows and Columns
 
 ```vbnet
 'last row
@@ -83,20 +87,6 @@ ws.Cells(1, Columns.Count).End(xlToLeft).Column
 ws.Rows(1).Find(What:=vbNullString, _
                 SearchOrder:=xlByColumns, _
                 SearchDirection:=xlNext).Column
-```
-
-## Filters
-
-```vbnet
-'data tables
-'Field is the column index
-ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="
-
-'auto-filters
-ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="
-
-'reset all values in a data table
-ws.ListObjects("TABLE").Range.AutoFilter Field:=1
 ```
 
 ## Miscellaneous
@@ -235,7 +225,7 @@ End With
 
 # **Checkboxes**
 
-## **Adding Multiple Check Boxes and Links**
+## Adding Multiple Check Boxes and Links
 
 ```vbnet
 Dim ws As Worksheet
@@ -244,12 +234,7 @@ Dim col_offset As Integer
 Dim cell As Range
 Dim ch_box As CheckBox
 
-'Adjust below dimensions accordingly:
-'sheet_num = specific sheet number, not sheet name, where checkboxes are desired
-'sheet_num_range = range within the sheet number to insert the checkboxes
-'col_offset = column where linked cell will be in reference to checkbox cell
-'             (ie 1 is right 1, -1 is left 1)
-
+' col_offset = 1 is right 1, -1 is left 1
 Set ws = ThisWorkbook.Worksheets(1)
 Set sheet_num_range = ws.Range("A1:A10")
 col_offset = 1
@@ -263,10 +248,10 @@ For Each cell In sheet_num_range
 Next
 ```
 
-## **Uncheck or Check All Boxes**
+## Uncheck or Check All Boxes
 
 ```vbnet
-'False will uncheck all boxes, True will check all boxes
+' False will uncheck all boxes, True will check all boxes
 ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 ```
 
@@ -274,7 +259,21 @@ ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 
 # **Filters**
 
-## **Loop Through All Columns and Reset All**
+## Common Usage
+
+```vbnet
+' Data tables
+' Field is the column index
+ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="
+
+' Auto-filters
+ws.Range("A:A").AutoFilter Field:=1, Criteria1:="="
+
+' Reset all values in a data table
+ws.ListObjects("TABLE").Range.AutoFilter Field:=1
+```
+
+## Loop Through All Columns and Reset All
 
 ```vbnet
 Dim col As Long
@@ -288,7 +287,7 @@ For i = 1 To col
 Next i
 ```
 
-## **Find Column Name in Table and Apply Filter**
+## Find Column Name in Table and Apply Filter
 
 ```vbnet
 Dim ws as Worksheet
@@ -302,7 +301,21 @@ col = ws.Rows(1).Find(what:=col_name).Column
 ws.ListObjects("Table1").Range.AutoFilter Field:=col, Criteria1:="1"
 ```
 
-## **Pivot Table Filters**
+## Sort Ascending for AutoFilters
+
+```vbnet
+Dim ran_main As Range
+
+' First capture entire data range
+Set ran_main = ws.Range(ws.Cells(1, 1), ws.Cells(10, 10))
+
+' Sort the first column ascending, change column as appropriate
+ran_main.Sort Key1:=Range(ws.Cells(1, 1).Address), _
+              Order1:=xlAscending, _
+              Header:=xlYes
+```
+
+## Pivot Table Filters
 
 ```vbnet
 Dim ws as Worksheet
@@ -314,11 +327,11 @@ Set ws = Thisworkbook.Worksheets(1)
 field = "FY"
 criteria = "FY18"
 
-'first loop through each pivot table (names are in the array) and clear all filters
-'next, only search for criteria specified within the field variable and make
-'  it the only visible criteria in the table
-'else make all others invisilble
-'lastly, autofit the columns since pivot tables don't do that for some reason
+' First loop through each pivot table (names are in the array) and clear all filters
+' Next, only search for criteria specified within the field variable and make
+'   it the only visible criteria in the table
+' Else, make all others invisilble
+' Lastly, autofit the columns since pivot tables don't do that for some reason
 For Each i In Array("count", "sum_awarded", "sum_savings", "average_savings")
   With ws
     With .PivotTables(i).PivotFields(field)
@@ -338,715 +351,95 @@ Next i
 
 ---
 
-# **Find**
+# **Find Unique Values**
 
-## **Fix to Find First Occurence on Row 1**
-
-- For whatever reason, `Find` won't find the first occorence of something if it occurs on row 1
-- To fix this, search for it with the last row used in the column under the `After` variable
-- This will reset the position to start searching for everything at the beginning of the data set
+- Scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
+- One of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
 
 ```vbnet
+Dim d As Object
 Dim ws As Worksheet
-Dim last_row As Long
+Dim val, _
+    values As Variant
 
+Set d = CreateObject("Scripting.Dictionary")
 Set ws = ThisWorkbook.Worksheets(1)
 
-last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
-
-Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
-```
-
----
-
-# **Copy Contents From One Worksheet to Another**
-
-*The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
-
-## **generateWIP**
-
-- This sub runs all the other subs
-- First, I declare public variables to be used throughout the macro
-- `Application.ScreenUpdating = False` allows the macro to run without opening windows, speeding up the code; this must be turned to `True` before the macro ends
-- Error handling is handled after the macro finishes; `error_code` and `error_message` are saved as public variables so they can be used for other errors, not just in the specific code block
-
-```vbnet
-'public variables must be saved outside of functions to be used throughout
-Public error_code, _
-       error_message, _
-       main_wip_name, _
-       team_wip_name _
-       As String
-
-Option Explicit
-
-Sub generateWIP()
-
-Application.ScreenUpdating = False
-
-'step 1 - reset variables
-resetVariables
-
-'step 2 - select main wip file and check if team wip is open
-selectWIP
-
-If error_code = 1 Then
-  MsgBox Prompt:=error_message, Title:="Error"
-  Application.ScreenUpdating = True
-  Exit Sub
-End If
-
-'step 3 - copy data from main wip
-copyWIP
-
-'step 4 - apply template to wip
-applyTemplate
-
-'step 5 - close wip generator
-closeGenerator
-
-End Sub
-```
-
----
-
-## **resetVariables**
-
-- This resets all public variables so the code can run from a clean slate
-
-```vbnet
-Sub resetVariables()
-
-'step 1 - reset variables
-error_code = vbNullString
-error_message = vbNullString
-main_wip_name = vbNullString
-team_wip_name = vbNullString
-
-End Sub
-```
-
----
-
-## **selectWIP**
-
-- The user selects the  file from the specified folder and this gets saved as a variable
-- Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
-    - `error_code` and `error_message` are handled outside this in `generateWIP` macro
-- The macro running this must be in the same folder as the team's WIP; the path of this file is used for the path of the team's WIP
-- Also checks to see if one of the principle files to be opened is already opened; if it is, another error ensues
-
-```vbnet
-Sub selectWIP()
-
-'step 2 - select main wip file and check if team wip is open
-
-Dim team_wip_path As String
-Dim team_wip_wb As Workbook
-
-With Application.FileDialog(msoFileDialogFilePicker)
-  .AllowMultiSelect = False
-  .InitialFileName = "C:\Users\smats\WEEKLY REPORT"
-  .Title = "Select the WIP"
-  If .Show = -1 Then
-    main_wip_name = .SelectedItems.Item(1)
-  Else
-    error_code = 1
-    error_message = "File not selected."
-    Exit Sub
-  End If
+' Create initial array
+' First create an array of all values in the first column of the table
+' Dupes will be present
+With ws
+  values = .ListObjects("Table1").ListColumns(1).DataBodyRange
+  values = Application.Transpose(values)
 End With
 
-'check if team WIP is already open; close macro if it is
+' Assign unique item to each value
+' Scripting dictionary object will create items for each unique item
+' Dupes will be removed
+' New array is simply d
+For Each val In values
+  d.Item(val) = val
+Next val
 
-team_wip_name = "240.3 Weekly WIP Status.xlsx"
-
-team_wip_path = Workbooks("WIP Generator.xlsm").path
-
-Set team_wip_wb = Workbooks.Open(team_wip_path & "\" & team_wip_name)
-
-If team_wip_wb.ReadOnly Then
-  team_wip_wb.Close
-  error_code = 1
-  error_message = "Team's WIP is already open - can't continue till it's closed."
-  Exit Sub
-End If
-
-End Sub
+' Loop through each unique value
+For Each val In d
+  Debug.Print val
+Next val
 ```
 
 ---
 
-## **copyWIP**
+# **Auto-Save Workbook**
 
-- First, open a read-only version of the user-specified file in the previous step
-- An array is created from the values of of the second column in a table
-    - `Application.Transpose` must be used in order to turn the initial 2D array into a 1D array
-- Filters are then applied to a specfic worksheet, using the transposed array as filter criteria
-- All data that is above the last line of data is copied onto a template file
-    - `main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row` finds the last used row
+- Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
 
 ```vbnet
-Sub copyWIP()
+Dim backup_path, file_name As String
+Dim monday As Long
+Dim monday_date As String
 
-'step 3 - copy data from main wip
-'open a read-only version of the file
-'create an array based on the last names from the team_name tables
-'apply filters with the array
-'copy as values to the WIP template
-'close file without saving
+'1) create the location to store all backup files
+backup_path = ThisWorkbook.path
+backup_path = backup_path & "\BACKUP FOLDER"
 
-Dim team_row_num, row_num As Long
-Dim team_names_array As Variant
-Dim main_wip_wb As Workbook
-Dim main_wip_ws As Worksheet
+'2) calculate the day Monday would be for the current week
+'Date must be saved as a string since dates have "/" and those are read as
+'folder separators in the file path
 
-Set main_wip_wb = Workbooks.Open(main_wip_name, , True)
-Set main_wip_ws = main_wip_wb.Worksheets("NRFK")
+monday = Weekday(Date, vbMonday)
+monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
 
-With Workbooks("WIP Generator.xlsm").Worksheets(1)
-  team_names_array = .ListObjects("team_names").DataBodyRange.Columns(2)
-  team_names_array = Application.Transpose(team_names_array)
-End With
+'3) check to see if the folder is created; if not created, then create it
 
-main_wip_ws.Range("A:A").AutoFilter _
-                         Field:=1, _
-                         Criteria1:="SHORE", _
-                         Operator:=xlFilterValues
-main_wip_ws.Range("B:B").AutoFilter _
-                         Field:=2, _
-                         Criteria1:=team_names_array, _
-                         Operator:=xlFilterValues
-
-row_num = main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row
-
-main_wip_ws.Range("A1:E" & row_num).Copy _
-Workbooks("WIP Generator.xlsm").Worksheets(2).Range("A1")
-
-main_wip_wb.Close SaveChanges:=False
-
-End Sub
-```
-
----
-
-## **applyTemplate**
-
-- Once the data is copied, it is then transferred to another worksheet
-    - `team_wip_wb.Worksheets(Worksheets.Count).Index` captures the last sheet number; pasting after this makes it now this number plus one
-- Among many things, this reformats the data:
-    - The `vlookup` formula included on this sheet references cell `J1`, which is just the name of the previous sheet; this formula is copied down
-    - Once copied, is pasted over so only the values remain
-    - Filters are applied, as well as an auto-fit, changing of column widths for certain columns, and hiding columns
-    - Headers are turned black with bold white font, and all borders are marked
-
-```vbnet
-Sub applyTemplate()
-
-'step 4 - apply template to wip
-'open team's WIP spreadsheet
-'count last sheet number in all sheets
-'copy the template to the page after the last page
-'save this copied worksheet as the last sheet + 1
-'with this worksheet, apply all formatting to it
-
-Dim last_sheet, row_num As Long
-Dim team_wip_wb As Workbook
-Dim team_wip_ws As Worksheet
-
-Set team_wip_wb = Workbooks.Open("C:\Users\smats\WIP STATUS\" & team_wip_name)
-
-last_sheet = team_wip_wb.Worksheets(Worksheets.Count).Index
-
-Workbooks("WIP Generator.xlsm").Worksheets(2).Copy _
-  After:=team_wip_wb.Worksheets(last_sheet)
-
-Set team_wip_ws = team_wip_wb.Worksheets(last_sheet + 1)
-
-With team_wip_ws
-  row_num = .Cells(Rows.Count, 1).End(xlUp).Row
-  .Range("J1") = team_wip_wb.Worksheets(last_sheet).Name
-  .Name = Format(Now(), Format:="mm-dd-yy")
-  .Range("F2:G2").AutoFill _
-    Destination:=team_wip_ws.Range("F2:G" & row_num), _
-    Type:=xlFillDefault
-  .Range("F2:G" & row_num).Copy
-    team_wip_ws.Range("F2").PasteSpecial Paste:=xlPasteValues
-  .Range("A1:H1").AutoFilter
-  .Columns("A:H").AutoFit
-  .Columns("F:G").ColumnWidth = 75
-  .Range("A:A,B:B,E:E").EntireColumn.Hidden = True
-  .Range("A1:H1").Interior.ThemeColor = xlThemeColorLight1
-  With .Range("A1:H1").Font
-    .ThemeColor = xlThemeColorDark1
-    .Bold = True
-  End With
-  .Range("A1:H" & row_num).Borders(xlEdgeLeft).LineStyle = xlContinuous
-  .Range("A1:H" & row_num).Borders(xlEdgeRight).LineStyle = xlContinuous
-  .Range("A1:H" & row_num).Borders(xlEdgeTop).LineStyle = xlContinuous
-  .Range("A1:H" & row_num).Borders(xlEdgeBottom).LineStyle = xlContinuous
-  .Range("A1:H" & row_num).Borders(xlInsideVertical).LineStyle = xlContinuous
-  .Range("A1:H" & row_num).Borders(xlInsideHorizontal).LineStyle = xlContinuous
-End With
-
-End Sub
-```
-
----
-
-## **closeGenerator**
-
-- Lastly, this turns `Application.ScreenUpdating = True` so macros can run "normally" again
-- The file from which the macro runs is closed so only the main file remains
-
-```vbnet
-Sub closeGenerator()
-
-'step 5 - close wip generator
-
-MsgBox Prompt:="Finished!", Title:="Success!"
-
-Application.ScreenUpdating = True
-
-Workbooks("WIP Generator.xlsm").Close SaveChanges:=False
-
-End Sub
-```
-
----
-
-# **Folder Generator**
-
-*This will take text inputted into text content controls and apply them to other documents*
-
-## **Generating the Subroutine**
-
-- One sub will run all the vba code; this way, error-handling is much easier managed
-- Public variables are defined here to be used throughout all other subs
-
-```vbnet
-'public variables must be saved outside of functions to be used throughout
-
-Public error_code, _
-       error_message, _
-       file_name, _
-       description, _
-       initials, _
-       pr, _
-       ige, _
-       supp_service, _
-       psc, _
-       naics, _
-       ja, _
-       delivery_date, _
-       requirement_type, _
-       it, _
-       directory_name, _
-       sap_folder, _
-       large_folder1, _
-       large_folder2, _
-       large_folder3, _
-       large_folder4, _
-       large_folder5, _
-       large_folder6 _
-  As String
-
-Option Explicit
-Sub generateRequirement()
-
-Application.ScreenUpdating = False
-
-'step 1 - reset variables
-resetVariables
-
-'step 2 - save input as public variables
-saveInput
-
-'step 3 - create initial folder in specified location
-createFolder
-
-If error_code = 1 Then
-  MsgBox error_message, Title:="Error"
-  resetVariables
-  Application.ScreenUpdating = True
-  Exit Sub
+If Len(Dir(backup_path, vbDirectory)) = 0 Then
+  MkDir backup_path
 End If
 
-'step 4 - create subfolders within main folder
-createSubfolders
+'4) create the new file name to include the path location, replace the
+'   extension with the date, "Backup", and add back in the extension
 
-'step 5 - populate forms with data and save in subfolders
-populateForms
+file_name = ThisWorkbook.Name
+file_name = Replace(file_name, ".xlsm", " - " & monday_date)
+file_name = file_name & " Backup.xlsm"
+file_name = backup_path & "\" & file_name
 
-'finished
+'5) finally, save the copy
 
-MsgBox "E-file requirement successfully generated!", Title:="Success!"
-
-resetVariables
-
-Application.ScreenUpdating = True
-
-End Sub
+ThisWorkbook.SaveCopyAs file_name
 ```
 
-## **Resetting Variables**
-
-- This sub is utilized so that all global variables can't be re-used in future sub calls in case errors prevent the code from finishing
-- Global variables are to be re-defined after utilizing the main sub
+- Alternatively, call this sub which calls the above code to insure that you aren't saving on a dev or backup copy of the file.
 
 ```vbnet
-Sub resetVariables()
+Sub autoSaveProc()
 
-'step 1 - reset variables
-'reset all variables before running all other steps
+Dim wb_name As String
 
-error_code = vbNullString
-error_message = vbNullString
-file_name = vbNullString
-description = vbNullString
-initials = vbNullString
-pr = vbNullString
-ige = vbNullString
-supp_service = vbNullString
-psc = vbNullString
-naics = vbNullString
-ja = vbNullString
-delivery_date = vbNullString
-requirement_type = vbNullString
-it = vbNullString
-directory_name = vbNullString
-sap_folder = vbNullString
-large_folder1 = vbNullString
-large_folder2 = vbNullString
-large_folder3 = vbNullString
-large_folder4 = vbNullString
-large_folder5 = vbNullString
-large_folder6 = vbNullString
+wb_name = ThisWorkbook.Name
 
-End Sub
-```
-
-## **Saving Input**
-
-- This will redefine each global variable
-- Logically done directly after resetting everything
-
-```vbnet
-Sub saveInput()
-
-'step 2 - save input as public variables
-'first reset all public variables, then reassign them
-
-file_name = "macro_dev"
-
-With Documents(file_name)
-  description = .SelectContentControlsByTitle("DESCRIPTION").Item(1).Range.Text
-  initials = .SelectContentControlsByTitle("INITIALS").Item(1).Range.Text
-  pr = .SelectContentControlsByTitle("PR").Item(1).Range.Text
-  ige = .SelectContentControlsByTitle("IGE").Item(1).Range.Text
-  supp_service = .SelectContentControlsByTitle("SUPPLY/SERVICE").Item(1).Range.Text
-  psc = .SelectContentControlsByTitle("PSC").Item(1).Range.Text
-  naics = .SelectContentControlsByTitle("NAICS").Item(1).Range.Text
-  ja = .SelectContentControlsByTitle("J&A").Item(1).Range.Text
-  delivery_date = .SelectContentControlsByTitle("DELIVERY DATE").Item(1).Range.Text
-  requirement_type = .SelectContentControlsByTitle("REQUIREMENT TYPE").Item(1).Range.Text
-  it = .SelectContentControlsByTitle("IT").Item(1).Range.Text
-End With
-
-End Sub
-```
-
-## **Creating the Initial Folder**
-
-- First select where the folder wishes to be, then save the folder path as a variable
-- Rename the folder the correct name
-
-```vbnet
-Sub createFolder()
-
-'step 3 - create initial folder in specified location
-
-Dim message, folder_path As String
-
-message = "Select the folder where your requirement will be saved"
-
-'if folder is selected (Show = -1), then save path as folder_path; else, exit
-With Application.FileDialog(msoFileDialogFolderPicker)
-  MsgBox message & ".", Title:="Select Folder"
-  .Title = message
-  If .Show = -1 Then
-    folder_path = .SelectedItems(1)
-  Else
-    error_code = 1
-    error_message = "No folder selected."
-    Exit Sub
-  End If
-End With
-
-'concatenate pr, initials, and description with folder_path
-directory_name = folder_path & "\" & pr & ", " & initials & ", " & description
-
-'if folder already exists, exit so as not to overwrite files
-If Dir(directory_name, vbDirectory) = "" Then
-  MkDir directory_name
-Else
-  error_code = 1
-  error_message = "Folder already exists."
-  Exit Sub
+If InStr(wb_name, "BACKUP") = 0 And InStr(wb_name, "DEV") = 0 Then
+  autoSave
 End If
-
-End Sub
-```
-
-## **Create the Subfolders**
-
-- Create all subfolders and working folders underneath
-
-```vbnet
-Sub createSubfolders()
-
-'step 4 - create subfolders within main folder
-
-Dim working As String
-
-working = "\WORKING"
-
-'if SAP, then just create "WORKING" folder
-'if Large, then create subfolders
-If requirement_type = "SAP" Then
-  sap_folder = directory_name & working
-  MkDir sap_folder
-Else
-  large_folder1 = directory_name & "\1 PLANNING"
-  large_folder2 = directory_name & "\2 SOLICITATION"
-  large_folder3 = directory_name & "\3 EVALUATION"
-  large_folder4 = directory_name & "\4 AWARD"
-  large_folder5 = directory_name & "\5 POST AWARD"
-  large_folder6 = directory_name & "\6 CONTRACT AND MODS"
-  MkDir large_folder1
-  MkDir large_folder2
-  MkDir large_folder3
-  MkDir large_folder4
-  MkDir large_folder5
-  MkDir large_folder6
-  large_folder1 = large_folder1 & working
-  large_folder2 = large_folder2 & working
-  large_folder3 = large_folder3 & working
-  large_folder4 = large_folder4 & working
-  large_folder5 = large_folder5 & working
-  large_folder6 = large_folder6 & working
-  MkDir large_folder1
-  MkDir large_folder2
-  MkDir large_folder3
-  MkDir large_folder4
-  MkDir large_folder5
-  MkDir large_folder6
-End If
-
-End Sub
-```
-
-## **Populating Forms**
-
-- This is the final step
-- Insert as many other forms starting with the `With` code, and renaming it anyway you want
-
-```vbnet
-Sub populateForms()
-
-'step 5 - populate forms with data and save in subfolders
-
-Dim forms_path As String
-
-forms_path = Documents(file_name).Path & "\FORMS\"
-
-If requirement_type = "SAP" Then
-  Documents.Open forms_path & "Blank Form.docx"
-  With Documents("Blank Form.docx")
-    .SelectContentControlsByTitle("PR").Item(1).Range.Text = pr
-    .SelectContentControlsByTitle("IGE").Item(1).Range.Text = ige
-    .SaveAs2 sap_folder & "\Blank Form.docx"
-    .Close
-  End With
-End If
-
-End Sub
-```
-
----
-
-# **Send Emails Based on Conditionals**
-
-*In process, see [Update Data Table](#update-data-table) for more working example*
-
-```vbnet
-Option Explicit
-Sub postAwardWIP()
-
-Dim row_num, _
-    max_row, _
-    blanks, _
-    i _
-    As Long
-Dim date_now, _
-    date_cust _
-    As Date
-Dim find_range, _
-    first_address, _
-    ws_range _
-    As Range
-Dim ws As Worksheet
-
-date_now = Format(Now(), "mm-dd-yyyy")
-
-date_cust = Worksheets(2).Range("H3").Value
-
-max_row = Worksheets(2).Cells(Rows.Count, 1).End(xlUp).Row
-
-blanks = WorksheetFunction.CountBlank(Range("I2:I" & max_row))
-
-MsgBox blanks
-
-Set ws_range = Worksheets(2).Range("I2:I" & max_row)
-
-Set find_range = Worksheets(2).Range("I2:I" & max_row).Find(What:="", _
-                                            LookIn:=xlValues, _
-                                            SearchOrder:=xlByRows, _
-                                            SearchDirection:=xlNext, _
-                                            lookat:=xlPart)
-If Not find_range Is Nothing Then
-  first_address = find_range.Address
-  Do
-    MsgBox first_address
-  Set find_range = Worksheets(2).Range("I2:I" & max_row).FindNext(find_range)
-'  If find_range Is Nothing Then
-'    GoTo endFinding
-'  End If
-  Loop While find_range.Address <> first_address
-End If
-
-'endFinding:
-'  End With
-
-'If date_cust < date_now Then
-'  MsgBox "If test works"
-'Else
-'  MsgBox "derp"
-'End If
-
-End Sub
-```
-
-```vbnet
-Sub macro1()
-
-' WORKING
-
-Dim cell_value As Long
-Dim ws_range, _
-    find_range _
-    As Range
-Dim first_address _
-    As Variant
-
-Set ws_range = Worksheets(2).Range("i2:i9")
-Set find_range = ws_range.Find("", LookIn:=xlValues)
-
-If Not find_range Is Nothing Then
-  first_address = find_range.Address
-  Do
-    cell_value = find_range.Row
-    'MsgBox Worksheets(2).Range("h" & cell_value).Value
-    MsgBox find_range.Row
-    Set find_range = ws_range.FindNext(find_range)
-  Loop While find_range.Address <> first_address
-End If
-
-End Sub
-```
-
-```vbnet
-Sub macro2()
-
-' WORKING
-
-Dim file_num As Long
-Dim date_now, _
-    append_text _
-    As String
-
-date_now = Format(Now(), "D MMMM YYYY")
-append_text = "derp"
-append_text = date_now & " - " & append_text
- 
-file_num = FreeFile
-Open "c:\users\smats\documents\office\excel\log.txt" For Append As #file_num
-Print #file_num, append_text
-Close #file_num
-
-End Sub
-```
-
-```vbnet
-Sub macro3()
-
-' WORKING
-
-If Worksheets(2).Range("H9").Value < Now() Then
-  MsgBox "yes"
-Else
-  MsgBox "no"
-End If
-
-End Sub
-```
-
-```vbnet
-Sub macro4()
-
-Dim table_column As Long
-
-table_column = Worksheets(2).ListObjects("post_award_wip").DataBodyRange.Rows.Count
-
-MsgBox table_column
-
-End Sub
-```
-
-```vbnet
-Sub macro5()
-
-' WORKING
-
-With Worksheets(2).Range("i2:i9")
-     Set c = .Find("", LookIn:=xlValues)
-     If Not c Is Nothing Then
-        firstAddress = c.Address
-        Do
-            MsgBox c.Row
-            Set c = .FindNext(c)
-        If c Is Nothing Then
-            GoTo DoneFinding
-        End If
-        Loop While c.Address <> firstAddress
-      End If
-DoneFinding:
-End With
-
-End Sub
-```
-
-```vbnet
-Sub macro6()
-
-Dim find_cell As Range
-Dim find_range As Range
-
-Set find_range = Worksheets(2).Range("i2:i9").Find("", LookIn:=xlValues)
-
-For Each find_cell In find_range
-  MsgBox find_cell.Row
-Next
 
 End Sub
 ```
@@ -1057,7 +450,7 @@ End Sub
 
 *UserForms allow for a more elaborate `MsgBox` that allows for pictures, custom input, and more.*
 
-## **Generating the UserForm**
+## Generating the UserForm
 
 - First generate the UserForm in Excel by going to **DEVELOPER > Visual Basic > Insert > UserForm**
 - Name this UserForm anything in the `(Name)` field in the properties box on the left
@@ -1075,7 +468,7 @@ With text_box
 End With
 ```
 
-## **Modify UserForm Initialization**
+## Modify UserForm Initialization
 
 - Certain settings may need to be modified upon initialization (creation) of the UserForm
 - To do so, right-click the user form, select **View Code**, then select **Initialize** from the right drop-down
@@ -1156,7 +549,7 @@ End With
 End Sub
 ```
 
-## **Modifying Text Box Changes**
+## Modifying Text Box Changes
 
 - The following code will modify the textbox as it gets changed
 - Each textbox that requires changing will need to have its own module
@@ -1320,7 +713,7 @@ End With
 End Sub
 ```
 
-## **CommandButton Modification**
+## CommandButton Modification
 
 - To insert a CommandButton, click CommandButton in the Toolbox window
     - If you can't find this, go to **View > Toolbox**
@@ -1570,23 +963,239 @@ Unload user_form
 
 End Sub
 ```
+
 ---
 
-# **Auto-Updating Button Position**
+# **Projects**
 
-- Save this macro in the module with all other code, then run it under the specified worksheet during the `SelectionChange`: `Private Sub Worksheet_SelectionChange(ByVal Target As Range)`
-- Modify the `.Left` address as necessary depending on what column you want it in, but it will always be on the row of your cell
+## Copy Contents From One Worksheet to Another
+
+*The following code does quite a few things, so I will isolate each code block and explain some of the functionalities preceding each code block*
+
+### generateWIP
+
+- This sub runs all the other subs
+- First, I declare public variables to be used throughout the macro
+- `Application.ScreenUpdating = False` allows the macro to run without opening windows, speeding up the code; this must be turned to `True` before the macro ends
+- Error handling is handled after the macro finishes; `error_code` and `error_message` are saved as public variables so they can be used for other errors, not just in the specific code block
 
 ```vbnet
-Sub cellAddress()
+'public variables must be saved outside of functions to be used throughout
+Public error_code, _
+       error_message, _
+       main_wip_name, _
+       team_wip_name _
+       As String
 
-Dim ws As Worksheet
+Option Explicit
 
-Set ws = ThisWorkbook.Worksheets(1)
+Sub generateWIP()
 
-With ws.Shapes("button_go_to")
-  .Left = ws.Range("A1")
-  .Top = ActiveCell.Top
+Application.ScreenUpdating = False
+
+'step 1 - reset variables
+resetVariables
+
+'step 2 - select main wip file and check if team wip is open
+selectWIP
+
+If error_code = 1 Then
+  MsgBox Prompt:=error_message, Title:="Error"
+  Application.ScreenUpdating = True
+  Exit Sub
+End If
+
+'step 3 - copy data from main wip
+copyWIP
+
+'step 4 - apply template to wip
+applyTemplate
+
+'step 5 - close wip generator
+closeGenerator
+
+End Sub
+```
+
+---
+
+### resetVariables
+
+- This resets all public variables so the code can run from a clean slate
+
+```vbnet
+Sub resetVariables()
+
+'step 1 - reset variables
+error_code = vbNullString
+error_message = vbNullString
+main_wip_name = vbNullString
+team_wip_name = vbNullString
+
+End Sub
+```
+
+---
+
+### selectWIP
+
+- The user selects the  file from the specified folder and this gets saved as a variable
+- Error handling is first introduced here; `0` denotes success and `1` denotes failure, like Bash and others
+    - `error_code` and `error_message` are handled outside this in `generateWIP` macro
+- The macro running this must be in the same folder as the team's WIP; the path of this file is used for the path of the team's WIP
+- Also checks to see if one of the principle files to be opened is already opened; if it is, another error ensues
+
+```vbnet
+Sub selectWIP()
+
+'step 2 - select main wip file and check if team wip is open
+
+Dim team_wip_path As String
+Dim team_wip_wb As Workbook
+
+With Application.FileDialog(msoFileDialogFilePicker)
+  .AllowMultiSelect = False
+  .InitialFileName = "C:\Users\smats\WEEKLY REPORT"
+  .Title = "Select the WIP"
+  If .Show = -1 Then
+    main_wip_name = .SelectedItems.Item(1)
+  Else
+    error_code = 1
+    error_message = "File not selected."
+    Exit Sub
+  End If
+End With
+
+'check if team WIP is already open; close macro if it is
+
+team_wip_name = "240.3 Weekly WIP Status.xlsx"
+
+team_wip_path = Workbooks("WIP Generator.xlsm").path
+
+Set team_wip_wb = Workbooks.Open(team_wip_path & "\" & team_wip_name)
+
+If team_wip_wb.ReadOnly Then
+  team_wip_wb.Close
+  error_code = 1
+  error_message = "Team's WIP is already open - can't continue till it's closed."
+  Exit Sub
+End If
+
+End Sub
+```
+
+---
+
+### copyWIP
+
+- First, open a read-only version of the user-specified file in the previous step
+- An array is created from the values of of the second column in a table
+    - `Application.Transpose` must be used in order to turn the initial 2D array into a 1D array
+- Filters are then applied to a specfic worksheet, using the transposed array as filter criteria
+- All data that is above the last line of data is copied onto a template file
+    - `main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row` finds the last used row
+
+```vbnet
+Sub copyWIP()
+
+'step 3 - copy data from main wip
+'open a read-only version of the file
+'create an array based on the last names from the team_name tables
+'apply filters with the array
+'copy as values to the WIP template
+'close file without saving
+
+Dim team_row_num, row_num As Long
+Dim team_names_array As Variant
+Dim main_wip_wb As Workbook
+Dim main_wip_ws As Worksheet
+
+Set main_wip_wb = Workbooks.Open(main_wip_name, , True)
+Set main_wip_ws = main_wip_wb.Worksheets("NRFK")
+
+With Workbooks("WIP Generator.xlsm").Worksheets(1)
+  team_names_array = .ListObjects("team_names").DataBodyRange.Columns(2)
+  team_names_array = Application.Transpose(team_names_array)
+End With
+
+main_wip_ws.Range("A:A").AutoFilter _
+                         Field:=1, _
+                         Criteria1:="SHORE", _
+                         Operator:=xlFilterValues
+main_wip_ws.Range("B:B").AutoFilter _
+                         Field:=2, _
+                         Criteria1:=team_names_array, _
+                         Operator:=xlFilterValues
+
+row_num = main_wip_ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+main_wip_ws.Range("A1:E" & row_num).Copy _
+Workbooks("WIP Generator.xlsm").Worksheets(2).Range("A1")
+
+main_wip_wb.Close SaveChanges:=False
+
+End Sub
+```
+
+---
+
+### applyTemplate
+
+- Once the data is copied, it is then transferred to another worksheet
+    - `team_wip_wb.Worksheets(Worksheets.Count).Index` captures the last sheet number; pasting after this makes it now this number plus one
+- Among many things, this reformats the data:
+    - The `vlookup` formula included on this sheet references cell `J1`, which is just the name of the previous sheet; this formula is copied down
+    - Once copied, is pasted over so only the values remain
+    - Filters are applied, as well as an auto-fit, changing of column widths for certain columns, and hiding columns
+    - Headers are turned black with bold white font, and all borders are marked
+
+```vbnet
+Sub applyTemplate()
+
+'step 4 - apply template to wip
+'open team's WIP spreadsheet
+'count last sheet number in all sheets
+'copy the template to the page after the last page
+'save this copied worksheet as the last sheet + 1
+'with this worksheet, apply all formatting to it
+
+Dim last_sheet, row_num As Long
+Dim team_wip_wb As Workbook
+Dim team_wip_ws As Worksheet
+
+Set team_wip_wb = Workbooks.Open("C:\Users\smats\WIP STATUS\" & team_wip_name)
+
+last_sheet = team_wip_wb.Worksheets(Worksheets.Count).Index
+
+Workbooks("WIP Generator.xlsm").Worksheets(2).Copy _
+  After:=team_wip_wb.Worksheets(last_sheet)
+
+Set team_wip_ws = team_wip_wb.Worksheets(last_sheet + 1)
+
+With team_wip_ws
+  row_num = .Cells(Rows.Count, 1).End(xlUp).Row
+  .Range("J1") = team_wip_wb.Worksheets(last_sheet).Name
+  .Name = Format(Now(), Format:="mm-dd-yy")
+  .Range("F2:G2").AutoFill _
+    Destination:=team_wip_ws.Range("F2:G" & row_num), _
+    Type:=xlFillDefault
+  .Range("F2:G" & row_num).Copy
+    team_wip_ws.Range("F2").PasteSpecial Paste:=xlPasteValues
+  .Range("A1:H1").AutoFilter
+  .Columns("A:H").AutoFit
+  .Columns("F:G").ColumnWidth = 75
+  .Range("A:A,B:B,E:E").EntireColumn.Hidden = True
+  .Range("A1:H1").Interior.ThemeColor = xlThemeColorLight1
+  With .Range("A1:H1").Font
+    .ThemeColor = xlThemeColorDark1
+    .Bold = True
+  End With
+  .Range("A1:H" & row_num).Borders(xlEdgeLeft).LineStyle = xlContinuous
+  .Range("A1:H" & row_num).Borders(xlEdgeRight).LineStyle = xlContinuous
+  .Range("A1:H" & row_num).Borders(xlEdgeTop).LineStyle = xlContinuous
+  .Range("A1:H" & row_num).Borders(xlEdgeBottom).LineStyle = xlContinuous
+  .Range("A1:H" & row_num).Borders(xlInsideVertical).LineStyle = xlContinuous
+  .Range("A1:H" & row_num).Borders(xlInsideHorizontal).LineStyle = xlContinuous
 End With
 
 End Sub
@@ -1594,48 +1203,290 @@ End Sub
 
 ---
 
-# **Print Columns to Fit Page**
+### closeGenerator
+
+- Lastly, this turns `Application.ScreenUpdating = True` so macros can run "normally" again
+- The file from which the macro runs is closed so only the main file remains
 
 ```vbnet
-Dim ws as Worksheet
+Sub closeGenerator()
 
-'Application.PrintCommunication must be set to False in order to have the
-'  columns fit to the page
-'for some reason, this must be set back to True when applying headers and
-'  footers
-'&D is date
-'&F is file name
-'&P is page number
-'&N is total number of pages
+'step 5 - close wip generator
 
-Set ws = ThisWorkbook.Worksheets(1)
+MsgBox Prompt:="Finished!", Title:="Success!"
 
-Application.PrintCommunication = False
-With ws.PageSetup
-  .FitToPagesWide = 1
-  .FitToPagesTall = False
-  .ScaleWithDocHeaderFooter = True
-  .AlignMarginsHeaderFooter = True
-End With
-Application.PrintCommunication = True
+Application.ScreenUpdating = True
 
-With ws.PageSetup
-  .LeftHeader = "&""Times New Roman,Regular""&D"
-  .CenterHeader = "&""Times New Roman,Bold""&18&F - NOTIFICATIONS REPORT"
-  .RightHeader = "&""Times New Roman,Regular""&P of &N"
-End With
+Workbooks("WIP Generator.xlsm").Close SaveChanges:=False
 
-ws.columns("A:O").PrintPreview
+End Sub
 ```
 
 ---
 
-# **Find Unique Values and Navigate to Location**
+## Folder Generator
 
-## **Identify Unique Values in an Array**
+*This will take text inputted into text content controls and apply them to other documents*
 
-- Scripting dictionaries are utilized here to take an array of strings and create another array with only the unique values
-- One of the best resources to explain this is [here](http://www.snb-vba.eu/VBA_Dictionary_en.html)
+### Starting the Sub
+
+- One sub will run all the vba code; this way, error-handling is much easier managed
+- Public variables are defined here to be used throughout all other subs
+
+```vbnet
+'public variables must be saved outside of functions to be used throughout
+
+Public error_code, _
+       error_message, _
+       file_name, _
+       description, _
+       initials, _
+       pr, _
+       ige, _
+       supp_service, _
+       psc, _
+       naics, _
+       ja, _
+       delivery_date, _
+       requirement_type, _
+       it, _
+       directory_name, _
+       sap_folder, _
+       large_folder1, _
+       large_folder2, _
+       large_folder3, _
+       large_folder4, _
+       large_folder5, _
+       large_folder6 _
+  As String
+
+Option Explicit
+Sub generateRequirement()
+
+Application.ScreenUpdating = False
+
+'step 1 - reset variables
+resetVariables
+
+'step 2 - save input as public variables
+saveInput
+
+'step 3 - create initial folder in specified location
+createFolder
+
+If error_code = 1 Then
+  MsgBox error_message, Title:="Error"
+  resetVariables
+  Application.ScreenUpdating = True
+  Exit Sub
+End If
+
+'step 4 - create subfolders within main folder
+createSubfolders
+
+'step 5 - populate forms with data and save in subfolders
+populateForms
+
+'finished
+
+MsgBox "E-file requirement successfully generated!", Title:="Success!"
+
+resetVariables
+
+Application.ScreenUpdating = True
+
+End Sub
+```
+
+### Resetting Variables
+
+- This sub is utilized so that all global variables can't be re-used in future sub calls in case errors prevent the code from finishing
+- Global variables are to be re-defined after utilizing the main sub
+
+```vbnet
+Sub resetVariables()
+
+'step 1 - reset variables
+'reset all variables before running all other steps
+
+error_code = vbNullString
+error_message = vbNullString
+file_name = vbNullString
+description = vbNullString
+initials = vbNullString
+pr = vbNullString
+ige = vbNullString
+supp_service = vbNullString
+psc = vbNullString
+naics = vbNullString
+ja = vbNullString
+delivery_date = vbNullString
+requirement_type = vbNullString
+it = vbNullString
+directory_name = vbNullString
+sap_folder = vbNullString
+large_folder1 = vbNullString
+large_folder2 = vbNullString
+large_folder3 = vbNullString
+large_folder4 = vbNullString
+large_folder5 = vbNullString
+large_folder6 = vbNullString
+
+End Sub
+```
+
+### Saving Input
+
+- This will redefine each global variable
+- Logically done directly after resetting everything
+
+```vbnet
+Sub saveInput()
+
+'step 2 - save input as public variables
+'first reset all public variables, then reassign them
+
+file_name = "macro_dev"
+
+With Documents(file_name)
+  description = .SelectContentControlsByTitle("DESCRIPTION").Item(1).Range.Text
+  initials = .SelectContentControlsByTitle("INITIALS").Item(1).Range.Text
+  pr = .SelectContentControlsByTitle("PR").Item(1).Range.Text
+  ige = .SelectContentControlsByTitle("IGE").Item(1).Range.Text
+  supp_service = .SelectContentControlsByTitle("SUPPLY/SERVICE").Item(1).Range.Text
+  psc = .SelectContentControlsByTitle("PSC").Item(1).Range.Text
+  naics = .SelectContentControlsByTitle("NAICS").Item(1).Range.Text
+  ja = .SelectContentControlsByTitle("J&A").Item(1).Range.Text
+  delivery_date = .SelectContentControlsByTitle("DELIVERY DATE").Item(1).Range.Text
+  requirement_type = .SelectContentControlsByTitle("REQUIREMENT TYPE").Item(1).Range.Text
+  it = .SelectContentControlsByTitle("IT").Item(1).Range.Text
+End With
+
+End Sub
+```
+
+### Creating the Initial Folder
+
+- First select where the folder wishes to be, then save the folder path as a variable
+- Rename the folder the correct name
+
+```vbnet
+Sub createFolder()
+
+'step 3 - create initial folder in specified location
+
+Dim message, folder_path As String
+
+message = "Select the folder where your requirement will be saved"
+
+'if folder is selected (Show = -1), then save path as folder_path; else, exit
+With Application.FileDialog(msoFileDialogFolderPicker)
+  MsgBox message & ".", Title:="Select Folder"
+  .Title = message
+  If .Show = -1 Then
+    folder_path = .SelectedItems(1)
+  Else
+    error_code = 1
+    error_message = "No folder selected."
+    Exit Sub
+  End If
+End With
+
+'concatenate pr, initials, and description with folder_path
+directory_name = folder_path & "\" & pr & ", " & initials & ", " & description
+
+'if folder already exists, exit so as not to overwrite files
+If Dir(directory_name, vbDirectory) = "" Then
+  MkDir directory_name
+Else
+  error_code = 1
+  error_message = "Folder already exists."
+  Exit Sub
+End If
+
+End Sub
+```
+
+### Create the Subfolders
+
+- Create all subfolders and working folders underneath
+
+```vbnet
+Sub createSubfolders()
+
+'step 4 - create subfolders within main folder
+
+Dim working As String
+
+working = "\WORKING"
+
+'if SAP, then just create "WORKING" folder
+'if Large, then create subfolders
+If requirement_type = "SAP" Then
+  sap_folder = directory_name & working
+  MkDir sap_folder
+Else
+  large_folder1 = directory_name & "\1 PLANNING"
+  large_folder2 = directory_name & "\2 SOLICITATION"
+  large_folder3 = directory_name & "\3 EVALUATION"
+  large_folder4 = directory_name & "\4 AWARD"
+  large_folder5 = directory_name & "\5 POST AWARD"
+  large_folder6 = directory_name & "\6 CONTRACT AND MODS"
+  MkDir large_folder1
+  MkDir large_folder2
+  MkDir large_folder3
+  MkDir large_folder4
+  MkDir large_folder5
+  MkDir large_folder6
+  large_folder1 = large_folder1 & working
+  large_folder2 = large_folder2 & working
+  large_folder3 = large_folder3 & working
+  large_folder4 = large_folder4 & working
+  large_folder5 = large_folder5 & working
+  large_folder6 = large_folder6 & working
+  MkDir large_folder1
+  MkDir large_folder2
+  MkDir large_folder3
+  MkDir large_folder4
+  MkDir large_folder5
+  MkDir large_folder6
+End If
+
+End Sub
+```
+
+### Populating Forms
+
+- This is the final step
+- Insert as many other forms starting with the `With` code, and renaming it anyway you want
+
+```vbnet
+Sub populateForms()
+
+'step 5 - populate forms with data and save in subfolders
+
+Dim forms_path As String
+
+forms_path = Documents(file_name).Path & "\FORMS\"
+
+If requirement_type = "SAP" Then
+  Documents.Open forms_path & "Blank Form.docx"
+  With Documents("Blank Form.docx")
+    .SelectContentControlsByTitle("PR").Item(1).Range.Text = pr
+    .SelectContentControlsByTitle("IGE").Item(1).Range.Text = ige
+    .SaveAs2 sap_folder & "\Blank Form.docx"
+    .Close
+  End With
+End If
+
+End Sub
+```
+
+---
+
+## Find Unique Values and Navigate to Folder Location
+
+### Find Unique Values and Populate Cells
 
 ```vbnet
 Option Explicit
@@ -1651,30 +1502,27 @@ Set d = CreateObject("Scripting.Dictionary")
 Set ws = ThisWorkbook.Worksheets(1)
 Set ws3 = ThisWorkbook.Worksheets(3)
 
-'step 1 - create initial array
-'first create an array of all values in the first column of the table
-'dupes will be present
-
+' Create initial array
+' First create an array of all values in the first column of the table
+' Dupes will be present
 With ws
   values = .ListObjects("Table1").ListColumns(1).DataBodyRange
   values = Application.Transpose(values)
 End With
 
-'STEP 2 - ASSIGN UNIQUE ITEM TO EACH VALUE
-'the scripting dictionary object will create items for each unique item
-'dupes will be removed
-'new array is simply d
-
+' Assign unique item to each value
+' Scripting dictionary object will create items for each unique item
+' Dupes will be removed
+' New array is simply d
 For Each val In values
   d.Item(val) = val
 Next val
 
-'step 3 - loop through and auto-update other table
-'for each value that is in the new array d, check to see if its in the table
-'if not, then add the value to the table
-'"Nothing" is used since the value will not be a null string or empty string
-'"xlWhole" must be used since we want to search all contents of the cell
-
+' Loop through and auto-update other table
+' For each value that is in the new array d, check to see if its in the table
+' If not, then add the value to the table
+' "Nothing" is used since the value will not be a null string or empty string
+' "xlWhole" must be used since we want to search all contents of the cell
 For Each val In d
   Set find_range = ws3.Columns(1).Find(what:=val, LookAt:=xlWhole)
   If find_range Is Nothing Then
@@ -1683,9 +1531,8 @@ For Each val In d
   End If
 Next val
 
-'step 4 - populate combo box
-'for each value in d, add it to the combo box
-
+' Populate combo box
+' For each value in d, add it to the combo box
 For Each val In d
   go_to_folder.contracts.AddItem val
 Next val
@@ -1695,7 +1542,7 @@ go_to_folder.contracts.ListIndex = 0
 End Sub
 ```
 
-## **Navigate to the Associated Folder**
+### Navigate to the Associated Folder
 
 ```vbnet
 Private Sub button_go_to_Click()
@@ -1708,20 +1555,18 @@ Set ws3 = ThisWorkbook.Worksheets(3)
 
 val_contracts = go_to_folder.contracts.value
 
-'step 1 - save row value and folder column value
-'whatever is captured in the folder column, we want to capture it
-
+' Save row value and folder column value
+' Whatever is captured in the folder column, we want to capture it
 With ws3.Columns(1)
   find_row = .Find(what:=val_contracts, LookAt:=xlWhole).Row
   folder = .Cells(find_row, 2).value
 End With
 
-'step 2 - go to folder or raise warning
-'if the folder value is empty, then instruct to add a folder for the contract
-'if folder is there, then first check if system can access it (Dir folder)
-'if there is an error, it will raise a msgbox then exit the sub
-'if no errors, the system will go to folder
-
+' Go to folder or raise warning
+' If the folder value is empty, then instruct to add a folder for the contract
+' If folder is there, then first check if system can access it (Dir folder)
+' If there is an error, it will raise a msgbox then exit the sub
+' If no errors, the system will go to folder
 If folder = vbNullString Then
   MsgBox "No folders have been added for this contract." & vbCrLf & _
     vbCrLf & _
@@ -1745,7 +1590,7 @@ error_message:
 End Sub
 ```
 
-## **Add Folder Location**
+### Add Folder Location
 
 ```vbnet
 Private Sub button_add_folder_Click()
@@ -1758,21 +1603,19 @@ Set ws3 = ThisWorkbook.Worksheets(3)
 
 val_contracts = go_to_folder.contracts.value
 
-'step 1 - save row value and folder column value
-'whatever is captured in the folder column, we want to capture it
-'identical to button_go_to sub procedure
-
+' Save row value and folder column value
+' Whatever is captured in the folder column, we want to capture it
+' Identical to button_go_to sub procedure
 With ws3.Columns(1)
   find_row = .Find(what:=val_contracts, LookAt:=xlWhole).Row
   folder = .Cells(find_row, 2).value
 End With
 
-'step 2 - select folder location
-'if the folder value is empty, then add folder to folder column
-'if not empty and value is already there, raise warning to proceed
-'if user doesn't want to continue, then exit sub
-'save folder path as the value in the folder column
-    
+' Select folder location
+' If the folder value is empty, then add folder to folder column
+' If not empty and value is already there, raise warning to proceed
+' If user doesn't want to continue, then exit sub
+' Save folder path as the value in the folder column  
 If folder = vbNullString Then
   With Application.FileDialog(msoFileDialogFolderPicker)
     .Title = "Select Folder"
@@ -1802,9 +1645,7 @@ ElseIf folder <> vbNullString Then
   End If
 End If
 
-'step 3 - save folder path
-'save folder_path as the value in the folder column
-
+' Save folder_path as the value in the folder column
 ws3.Cells(find_row, 2).value = folder_path
 
 MsgBox "Folder added successfully." & _
@@ -1815,7 +1656,7 @@ MsgBox "Folder added successfully." & _
 End Sub
 ```
 
-## **Exit UserForm**
+### Exit UserForm
 
 ```vbnet
 Private Sub button_exit_Click()
@@ -1827,53 +1668,190 @@ End Sub
 
 ---
 
-# **Auto-Save Workbook**
+## Send Emails Based on Conditionals
 
-- Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
+*In process, see [Update Data Table](#update-data-table) for more working example*
 
 ```vbnet
-Dim backup_path, file_name As String
-Dim monday As Long
-Dim monday_date As String
+Option Explicit
+Sub postAwardWIP()
 
-'1) create the location to store all backup files
-backup_path = ThisWorkbook.path
-backup_path = backup_path & "\BACKUP FOLDER"
+Dim row_num, _
+    max_row, _
+    blanks, _
+    i _
+    As Long
+Dim date_now, _
+    date_cust _
+    As Date
+Dim find_range, _
+    first_address, _
+    ws_range _
+    As Range
+Dim ws As Worksheet
 
-'2) calculate the day Monday would be for the current week
-'Date must be saved as a string since dates have "/" and those are read as
-'folder separators in the file path
+date_now = Format(Now(), "mm-dd-yyyy")
 
-monday = Weekday(Date, vbMonday)
-monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
+date_cust = Worksheets(2).Range("H3").Value
 
-'3) check to see if the folder is created; if not created, then create it
+max_row = Worksheets(2).Cells(Rows.Count, 1).End(xlUp).Row
 
-If Len(Dir(backup_path, vbDirectory)) = 0 Then
-  MkDir backup_path
+blanks = WorksheetFunction.CountBlank(Range("I2:I" & max_row))
+
+MsgBox blanks
+
+Set ws_range = Worksheets(2).Range("I2:I" & max_row)
+
+Set find_range = Worksheets(2).Range("I2:I" & max_row).Find(What:="", _
+                                            LookIn:=xlValues, _
+                                            SearchOrder:=xlByRows, _
+                                            SearchDirection:=xlNext, _
+                                            lookat:=xlPart)
+If Not find_range Is Nothing Then
+  first_address = find_range.Address
+  Do
+    MsgBox first_address
+  Set find_range = Worksheets(2).Range("I2:I" & max_row).FindNext(find_range)
+'  If find_range Is Nothing Then
+'    GoTo endFinding
+'  End If
+  Loop While find_range.Address <> first_address
 End If
 
-'4) create the new file name to include the path location, replace the
-'   extension with the date, "Backup", and add back in the extension
+'endFinding:
+'  End With
 
-file_name = ThisWorkbook.Name
-file_name = Replace(file_name, ".xlsm", " - " & monday_date)
-file_name = file_name & " Backup.xlsm"
-file_name = backup_path & "\" & file_name
+'If date_cust < date_now Then
+'  MsgBox "If test works"
+'Else
+'  MsgBox "derp"
+'End If
 
-'5) finally, save the copy
+End Sub
+```
 
-ThisWorkbook.SaveCopyAs file_name
+```vbnet
+Sub macro1()
+
+' WORKING
+
+Dim cell_value As Long
+Dim ws_range, _
+    find_range _
+    As Range
+Dim first_address _
+    As Variant
+
+Set ws_range = Worksheets(2).Range("i2:i9")
+Set find_range = ws_range.Find("", LookIn:=xlValues)
+
+If Not find_range Is Nothing Then
+  first_address = find_range.Address
+  Do
+    cell_value = find_range.Row
+    'MsgBox Worksheets(2).Range("h" & cell_value).Value
+    MsgBox find_range.Row
+    Set find_range = ws_range.FindNext(find_range)
+  Loop While find_range.Address <> first_address
+End If
+
+End Sub
+```
+
+```vbnet
+Sub macro2()
+
+' WORKING
+
+Dim file_num As Long
+Dim date_now, _
+    append_text _
+    As String
+
+date_now = Format(Now(), "D MMMM YYYY")
+append_text = "derp"
+append_text = date_now & " - " & append_text
+ 
+file_num = FreeFile
+Open "c:\users\smats\documents\office\excel\log.txt" For Append As #file_num
+Print #file_num, append_text
+Close #file_num
+
+End Sub
+```
+
+```vbnet
+Sub macro3()
+
+' WORKING
+
+If Worksheets(2).Range("H9").Value < Now() Then
+  MsgBox "yes"
+Else
+  MsgBox "no"
+End If
+
+End Sub
+```
+
+```vbnet
+Sub macro4()
+
+Dim table_column As Long
+
+table_column = Worksheets(2).ListObjects("post_award_wip").DataBodyRange.Rows.Count
+
+MsgBox table_column
+
+End Sub
+```
+
+```vbnet
+Sub macro5()
+
+' WORKING
+
+With Worksheets(2).Range("i2:i9")
+     Set c = .Find("", LookIn:=xlValues)
+     If Not c Is Nothing Then
+        firstAddress = c.Address
+        Do
+            MsgBox c.Row
+            Set c = .FindNext(c)
+        If c Is Nothing Then
+            GoTo DoneFinding
+        End If
+        Loop While c.Address <> firstAddress
+      End If
+DoneFinding:
+End With
+
+End Sub
+```
+
+```vbnet
+Sub macro6()
+
+Dim find_cell As Range
+Dim find_range As Range
+
+Set find_range = Worksheets(2).Range("i2:i9").Find("", LookIn:=xlValues)
+
+For Each find_cell In find_range
+  MsgBox find_cell.Row
+Next
+
+End Sub
 ```
 
 ---
 
-# **Generate Emails**
+## Generate Emails
 
 - The following code will create drafts of emails
     - To counter this, use `.Send` instead of `.Save`
 
-## generateEmail
+### generateEmail
 
 ```vbnet
 Sub generateEmail()
@@ -1891,7 +1869,7 @@ MsgBox "Finished. Check your 'Drafts' folder in Outlook for saved emails."
 End Sub
 ```
 
-## saveEmail
+### saveEmail
 
 ```vbnet
 Private Sub saveEmail(row_num As Long)
@@ -1950,7 +1928,7 @@ Loop
 End Sub
 ```
 
-## emailMain
+### emailMain
 
 ```vbnet
 Private Sub emailMain(contract, gpc As String, deob As Long, canc, email As String)
@@ -2083,7 +2061,7 @@ Public cnum_contract, cnum_not, cnum_val, cnum_year, cnum_st_date, _
        As Long
 ```
 
-### getVariables
+## getVariables
 
 - Run before everything to use public variables
 
@@ -2156,7 +2134,7 @@ End With
 End Sub
 ```
 
-### updateValues
+## updateValues
 
 ```vbnet
 Sub updateValues()
@@ -2176,7 +2154,7 @@ Next i
 End Sub
 ```
 
-### applyNotifications
+## applyNotifications
 
 ```vbnet
 Sub applyNotifications()
@@ -2194,7 +2172,7 @@ Next i
 End Sub
 ```
 
-### applyNotificationsChange
+## applyNotificationsChange
 
 ```vbnet
 Sub applyNotificationsChange(row_num As Long)
@@ -2209,7 +2187,7 @@ applyBordersChange (row_num)
 End Sub
 ```
 
-### updateValuesChange
+## updateValuesChange
 
 ```vbnet
 Sub updateValuesChange(row_num As Long)
@@ -2221,7 +2199,7 @@ updateByValues (row_num)
 End Sub
 ```
 
-### updateByValues
+## updateByValues
 
 ```vbnet
 Private Sub updateByValues(row_num As Long)
@@ -2257,7 +2235,7 @@ End If
 End Sub
 ```
 
-### updateCHINFO
+## updateCHINFO
 
 ```vbnet
 Private Sub updateCHINFO(row_num As Long)
@@ -2303,7 +2281,7 @@ End With
 End Sub
 ```
 
-### updateMilestones
+## updateMilestones
 
 ```vbnet
 Private Sub updateMilestones(row_num As Long)
@@ -2362,7 +2340,7 @@ End With
 End Sub
 ```
 
-### updateNotifications
+## updateNotifications
 
 ```vbnet
 Private Sub updateNotifications(row_num As Long)
@@ -2488,7 +2466,7 @@ Loop
 End Sub
 ```
 
-### applyFormatting
+## applyFormatting
 
 ```vbnet
 Private Sub applyFormatting(row_num As Long)
@@ -2534,7 +2512,7 @@ End If
 End Sub
 ```
 
-### columnNameCheck
+## columnNameCheck
 
 ```vbnet
 Sub columnNameCheck()
@@ -2566,7 +2544,7 @@ End If
 End Sub
 ```
 
-### applyBordersChange
+## applyBordersChange
 
 ```vbnet
 Sub applyBordersChange(row_num As Long)
@@ -2594,7 +2572,7 @@ End If
 End Sub
 ```
 
-### updateScrollArea
+## updateScrollArea
 
 ```vbnet
 Sub updateScrollArea()
@@ -2606,7 +2584,7 @@ ws.ScrollArea = "A1:" & "AB" & (l_row + 5)
 End Sub
 ```
 
-### sortAscending
+## sortAscending
 
 ```vbnet
 Sub sortAscending()
@@ -2622,7 +2600,7 @@ range_main.Sort Key1:=Range(ws.Cells(f_row, f_col).Address), Order1:=xlAscending
 End Sub
 ```
 
-### Auto-Updating by Change
+## Auto-Updating by Change
 
 ```vbnet
 Private Sub Worksheet_Change(ByVal Target As Range)
@@ -2666,7 +2644,7 @@ Loop
 End Sub
 ```
 
-### Auto-Updating by SelectionChange
+## Auto-Updating by SelectionChange
 
 ```vbnet
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
@@ -2710,6 +2688,101 @@ Loop
 repositionButtonTop
 
 End Sub
+```
+
+---
+
+# **Miscellaneous Functions**
+
+## Fix to Find First Occurence on Row 1
+
+- For whatever reason, `Find` won't find the first occorence of something if it occurs on row 1
+- To fix this, search for it with the last row used in the column under the `After` variable
+- This will reset the position to start searching for everything at the beginning of the data set
+
+```vbnet
+Dim ws As Worksheet
+Dim last_row As Long
+
+Set ws = ThisWorkbook.Worksheets(1)
+
+last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+Debug.Print ws.Columns(9).Find("a", After:=ws.Cells(last_row + 1, 1)).Row
+```
+
+## Append to Text File
+
+```vbnet
+Dim file_num As Long
+Dim date_now, _
+    append_text _
+    As String
+
+date_now = Format(Now(), "D MMMM YYYY")
+append_text = "derp"
+append_text = date_now & " - " & append_text
+ 
+file_num = FreeFile
+Open "c:\users\smats\documents\office\excel\log.txt" For Append As #file_num
+Print #file_num, append_text
+Close #file_num
+```
+
+## Auto-Updating Button Position
+
+- Save this macro in the module with all other code, then run it under the specified worksheet during the `SelectionChange`: `Private Sub Worksheet_SelectionChange(ByVal Target As Range)`
+- Modify the `.Left` address as necessary depending on what column you want it in, but it will always be on the row of your cell
+
+```vbnet
+Sub cellAddress()
+
+Dim ws As Worksheet
+
+Set ws = ThisWorkbook.Worksheets(1)
+
+With ws.Shapes("button_go_to")
+  .Left = ws.Range("A1").Left
+  .Top = ActiveCell.Top
+End With
+
+End Sub
+```
+
+---
+
+## Print Columns to Fit Page
+
+```vbnet
+Dim ws as Worksheet
+
+'Application.PrintCommunication must be set to False in order to have the
+'  columns fit to the page
+'for some reason, this must be set back to True when applying headers and
+'  footers
+'&D is date
+'&F is file name
+'&P is page number
+'&N is total number of pages
+
+Set ws = ThisWorkbook.Worksheets(1)
+
+Application.PrintCommunication = False
+With ws.PageSetup
+  .FitToPagesWide = 1
+  .FitToPagesTall = False
+  .ScaleWithDocHeaderFooter = True
+  .AlignMarginsHeaderFooter = True
+End With
+Application.PrintCommunication = True
+
+With ws.PageSetup
+  .LeftHeader = "&""Times New Roman,Regular""&D"
+  .CenterHeader = "&""Times New Roman,Bold""&18&F - NOTIFICATIONS REPORT"
+  .RightHeader = "&""Times New Roman,Regular""&P of &N"
+End With
+
+ws.columns("A:O").PrintPreview
 ```
 
 ---
@@ -2891,7 +2964,7 @@ Set ol_app = Nothing
     - `cscript` will run output in the console
     - `wscript` will run output in a pop-up window
 
-## **Running a Macro**
+## Running a Macro
 
 ```vbnet
 Option Explicit
