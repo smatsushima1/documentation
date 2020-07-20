@@ -5,9 +5,10 @@ title: VBA
 
 # **Table of Contents**
 
-1. [Common Variables](#common-variables)
+1. [Common Things](#common-things)
     - [Workbook Info](#workbook-info)
     - [First and Last Rows and Columns](#first-and-last-rows-and-columns)
+    - [Message Box Prompt](#message-box-prompt)
     - [Miscellaneous](#miscellaneous)
 2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
@@ -23,13 +24,17 @@ title: VBA
     - [Pivot Table Filters](#pivot-table-filters)
 5. [Find Unique Values](#find-unique-values)
 6. [Auto-Save Workbook](#auto-save-workbook)
-7. [UserForm Basics](#userform-basics)
+7. [Add Items to Right-Click Menu](#add-items-to-right-click-menu)
+    - [Add Commands to Menu](#add-commands-to-menu)
+    - [Add Menu of Commands](#add-menu-of-commands)
+    - [Removing the Items](#removing-the-items)
+8. [UserForm Basics](#userform-basics)
     - [Generating the UserForm](#generating-the-userform)
     - [Modify UserForm Initialization](#modify-userform-initialization)
     - [Modifying Text Box Changes](#modifying-text-box-changes)
     - [CommandButton Modification](#commandbutton-modification)
     - [Auto-Updating List Box and Auto-Closing](#auto-updating-list-box-and-auto-closing)
-8. [Projects](#projects)
+9. [Projects](#projects)
     - [Copy Contents From One Worksheet to Another](#copy-contents-from-one-worksheet-to-another)
         - [generateWIP](#generatewip)
         - [resetVariables](#resetvariables)
@@ -41,35 +46,35 @@ title: VBA
     - [Find Unique Values and Navigate to Folder Location](#find-unique-values-and-navigate-to-folder-location)
     - [Send Emails Based on Conditionals](#send-emails-based-on-conditionals)
     - [Generate Emails](#generate-emails)
-9. [Update Data Table](#update-data-table)
-10. [Miscellaneous Functions](#miscellaneous-functions)
+10. [Update Data Table](#update-data-table)
+11. [Miscellaneous Functions](#miscellaneous-functions)
     - [Fix to Find First Occurence on Row 1](#fix-to-find-first-occurence-on-row-1)
     - [Append to Text File](#append-to-text-file)
     - [Auto-Updating Button Position](#auto-updating-button-position)
     - [Print Columns to Fit Page](#print-columns-to-fit-page)
-11. [Outlook with VBA](#outlook-with-vba)
+12. [Outlook with VBA](#outlook-with-vba)
     - [Emails](#emails)
         - [HTML with Body Messages](#html-with-body-messages])
         - [Signatures as HTML](#signatures-as-html)
         - [HTML Tables in Body Messages](#html-tables-in-body-messages)
     - [Find Email and Username of Current User](#find-email-and-username-of-current-user)
     - [Appointments](#appointments)
-12. [VBscript](#vbscript)
+13. [VBscript](#vbscript)
     - [Running a Macro](#running-a-macro)
     - [Printing to Console](#printing-to-console)
     - [Passing Arguments](#passing-arguments)
 
 ---
 
-# **Common Variables**
+# **Common Things**
 
 ## Workbook Info
 
 ```vbnet
-'workbook name
+' Workbook name
 ThisWorkbook.Name
 
-'worksheet as an object
+' Worksheet as an object
 Dim ws as Worksheet
 Set ws = ThisWorkbook.Worksheets(1)
 ```
@@ -77,16 +82,54 @@ Set ws = ThisWorkbook.Worksheets(1)
 ## First and Last Rows and Columns
 
 ```vbnet
-'last row
-ws.Cells(Rows.Count, 1).End(xlUp).Row
+' First row
+frow = ws.Cells.Find(what:="*", _
+                     After:=Cells(Rows.count, Columns.count), _
+                     LookAt:=xlPart, _
+                     LookIn:=xlFormulas, _
+                     SearchOrder:=xlByRows, _
+                     SearchDirection:=xlNext, _
+                     MatchCase:=False).Row
 
-'last column
-ws.Cells(1, Columns.Count).End(xlToLeft).Column
+' First column
+fcol = ws.Cells.Find(what:="*", _
+                     After:=Cells(Rows.count, Columns.count), _
+                     LookAt:=xlPart, _
+                     LookIn:=xlFormulas, _
+                     SearchOrder:=xlByRows, _
+                     SearchDirection:=xlNext, _
+                     MatchCase:=False).Column
 
-'columns used alternate
+' Last row
+lrow = ws.Cells(Rows.count, fcol).End(xlUp).Row
+
+' Last column
+lcol = ws.Cells(frow, Columns.count).End(xlToLeft).Column
+
+' Columns used alternate
 ws.Rows(1).Find(What:=vbNullString, _
                 SearchOrder:=xlByColumns, _
                 SearchDirection:=xlNext).Column
+```
+
+## Message Box Prompt
+
+```vbnet
+Dim answer As Long
+Dim m_mess, _
+    m_ti As String
+
+m_mess = "Delete selected rows?"
+m_ti = "Delete Rows"
+
+answer = MsgBox(m_mess, _
+                vbQuestion + vbYesNo + vbDefaultButton2, _
+                m_ti)
+
+' Only do action if Yes is selected
+If answer = vbYes Then
+  Debug.Print "Do custom action"
+End If
 ```
 
 ## Miscellaneous
@@ -440,6 +483,112 @@ wb_name = ThisWorkbook.Name
 If InStr(wb_name, "BACKUP") = 0 And InStr(wb_name, "DEV") = 0 Then
   autoSave
 End If
+
+End Sub
+```
+
+---
+
+# **Add Items to Right-Click Menu**
+
+## Add Commands to Menu
+
+- This will add the commands straight to the menu
+
+```vbnet
+Dim cb As CommandBar
+Dim cb_item01, _
+    cb_item02, _
+    cb_item03 As CommandBarButton
+
+' Remove shortcuts before posting new ones; ran here for safety
+' Really not needed since everything is temporary anyway, but whatever
+remSh
+
+Set cb = Application.CommandBars("Cell")
+
+' Setting them to temporary means they will be deleted when file closes
+With cb.Controls
+  Set cb_item01 = .Add(Type:=msoControlButton, Temporary:=True)
+  Set cb_item02 = .Add(Type:=msoControlButton, Temporary:=True)
+  Set cb_item03 = .Add(Type:=msoControlButton, Temporary:=True)
+End With
+
+' Create shortcut items
+With cb_item01
+  .Caption = "______________________________"
+End With
+
+With cb_item02
+  .Caption = "Generate Email"
+  .OnAction = "ufGenEmail"
+End With
+
+With cb_item03
+  .Caption = "Delete Rows"
+  .OnAction = "scDelRows"
+End With
+```
+
+## Add Menu of Commands
+
+- This will add a menu to house all the commands
+
+```vbnet
+Dim menu As Object
+
+' This will add the menu on the last thing in the menu
+' Include ", 1" in AddMenu to be first
+Set menu = Application.ShortcutMenus(xlWorksheetCell).MenuItems.AddMenu("Custom Shortcuts")
+
+With menu.MenuItems
+  .Add "First Shortcut", "sc01", , 1, , ""
+  .Add "Second Shortcut", "sc02", , 2, , ""
+  .Add "Third Shortcut", "sc03", , 3, , ""
+End With
+
+Set menu = Nothing
+
+End Sub
+```
+
+```vbnet
+Private Sub sc01()
+
+Debug.Print 1
+
+End Sub
+```
+
+```vbnet
+Private Sub sc02()
+
+Debug.Print 2
+
+End Sub
+```
+
+```vbnet
+Private Sub sc03()
+
+Debug.Print 3
+
+End Sub
+```
+
+### Removing the Items
+
+- This will remove the items from the menu
+- Although not necessary for the first example, the shortcut menu will need to be removed
+
+```vbnet
+Private Sub remsh()
+
+' Not really required since items are temporary, but this is for safety
+' On Error Resume next will allow this to run when shortcuts aren't even created
+On Error Resume Next
+
+Application.CommandBars("Cell").reset
 
 End Sub
 ```
