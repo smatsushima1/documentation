@@ -446,8 +446,7 @@ backup_path = ThisWorkbook.path
 backup_path = backup_path & "\BACKUP FOLDER"
 
 ' Calculate the day Monday would be for the current week
-' Date must be saved as a string since
-' "/" are read as folder separators in strings
+' Date must be saved with "-" because "/" are read as folder separators
 monday = Weekday(Date, vbMonday)
 monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
 
