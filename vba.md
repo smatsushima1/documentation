@@ -149,7 +149,7 @@ End If
 
 # **Charts**
 
-## **Basic Line Chart**
+## Basic Line Chart
 
 ```vbnet
 Dim max_row As Range
@@ -204,7 +204,7 @@ End With
 
 ---
 
-## **Chart with Multiple Axes**
+## Chart with Multiple Axes
 
 ```vbnet
 Dim max_row As Range
@@ -305,8 +305,8 @@ ThisWorkbook.Worksheets(1).CheckBoxes.Value = False
 ## Common Usage
 
 ```vbnet
+' Field is the column number
 ' Data tables
-' Field is the column index
 ws.ListObjects("TABLE").Range.AutoFilter Field:=1, Criteria1:="="
 
 ' Auto-filters
@@ -441,33 +441,30 @@ Dim backup_path, file_name As String
 Dim monday As Long
 Dim monday_date As String
 
-'1) create the location to store all backup files
+' Create the location to store all backup files
 backup_path = ThisWorkbook.path
 backup_path = backup_path & "\BACKUP FOLDER"
 
-'2) calculate the day Monday would be for the current week
-'Date must be saved as a string since dates have "/" and those are read as
-'folder separators in the file path
-
+' Calculate the day Monday would be for the current week
+' Date must be saved as a string since
+' "/" are read as folder separators in strings
 monday = Weekday(Date, vbMonday)
 monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
 
-'3) check to see if the folder is created; if not created, then create it
-
+' Check to see if the folder is created; if not created, then create it
 If Len(Dir(backup_path, vbDirectory)) = 0 Then
   MkDir backup_path
 End If
 
-'4) create the new file name to include the path location, replace the
-'   extension with the date, "Backup", and add back in the extension
-
+' Create the new file name to include the path location
+' Replace the extension with the date and "Backup"
+' And add back in the extension
 file_name = ThisWorkbook.Name
 file_name = Replace(file_name, ".xlsm", " - " & monday_date)
 file_name = file_name & " Backup.xlsm"
 file_name = backup_path & "\" & file_name
 
-'5) finally, save the copy
-
+' Finally, save the copy
 ThisWorkbook.SaveCopyAs file_name
 ```
 
@@ -504,7 +501,6 @@ Dim cb_item01, _
 ' Remove shortcuts before posting new ones; ran here for safety
 ' Really not needed since everything is temporary anyway, but whatever
 remSh
-
 Set cb = Application.CommandBars("Cell")
 
 ' Setting them to temporary means they will be deleted when file closes
@@ -520,13 +516,13 @@ With cb_item01
 End With
 
 With cb_item02
-  .Caption = "Generate Email"
-  .OnAction = "ufGenEmail"
+  .Caption = "First shortcut"
+  .OnAction = "sc01"
 End With
 
 With cb_item03
-  .Caption = "Delete Rows"
-  .OnAction = "scDelRows"
+  .Caption = "Second shortcut"
+  .OnAction = "sc02"
 End With
 ```
 
@@ -607,8 +603,7 @@ End Sub
 - To call the UserForm and have it pop-up at the center of the excel screen, use the following submodule:
 
 ```vbnet
-'text_box is the name of the UserForm, change it as applicable
-
+' text_box is the name of the UserForm, change it as applicable
 With text_box
   .StartUpPosition = 0
   .Left = Application.Left + (0.5 * Application.Width) - (0.5 * .Width)
@@ -628,12 +623,10 @@ Private Sub UserForm_Initialize()
 
 Dim red as Long
 
-'step 1 - populate text and combo boxes
-
+' Populate text and combo boxes
 red = RGB(255, 153, 153)
 
 With userform_example
-
   .contract.BackColor = red
   .description.BackColor = red
   .first_name.BackColor = red
@@ -872,8 +865,7 @@ End Sub
 ```vbnet
 Private Sub continue_button_Click()
 
-'step 2 - ok button
-
+' Continue button
 Dim contract_val, _
     description_val, _
     first_name_val, _
@@ -900,7 +892,7 @@ Dim ws As Worksheet
 
 Set ws = ThisWorkbook.Worksheets(1)
 
-'1) error check for no inputs
+' Error check for no inputs
 
 With userform_example
   If .contract.Value = vbNullString Then
@@ -1129,7 +1121,7 @@ End Sub
 - Error handling is handled after the macro finishes; `error_code` and `error_message` are saved as public variables so they can be used for other errors, not just in the specific code block
 
 ```vbnet
-'public variables must be saved outside of functions to be used throughout
+' Public variables must be saved outside of functions to be used throughout
 Public error_code, _
        error_message, _
        main_wip_name, _
@@ -2905,14 +2897,14 @@ End Sub
 ```vbnet
 Dim ws as Worksheet
 
-'Application.PrintCommunication must be set to False in order to have the
-'  columns fit to the page
-'for some reason, this must be set back to True when applying headers and
-'  footers
-'&D is date
-'&F is file name
-'&P is page number
-'&N is total number of pages
+' Application.PrintCommunication must be set to False in order to have the
+'   columns fit to the page
+' For some reason, this must be set back to True when applying headers and
+'   footers
+' &D is date
+' &F is file name
+' &P is page number
+' &N is total number of pages
 
 Set ws = ThisWorkbook.Worksheets(1)
 
@@ -3050,10 +3042,10 @@ tds = "<td style='border:1px solid black;padding:5px;'>"
 tdsc = "</td><td style='border:1px solid black;padding:5px;'>"
 
 bodyTable = "<br>" & _
-             ts & _
-             "<tr>" & ths & "MONTH" & thsc & "DAY" & thsc & "YEAR" & "</th></tr>" & _
-             "<tr>" & tds & "July" & tdsc & "19" & tdsc & "2020" & "</td></tr>" & _
-             "<tr>" & tds & "June" & tdsc & "1" & tdsc & "2020" & "</td></tr></table>"
+            ts & _
+            "<tr>" & ths & "MONTH" & thsc & "DAY" & thsc & "YEAR" & "</th></tr>" & _
+            "<tr>" & tds & "July" & tdsc & "19" & tdsc & "2020" & "</td></tr>" & _
+            "<tr>" & tds & "June" & tdsc & "1" & tdsc & "2020" & "</td></tr></table>"
 
 End Function
 ```
