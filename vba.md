@@ -9,6 +9,7 @@ title: VBA
     - [Workbook Info](#workbook-info)
     - [First and Last Rows and Columns](#first-and-last-rows-and-columns)
     - [Message Box Prompt](#message-box-prompt)
+    - [Change VBA Editor Colors](#change-vba-editor-colors)
     - [Miscellaneous](#miscellaneous)
 2. [Charts](#charts)
     - [Basic Line Chart](#basic-line-chart)
@@ -131,6 +132,18 @@ If answer = vbYes Then
   Debug.Print "Do custom action"
 End If
 ```
+
+## Change VBA Editor Colors
+
+In the editor, go to Tools > Options > Editor Format:
+
+Code Colors | Foreground | Background
+---|---|---
+Normal Text | Light Green | Black
+Syntax Error | Red | Yellow
+Comment Text | Dark Grey | Black
+Keyword Text | Yellow | Black
+Identifier Text | Sky Blue | Black
 
 ## Miscellaneous
 
