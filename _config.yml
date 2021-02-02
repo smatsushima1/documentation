@@ -1,8 +1,8 @@
 # site settings
-title: Home
+title: Documentation
 author: Spence
 github_username: smatsushima1
-repo: "https://github.com/smatsushima1/home"
+repo: "https://github.com/smatsushima1/documentation"
 description: Projects and documentation
 
 # build settings
