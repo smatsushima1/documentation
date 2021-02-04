@@ -1,19 +1,14 @@
 #! /bin/bash
 
-##############################################################################
-# to get latest version:
+# To get latest version:
 # git clone git@github.com:vim/vim.git
 # ./configure
 # make
 # make install
 #
 # cp -r runtime/doc ~/vim_docs
-##############################################################################
 
-##############################################################################
-# user manual
-##############################################################################
-
+# User manual
 cat usr_01.txt usr_02.txt usr_03.txt usr_04.txt usr_05.txt usr_06.txt usr_07.txt usr_08.txt usr_09.txt usr_10.txt usr_11.txt usr_12.txt > um_01_getting_started.txt
 
 cat usr_20.txt usr_21.txt usr_22.txt usr_23.txt usr_24.txt usr_25.txt usr_26.txt usr_27.txt usr_28.txt usr_29.txt usr_30.txt usr_31.txt usr_32.txt > um_02_editing_effectively.txt
@@ -22,10 +17,7 @@ cat usr_40.txt usr_41.txt usr_42.txt usr_43.txt usr_44.txt usr_45.txt > um_03_tu
 
 cp usr_90.txt um_04_making_vim_run.txt
 
-##############################################################################
-# reference manual
-##############################################################################
-
+# Reference manual
 cat intro.txt help.txt helphelp.txt index.txt howto.txt tips.txt message.txt quotes.txt todo.txt develop.txt debug.txt uganda.txt > rm_01_general_subjects.txt
 
 cat starting.txt editing.txt motion.txt scroll.txt insert.txt change.txt indent.txt undo.txt repeat.txt visual.txt various.txt recover.txt > rm_02_basic_editing.txt
