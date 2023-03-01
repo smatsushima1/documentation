@@ -117,7 +117,8 @@ ws.Rows(1).Find(What:=vbNullString, _
 
 ```vbnet
 Dim answer As Long
-Dim m_mess, m_ti As String
+Dim m_mess, _
+    m_ti As String
 
 m_mess = "Delete selected rows?"
 m_ti = "Delete Rows"
@@ -128,7 +129,7 @@ answer = MsgBox(m_mess, _
 
 ' Only do action if Yes is selected
 If answer = vbYes Then
-    Debug.Print "Do custom action"
+  Debug.Print "Do custom action"
 End If
 ```
 
@@ -153,7 +154,7 @@ End Sub
 
 'check for network connection
 If Dir("I:\", vbDirectory) = vbNullString Then
-    MsgBox "No connection"
+  MsgBox "No connection"
 End If
 ```
 
@@ -283,28 +284,24 @@ End With
 ## Adding Multiple Check Boxes and Links
 
 ```vbnet
-With ws
-    ' First, delete all checkboxes
-    .CheckBoxes.Delete
-    ' Start adding boxes
-    Dim crange As Range
-    Dim cbox As CheckBox
-    For i = frow + 1 To lrow2 - 1
-        Set crange = .Cells(i, c_select)
-        Set cbox = .CheckBoxes.Add(Left:=crange.Left, _
-                                   Top:=crange.Top, _
-                                   Width:=crange.Width, _
-                                   Height:=crange.Height)
-        With cbox
-            .Name = "cbox" & i
-            .Caption = ""
-            .LinkedCell = crange.Address
-        End With
-    Next i
-    ' Check, then uncheck all boxes
-    .CheckBoxes.Value = True
-    .CheckBoxes.Value = False
-End With
+Dim ws As Worksheet
+Dim sheet_num_range As Range
+Dim col_offset As Integer
+Dim cell As Range
+Dim ch_box As CheckBox
+
+' col_offset = 1 is right 1, -1 is left 1
+Set ws = ThisWorkbook.Worksheets(1)
+Set sheet_num_range = ws.Range("A1:A10")
+col_offset = 1
+
+For Each cell In sheet_num_range
+  Set ch_box = ws.checkBoxes.Add(cell.Left, cell.Top, cell.Width, cell.Height)
+  With ch_box
+    .Caption = ""
+    .LinkedCell = .TopLeftCell.Offset(0, col_offset).Address
+  End With
+Next
 ```
 
 ## Uncheck or Check All Boxes
@@ -342,7 +339,7 @@ Set ws = ThisWorkbook.Worksheets(1)
 col = ws.Cells(1, Columns.Count).End(xlToLeft).Column
 
 For i = 1 To col
-    ws.ListObjects("Table1").Range.AutoFilter Field:=i
+  ws.ListObjects("Table1").Range.AutoFilter Field:=i
 Next i
 ```
 
@@ -418,7 +415,8 @@ Next i
 ```vbnet
 Dim d As Object
 Dim ws As Worksheet
-Dim val, values As Variant
+Dim val, _
+    values As Variant
 
 Set d = CreateObject("Scripting.Dictionary")
 Set ws = ThisWorkbook.Worksheets(1)
@@ -452,31 +450,31 @@ Next val
 - Save this code as a Sub module and call it in the workbook code after you change it to `Private Sub Workbook_AfterSave(ByVal Success As Boolean)`
 
 ```vbnet
-On Error Resume Next
-
-' Exit if currently working a BACKUP or DEV file
-Dim wb_name As String
-wb_name = LCase(ThisWorkbook.Name)
-If InStr(wb_name, "backup") <> 0 And InStr(wb_name, "dev") <> 0 Then Exit Sub
+Dim backup_path, file_name As String
+Dim monday As Long
+Dim monday_date As String
 
 ' Create the location to store all backup files
-'backup_path = ThisWorkbook.path & "\_Backup Files\"
-' NASA has a web address for the OneDrive folder location, so I have to hard code this
-backup_path = "C:\Users\ssmatsus\OneDrive - NASA\Documents\Resources" & "\_Backup Files\"
+backup_path = ThisWorkbook.path
+backup_path = backup_path & "\BACKUP FOLDER"
 
 ' Calculate the day Monday would be for the current week
-' Date must be saved as a string since dates have "/" and those are read as
-'   folder separators in the file path
-Dim monday_date As String
-monday_date = Format(Date - Weekday(Date, vbMonday) + 1, "yyyy-mm-dd")
+' Date must be saved with "-" because "/" are read as folder separators
+monday = Weekday(Date, vbMonday)
+monday_date = Format(Date - monday + 1, "yyyy-mm-dd")
 
 ' Check to see if the folder is created; if not created, then create it
-If Len(dir(backup_path, vbDirectory)) = 0 Then MkDir backup_path
+If Len(Dir(backup_path, vbDirectory)) = 0 Then
+  MkDir backup_path
+End If
 
 ' Create the new file name to include the path location
-' Replace the extension with the date, "Backup", and extension
-Dim file_name As String
-file_name = backup_path & Replace(ThisWorkbook.Name, ".xlsm", " - " & monday_date) & " BACKUP.xlsm"
+' Replace the extension with the date and "Backup"
+' And add back in the extension
+file_name = ThisWorkbook.Name
+file_name = Replace(file_name, ".xlsm", " - " & monday_date)
+file_name = file_name & " Backup.xlsm"
+file_name = backup_path & "\" & file_name
 
 ' Finally, save the copy
 ThisWorkbook.SaveCopyAs file_name
@@ -491,7 +489,7 @@ Dim wb_name As String
 
 wb_name = ThisWorkbook.Name
 
-If InStr(LCase(wb_name), "backup") = 0 And InStr(LCase(wb_name), "dev") = 0 Then
+If InStr(wb_name, "BACKUP") = 0 And InStr(wb_name, "DEV") = 0 Then
   autoSave
 End If
 
@@ -2171,7 +2169,7 @@ End Function
 ```vbnet
 Private Function bodyMain(message As String) As String
 
-bodyMain = "***THIS IS A NOTIFICATION EMAIL. NO RESPONSE IS REQUIRED AT THIS TIME***" & vbCrLf & vbCrLf
+bodyMain = "***THIS IS A NOTIFICATION EMAIL  NO RESPONSE IS REQUIRED AT THIS TIME***" & vbCrLf & vbCrLf
 bodyMain = bodyMain & "Good Afternoon," & vbCrLf & vbCrLf
 bodyMain = bodyMain & "My name is Spencer Matsushima and I am a contract specialist at NAVSUP FLC Norfolk. I'm attempting to close this contract and you have been included in this email because you were associated with this contract during its awarding." & vbCrLf & vbCrLf
 bodyMain = bodyMain & message & vbCrLf & vbCrLf
@@ -2183,26 +2181,12 @@ bodyMain = bodyMain & sig
 End Function
 ```
 
-- This will pull the signatures
 ```vbnet
-Function emailSignature(signature_name As String)
+Private Function sig() As String
 
-' Pull signature saved in the signature folder
-' If there is an error, the default signature will be used
-On Error GoTo DefaultValue
-Dim sig_path As String
-' Get the full signature path for the required signature
-sig_path = CStr(Environ("appdata")) & "\Microsoft\Signatures\" & signature_name & ".htm"
-' Read the signature they specified into html
-emailSignature = CreateObject("Scripting.FileSystemObject").OpenTextFile(sig_path).ReadAll
-
-Done:
-    ' Reset error functionality
-    On Error GoTo 0
-    Exit Function
-' Default to normal signature
-DefaultValue:
-    emailSignature = DefaultSignature
+sig = "________________________________________" & vbCrLf
+sig = sig & "Spencer Matsushima" & vbCrLf
+sig = sig & "________________________________________"
 
 End Function
 ```
