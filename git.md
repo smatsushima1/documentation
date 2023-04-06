@@ -99,6 +99,13 @@ Links to help solve this are as follows:
 # Removing file from commit history
 
 ```
+git reset [previous SHA]
+[Do your changes]
+git commit -am [message]
+git push -f
+```
+
+```
 git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch [PATH_TO_FILE]' HEAD
 ```
 
