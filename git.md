@@ -99,6 +99,8 @@ Links to help solve this are as follows:
 # Removing file from commit history
 
 ```
+git log
+[Find previous SHA]
 git reset [previous SHA]
 [Do your changes]
 git commit -am [message]
